@@ -1,0 +1,26 @@
+git clone *url*
+git add -A "nombre archivo"
+git commit -m "mensaje en infinitivo"
+git push origin master
+
+- crear rama
+git checkout -b develop
+
+- cambiar de rama
+git checkout develop
+(develop) git add -A
+(develop) git commit -m "mensaje"
+(develop) git push origin develop
+
+- revisar rama actual
+git branch
+
+-juntar ramas
+(master) git merge develop
+(master) git push
+
+-juntar rama de otra rama
+git checkout develop
+(develop) git pull
+(develop) git merge jorge/avance1
+(develop) git push
