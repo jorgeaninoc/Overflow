@@ -1,0 +1,56 @@
+.no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.bg{
+    width: 100%;
+    z-index:0;
+}
+
+
+nav {
+text-align: center;
+margin: 20px 0 0 ;
+padding: 10px 0;
+}
+
+nav ul{
+  list-style: none;
+  margin: 0 2px;
+  padding: 0;
+}
+
+nav li {
+   display: inline-block;
+   padding: 10px 50px;
+}
+
+nav a {
+  font-weight: normal;
+  padding: 10px 5px;
+  font-size: 2em;
+}
+
+body, html {
+    height: 100%;
+}
+
+body, html{
+   background: url("../images/circulos.png") no-repeat center center fixed;
+    background-size: 80% 80%;
+   -webkit-background-size: 80% 80%;
+   -moz-background-size: 80% 80%;
+   -o-background-size: 80% 80%;
+}
+
+.galeria{
+    width: 100%;
+    height:100%;
+}
+
+.img-circle {
+    border-radius: 50%;
+    width: 320px;
+    height: 300px;
+}
