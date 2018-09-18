@@ -12,7 +12,7 @@ def noticias(request):
 	return render(request, 'noticias/contactinformation.html');
 
 def comunidades(request):
-	return render(request, 'noticias/contactinformation.html');
+	return render(request, 'noticias/comunidades.html');
 
 def colabora(request):
 	return render(request, 'noticias/contactinformation.html');
