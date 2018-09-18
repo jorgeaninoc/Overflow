@@ -57,3 +57,20 @@ body, html{
     width: 320px;
     height: 300px;
 }
+
+
+#contactinfo{
+  font-weight: bold;
+}
+
+#rosa{
+  color: #f48fb1;
+}
+
+#contactinput{
+  background-color: #f5f5f5;
+}
+
+.green-bg{
+  background-color: #7cb342;
+}
