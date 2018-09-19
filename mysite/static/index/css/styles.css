@@ -12,7 +12,7 @@
 
 nav {
 text-align: center;
-margin: 20px 0 0 ;
+/*margin: 20px 0 0 ;*/
 padding: 10px 0;
 /*height: 100%;*/
 font-size: small;
@@ -54,8 +54,8 @@ body, html{
 
 .img-circle {
     border-radius: 50%;
-    width: 320px;
-    height: 300px;
+    width: 90%;
+    height: 50%;
 }
 
 
@@ -79,4 +79,15 @@ body, html{
   background-color: #7cb342;
 }
 
-
+.padtop {
+    padding-top: 3%;
+}
+.padbottom {
+    padding-bottom: 5%;
+}
+.padright {
+    padding-right: 8%;
+}
+.padleft {
+    padding-left: 8%;
+}

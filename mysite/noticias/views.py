@@ -9,7 +9,7 @@ def quiensomos(request):
 	return render(request, 'noticias/contactinformation.html');
 
 def noticias(request):
-	return render(request, 'noticias/contactinformation.html');
+	return render(request, 'noticias/noticias.html');
 
 def comunidades(request):
 	return render(request, 'noticias/comunidades.html');
