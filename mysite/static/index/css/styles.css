@@ -81,6 +81,12 @@ body, html{
   text-align: center;
 }
 
+#quienessomos{
+  text-align: center;
+  align-self: center;
+  margin-left: 200px;
+}
+
 footer{
   position: absolute;
 }
