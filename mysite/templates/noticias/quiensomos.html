@@ -1,0 +1,59 @@
+
+
+
+<div class="basic">
+{% load static %}
+{% include "partials/top.html" %}
+
+
+</div>
+<h2 id="rosa">Quienes Somos</h2>
+
+<!-- Insert image -->
+<h3 class="greenbar"> Somos Solidarios! <hr>Aqui podras enviar tus datos para poder ser voluntario en nuestra organizacion.</h3>
+
+<hr>
+
+<body>
+<div class="container">
+<form>
+    <!-- Aqui podria ser conveniente usar una tabla y despues usar rowsapn para que se despliegue correctamente la fotografia -->
+    <div class="form-group row">
+        <div class="col-xs-4" style="text-align: left;">
+        <label for="name" id="contactinfo"> Nombre:</label>
+        <input type="name" class="form-control" id="contactinput" required>
+        </div>
+    </div>
+        <div class="form-group row">
+        <div class="col-xs-4" style="text-align: left;">
+        <label for="phone" id="contactinfo"> Telefono:</label>
+        <input type="phone" class="form-control" id="contactinput" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-xs-4">
+        <label for="email" id="contactinfo">Correo Electronico(E-MAIL):</label>
+        <input type="email" class="form-control" id="contactinput" required>
+        </div>
+    </div>
+        <div class="form-group row">
+        <div class="col-xs-4" style="text-align: left;">
+        <label for="company" id="contactinfo"> Empresa:</label>
+        <input type="name" class="form-control" id="contactinput" required>
+        </div>
+    </div>
+    <div class="btn-group-toggle" data-toggle="buttons">
+        <label class="btn active">
+        <input type="submit" name="Enviar" value="Enviar" class="btn btn-primary active btn-green green-bg">
+        </label>
+    </div>
+</form>
+</div>
+
+
+
+</div>
+</body>
+<div class="basic">
+{% include "partials/bottom.html" %}
+</div>

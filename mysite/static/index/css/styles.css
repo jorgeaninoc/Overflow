@@ -75,6 +75,11 @@ body, html{
   background-color: #7cb342;
 }
 
+.greenbar{
+  background-color: #7cb342;
+  color: white;
+  text-align: center;
+}
 
 footer{
   position: absolute;
