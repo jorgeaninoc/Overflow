@@ -45,13 +45,13 @@ body, html{
 }
 
 .rounded-circle{
-    widht:85%;
+    width:85%;
     height:85%;
 }
 
 .galeria{
     width: 100%;
-    height:100%;
+    height:50%;
 }
 
 
