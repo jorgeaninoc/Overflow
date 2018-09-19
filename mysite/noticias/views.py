@@ -17,8 +17,5 @@ def comunidades(request):
 def colabora(request):
 	return render(request, 'noticias/contactinformation.html');
 
-def catalogo(request):
-	return render(request, 'noticias/contactinformation.html');
-
 def contactanos(request):
 	return render(request, 'noticias/contactinformation.html');
