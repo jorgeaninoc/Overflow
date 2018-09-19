@@ -7,49 +7,74 @@
 
 
 </div>
-<h2 id="rosa">Quienes Somos</h2>
+<br><br>
+<div class="jumbotron-fluid bg-success">
+<div class="card-group container border-success w-75 bg-success text-light">
+    <br><br><br>
+    <h1>
+        ¡Somos solidarios!
+    </h1>
+    <br><br><br>
+</div>
+</div>
 
-<!-- Insert image -->
-<h3 class="greenbar"> Somos Solidarios! <hr>Aqui podras enviar tus datos para poder ser voluntario en nuestra organizacion.</h3>
-
-<hr>
 
 <body>
-<div class="container">
-<form>
-    <!-- Aqui podria ser conveniente usar una tabla y despues usar rowsapn para que se despliegue correctamente la fotografia -->
+<div class="jumbotron border-light w-100 bg-white text-dark">
+  <div class="container border-light w-100 bg-white text-dark">
+    <br>
+    <table>
+      <tr>
+        <td>
+          <div class="form-group row">
+              <div class="col-xs-4" id="quienessomos">
+                <label for="mission" id="contactinfo"> Mision:</label> <br>
+              </div>
+        </td>
+        <td>
+          <div class="form-group row">
+              <div class="col-xs-4" id="quienessomos">
+                <label for="mission" id="contactinfo"> Vision:</label> <br>
+              </div>
+        </td>
+        <td>
+              <div class="col-xs-4" id="quienessomos">
+                <label for="values" id="contactinfo">Valores</label> <br>
+              </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="form-group row">
+              <div class="col-xs-4" id="quienessomos">
+                <label for="phone" id="contactinfo"> <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" /></label>
+              </div>
+        </td>
+        <td>
+          <div class="form-group row">
+              <div class="col-xs-4" id="quienessomos">
+                <label for="phone" id="contactinfo"> <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" /></label>
+              </div>
+        </td>
+        <td>
+              <div class="col-xs-4" id="quienessomos">
+                <label for="phone" id="contactinfo"> <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" /></label>
+              </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <br><br>
     <div class="form-group row">
-        <div class="col-xs-4" id="quienessomos">
-        <label for="mission" id="contactinfo"> Mision:</label> <br>
-         <label>Insert Image</label>
-        </div>
-
-        <div class="col-xs-4" id="quienessomos">
-        <label for="vision" id="contactinfo"> Vision:</label> <br>
-         <label>Insert Image</label>
-        </div>
-
-        <div class="col-xs-4" id="quienessomos">
-        <label for="values" id="contactinfo">Valores</label> <br>
-        <label>Insert Image</label>
-        </div>
-    </div>
-        
-    <div class="form-group row">
-        
-    </div>
-        <div class="form-group row">
-        <div class="col-xs-4" style="text-align: left;">
+      <div class="col-xs-4" style="text-align: left;">
         <h3 for="politics" id="rosa"> Politicas:</h3>
         <p>Aqui se puede escribir todo lo que sea necesario para las politcas de la organizacion asi com los valores, la mision y la vision de la orrganizacion, los cuales fueron puestos y explicado en la parte de arriba. Tambien se espera que cuando una de las imagenes de una de esas tres columnas sea seleccionada esta puede desplegar la informacion que contiene dicha columna</p>
-        </div>
+      </div>
     </div>
-</form>
+    </div>
 </div>
 
-
-
-</div>
 </body>
 <div class="basic">
 {% include "partials/bottom.html" %}
