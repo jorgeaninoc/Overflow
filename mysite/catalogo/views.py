@@ -3,4 +3,4 @@ from django.http import HttpResponse, HttpResponseRedirect
 # Create your views here.
 
 def catalogo(request):
-    return HttpResponse("You made it here.")
+	return render(request, 'catalogo/catalogo.html');
