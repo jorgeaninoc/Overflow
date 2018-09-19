@@ -1,44 +1,55 @@
 
 <div class="basic">
-	{% load static %}
-	{% include "partials/top.html" %}
+{% load static %}
+{% include "partials/top.html" %}
+
+
 </div>
-
-<h2 id="rosa">Comunidades</h2>
-
-<hr>
-
 <body>
-	
-<!-- Aqui se deberia de desplegar con respecto a la informacion obtenida de la base de datos la informacion de cada comunidad-->
 
-	
-
-	<table>
-		<label id="rosa" class="big-subtitle">Cerro del Gallo</label>
-		<tr>
-			<td><p> Esta es la comunidad que es ayudada por Todos Somos Comunidad. Como se podra observar, esta texto solo sirve como ejemplo para visualizar la manera en la que se despliega cierto contenido en esta seccion de la pagina, ya que mas adelante sera utilizada para desplehgara la informacion correcta de cada comunidad. </p></td>
-			<td>jksdjkdsjkdsjkjhdsjlhkdsjhldshjdshjewhjdhjdsjhdsbdsghsh AQUI VA UNA FOTO DE LA COMUNIDAD</td>
-		</tr>
-	</table>
-
-<hr>
-	
-	<table>
-		<label id="rosa" class="big-subtitle">Comunidad 2</label>
-		<tr>
-			<td>jksdjkdsjkdsjkjhdsjlhkdsjhldshjdshjewhjdhjdsjhdsbdsghsh AQUI VA UNA FOTO DE LA COMUNIDAD</td>
-			<td><p> Esta es la comunidad que es ayudada por Todos Somos Comunidad. Como se podra observar, esta texto solo sirve como ejemplo para visualizar la manera en la que se despliega cierto contenido en esta seccion de la pagina, ya que mas adelante sera utilizada para desplehgara la informacion correcta de cada comunidad. </p></td>
-		</tr>
-	</table>
+  <br><br>
+  <div class="row">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-1">
+        <h1 id="rosa">
+            Comunidades
+        </h1>
+    </div>
+  </div>
 
 
+  <div class=" card-group container border border-light w-75 bg-white text-dark">
+    <div class="card">
+      <h3 class="display-5 " id="rosa">Comunidad 1</h3>
+      <p class="lead text-justify">Durante la pasada semana la tesis doctoral del presidente del Gobierno español, Pedro Sánchez, ocupó la mayoría del espacio
+        informativo en los medios de comunicación españoles, apartando del debate público algunas noticias que en otras circunstancias habrían sido
+        primera página de esos mismos medios.</p>
+    </div>
+    <div class="card">
+        <div class="card " style="width: 18rem;">
+            <img src="{% static "/index/images/cinqueterre.jpg" %}" class=" text-center" alt="Cinque Terre" />
+        </div>
+    </div>
+  </div>
+
+  <div class="card-group container border border-light w-75 bg-white text-dark">
+		<div class="card">
+        <div class="card " style="width: 18rem;">
+            <img src="{% static "/index/images/cinqueterre.jpg" %}" class=" text-center" alt="Cinque Terre" />
+        </div>
+    </div>
+		<div class="card ">
+      <h3 class="display-5" id="rosa">Comunidad 2</h3>
+      <p class="lead text-justify">Durante la pasada semana la tesis doctoral del presidente del Gobierno español, Pedro Sánchez, ocupó la mayoría del espacio
+        informativo en los medios de comunicación españoles, apartando del debate público algunas noticias que en otras circunstancias habrían sido
+        primera página de esos mismos medios.</p>
+    </div>
+  </div>
+
+  <div class="row"></div>
 
 </body>
-
 <div class="basic">
-	{% include "partials/bottom.html" %}
+{% include "partials/bottom.html" %}
 </div>
-
-
-

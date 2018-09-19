@@ -7,52 +7,95 @@
 
 
 </div>
-<h2 id="rosa">Colabora con Nosotros</h2>
-
-<!-- Insert image -->
-<h3>Aqui podras enviar tus datos para poder ser voluntario en nuestra organizacion.</h3>
-
-<body>
-<div class="container">
-<form>
-    <!-- Aqui podria ser conveniente usar una tabla y despues usar rowsapn para que se despliegue correctamente la fotografia -->
-    <div class="form-group row">
-        <div class="col-xs-4" style="text-align: left;">
-        <label for="name" id="contactinfo"> Nombre:</label>
-        <input type="name" class="form-control" id="contactinput" required>
-        </div>
-    </div>
-        <div class="form-group row">
-        <div class="col-xs-4" style="text-align: left;">
-        <label for="phone" id="contactinfo"> Telefono:</label>
-        <input type="phone" class="form-control" id="contactinput" required>
-        </div>
-        <div class="col-xs-4" style="text-align: left;">
-        <label for="phone" id="contactinfo" style="margin-left: 600px;"> AQUI PUEDE IR UNA IMAGEN</label>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-xs-4">
-        <label for="email" id="contactinfo">Correo Electronico(E-MAIL):</label>
-        <input type="email" class="form-control" id="contactinput" required>
-        </div>
-    </div>
-        <div class="form-group row">
-        <div class="col-xs-4" style="text-align: left;">
-        <label for="company" id="contactinfo"> Empresa:</label>
-        <input type="name" class="form-control" id="contactinput" required>
-        </div>
-    </div>
-    <div class="btn-group-toggle" data-toggle="buttons">
-        <label class="btn active">
-        <input type="submit" name="Enviar" value="Enviar" class="btn btn-primary active btn-green green-bg">
-        </label>
-    </div>
-</form>
+<br><br>
+<div class=" card-group container border-right border-light w-75 bg-white text-dark">
+    <br><br><br>
+    <h1 id="rosa">
+        Colabora con nosotros
+    </h1>
+    <br><br><br>
+</div>
+<div class="jumbotron-fluid bg-light">
+  <div class="container bg-light">
+  <table>
+    <tr>
+      <td>
+        <img src="{% static "/index/images/banner.png" %}" class=" text-center" alt="banner"/>
+      </td>
+      <td>
+          <h3>Aqui podras enviar tus datos para poder ser voluntario en nuestra organizacion.</h3>
+      </td>
+    </tr>
+  </table>
+</div>
 </div>
 
 
 
+
+<body>
+<div class=" card-group container border-right border-light w-75 bg-white text-dark">
+  <div class="container">
+    <br><br><br>
+  <form>
+      <table>
+        <tr>
+          <td>
+            <div class="form-group row">
+                <div class="col-xs-4" style="text-align: left;">
+                <label for="name" id="contactinfo"> Nombre:</label>
+                <input type="name" class="form-control" id="contactinput" required>
+                </div>
+            </div>
+          </td>
+          <td rowspan = 4>
+            <div class="col-xs-4" style="text-align: left;">
+              <label for="phone" id="contactinfo" style="margin-left: 15%;"> <img src="{% static "/index/images/ninos.jpg" %}" class=" text-center" alt="ninos" /></label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <div class="form-group row">
+                  <div class="col-xs-4" style="text-align: left;">
+                    <label for="phone" id="contactinfo"> Telefono:</label>
+                    <input type="phone" class="form-control" id="contactinput" required>
+                  </div>
+                </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group row">
+                <div class="col-xs-4">
+                <label for="email" id="contactinfo">Correo Electronico:</label>
+                <input type="email" class="form-control" id="contactinput" required>
+                </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+                <div class="form-group row">
+                <div class="col-xs-4" style="text-align: left;">
+                <label for="company" id="contactinfo"> Empresa:</label>
+                <input type="name" class="form-control" id="contactinput" required>
+                </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn active">
+                <input type="submit" name="Enviar" value="Enviar" style="margin-left: 150%;"class="btn btn-success active btn-green green-bg">
+                </label>
+            </div>
+          </td>
+        </tr>
+        </table>
+      </form>
+  </div>
 </div>
 </body>
 <div class="basic">
