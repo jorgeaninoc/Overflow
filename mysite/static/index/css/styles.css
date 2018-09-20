@@ -9,6 +9,10 @@
     height: 100%;
 }
 
+.border {
+    border-width:3px !important;
+}
+
 
 nav {
 text-align: center;
