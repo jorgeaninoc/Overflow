@@ -13,12 +13,11 @@
     border-width:3px !important;
 }
 
-
+/*
 nav {
 text-align: center;
 margin: 20px 0 0 ;
 padding: 10px 0;
-/*height: 100%;*/
 font-size: small;
 }
 
@@ -27,21 +26,21 @@ nav ul{
   margin: 0 2px;
   padding: 0;
 }
-
-nav li {
-   display: inline-block;
-   padding: 10px 50px;
+*/
+.titles {
+   margin-left: 60px;
+   font-size:1em;
 }
-
+/*
 nav a {
   font-weight: normal;
   padding: 10px 5px;
   font-size: 2em;
 }
-
+*/
 
 body, html{
-   background: url("../images/circulos.png") no-repeat center center fixed;
+   background: url("../index/images/circulos.png") no-repeat center center fixed;
     background-size: 80% 80%;
    -webkit-background-size: 80% 80%;
    -moz-background-size: 80% 80%;
