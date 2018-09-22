@@ -28,7 +28,6 @@ nav ul{
 }
 */
 .titles {
-   margin-left: 60px;
    font-size:1em;
 }
 /*
@@ -42,9 +41,6 @@ nav a {
 body, html{
    background: url("../index/images/circulos.png") no-repeat center center fixed;
     background-size: 80% 80%;
-   -webkit-background-size: 80% 80%;
-   -moz-background-size: 80% 80%;
-   -o-background-size: 80% 80%;
 }
 
 .rounded-circle{
