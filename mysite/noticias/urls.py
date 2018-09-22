@@ -11,5 +11,4 @@ urlpatterns = [
     path('comunidades/', views.comunidades, name='comunidades'),
     path('colabora/', views.colabora, name='colabora'),
     path('contactanos/', views.contactanos, name='contactanos'),
-    path('contactanos/', views.contactanos, name='contactanos'),
 ]
