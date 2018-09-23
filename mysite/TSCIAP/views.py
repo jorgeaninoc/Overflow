@@ -1,9 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from TSCIAP.models import Community, Notice, Image, Product, Video, IndexImage
 
 # Create your views here.
 def index(request):
-    return render(request,'TSCIAP/index.html')
+    """
+    To add a video copy the embedded link and add it (ONLY EMBEDDED LINK)
+    """
+    vid_list = Video.objects.all()
+    entry_dict = {"videos":vid_list[0].url.replace('watch?v=','embed/')}
+    print(str(vid_list[0]))
+    return render(request,'TSCIAP/index.html',context=entry_dict)
 
 def noticias(request):
 	return render(request, 'TSCIAP/noticias.html');
