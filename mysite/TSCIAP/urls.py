@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 
-app_name = 'index'
+app_name = 'TSCIAP'
 urlpatterns = [
     # ex: /polls/
     path('',views.index,name='index'),
@@ -11,4 +11,5 @@ urlpatterns = [
     path('comunidades/', views.comunidades, name='comunidades'),
     path('colabora/', views.colabora, name='colabora'),
     path('contactanos/', views.contactanos, name='contactanos'),
+    path('catalogo/',views.catalogo,name='catalogo'),
 ]

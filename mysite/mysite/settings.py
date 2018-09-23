@@ -33,8 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'noticias.apps.NoticiasConfig',
-    'catalogo.apps.CatalogoConfig',
+    'TSCIAP.apps.TSCIAPConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
