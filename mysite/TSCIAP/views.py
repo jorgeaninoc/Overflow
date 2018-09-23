@@ -1,15 +1,36 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from TSCIAP.models import Community, Notice, Image, Product, Video, IndexImage
+from TSCIAP.models import Community, Notice, Image, Product, Video, IndexImage, GaleryImage
 
 # Create your views here.
 def index(request):
     """
     To add a video copy the embedded link and add it (ONLY EMBEDDED LINK)
     """
-    vid_list = Video.objects.all()
-    entry_dict = {"videos":vid_list[0].url.replace('watch?v=','embed/')}
-    print(str(vid_list[0]))
+
+    if len(Video.objects.all()) > 0:
+        vid_list = Video.objects.all()[0].url.replace('watch?v=','embed/')
+    else:
+        vid_list = None
+    indeximg = IndexImage.objects.all()
+    if len(Product.objects.all()) >= 3:
+        products_list = Product.objects.all()[:3]
+    else:
+        products_list = Product.objects.all()
+    if len(GaleryImage.objects.all()) >= 6:
+        galery_list = GaleryImage.objects.all()[:6]
+    else:
+        if len(GaleryImage.objects.all()) == 0:
+            if len(Image.objects.all()) >= 6:
+                galery_list = Image.objects.all()[:6]
+            else:
+                galery_list = Image.objects.all()
+        else:
+            galery_list  = GaleryImage.objects.all()
+    entry_dict = {"videos":vid_list,
+    "products":products_list,
+    "indeximages" : indeximg,
+    "galeryimages": galery_list}
     return render(request,'TSCIAP/index.html',context=entry_dict)
 
 def noticias(request):
