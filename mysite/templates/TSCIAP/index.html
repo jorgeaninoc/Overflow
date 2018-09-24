@@ -3,78 +3,71 @@
 {% load static %}
 {% include "partials/top.html" %}
 </div>
-<body>
 <br>
-<!--
-<div class="embed-responsive embed-responsive-21by9">
-  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
-</div>
-<img src="{% static "/index/images/cinqueterre.jpg" %}" class="border border-success rounded-circle" alt="Cinque Terre" />
--->
 <div class="container">
   <div class="row">
-    {% for v in videos %}
+    {% if videos %}
       <div class="col-md-2">
       </div>
       <div class="col-md-8">
         <div class="videoWrapper">
-      <iframe src="{{ videos }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <iframe src="{{ videos }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
       </div>
       <div class="col-md-2">
       </div>
-    {% endfor %}
+      <hr>
+    {% endif %}
   </div>
-  <br><br>
+  {% if products %}
+  <br><br><hr>
   <div class="row">
-    {% for p in products %}
+    <h1 class="title" align="center">Productos Destacados</h1>
+  </div>
+  <div class="row">
+    {% for i in products_images %}
       <div class="col-md-4">
-        <a href="#"><img src="{{ p }}" class="img-circle bor" alt="Image not found" /></a>
+        <a href="#"><img src="../media/{{ i.path }}" class="img-responsive img-circle bor" alt="Imagen no encontrada." /></a>
       </div>
     {% endfor %}
+    <div class="row">
+      {% for p in products %}
+    <div class="col-md-4">
+      <h3 align="center">{{ p.nombre }}</h3>
+    </div>
+    {% endfor %}
+    </div>
+
   </div>
-  <br>
+  {% endif %}
+  {% if indeximages %}
+  <br><br><hr>
+  <div class="row">
+      <div class="col-md-12">
+        <a href="#"><img src="../media/{{ indeximages.path }}" class="indeximage" alt="Imagen no encontrada." /></a>
+      </div>
+  </div>
+  {% endif %}
+  {% if galeryimages %}
+  <br><hr>
   <div class="row">
     <h1 class="title" align="center">Galería</h1>
   </div>
-<br>
-
+  <br>
   <div class="row">
-    <div class="col-sm-4">
-            <a href="#">
-                <img src="{% static "/index/images/cinqueterre.jpg" %}"  class="galeria" alt="Cinque Terre" />
-            </a>
-        </div>
+    {% for g in galeryimages %}
         <div class="col-sm-4">
             <a href="#">
-                <img src="{% static "/index/images/cinqueterre.jpg" %}"  class="galeria" alt="Cinque Terre" />
+                <img src="../media/{{ g.path }}"  class="img-responsive" alt="Cinque Terre" />
             </a>
         </div>
-        <div class="col-sm-4">
-            <a href="#">
-                <img src="{% static "/index/images/cinqueterre.jpg" %}"  class="galeria" alt="Cinque Terre" />
-            </a>
-        </div>
-</div>
-<div class="row">
-    <div class="col-sm-4">
-            <a href="#">
-                <img src="{% static "/index/images/cinqueterre.jpg" %}"  class="galeria" alt="Cinque Terre" />
-            </a>
-        </div>
-        <div class="col-sm-4">
-            <a href="#">
-                <img src="{% static "/index/images/cinqueterre.jpg" %}"  class="galeria" alt="Cinque Terre" />
-            </a>
-        </div>
-        <div class="col-sm-4">
-            <a href="#">
-                <img src="{% static "/index/images/cinqueterre.jpg" %}"  class="galeria" alt="Cinque Terre" />
-            </a>
-        </div>
-</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  <br>
+
 </div>
 
-<div class="basic">
-{% include "partials/bottom.html" %}
+<div class="row">
+  {% include "partials/bottom.html" %}
 </div>

@@ -2,54 +2,35 @@
 <div class="basic">
 {% load static %}
 {% include "partials/top.html" %}
-
-
 </div>
-<body>
-
-  <br><br>
+<div class="container">
   <div class="row">
     <div class="col-sm-1">
-    </div>
-    <div class="col-sm-1">
-        <h1 id="rosa">
+        <h1 class="title">
             Noticias
         </h1>
+
     </div>
   </div>
-
-
-  <div class=" card-group container border-right border-light w-75 bg-white text-dark">
-    <div class="card">
-      <h3 class="display-5 " id="rosa">Noticia 1</h3>
-      <p class="lead text-justify">Durante la pasada semana la tesis doctoral del presidente del Gobierno español, Pedro Sánchez, ocupó la mayoría del espacio
-        informativo en los medios de comunicación españoles, apartando del debate público algunas noticias que en otras circunstancias habrían sido
-        primera página de esos mismos medios.</p>
-    </div>
-    <div class="card">
-        <div class="card " style="width: 18rem;">
-            <img src="{% static "/index/images/cinqueterre.jpg" %}" class=" text-center" alt="Cinque Terre" />
-        </div>
+  <hr>
+ {% for n in news %}
+ <div class="row">
+    <div class="col-md-12">
+      <h3 class="rosa">{{ n.titulo }}</h3>
+      <p class="lead text-justify">{{ n.texto }}</p>
     </div>
   </div>
-
-  <div class="card-group container border border-light w-75 bg-white text-dark">
-    <div class="card ">
-      <h3 class="display-5" id="rosa">Noticia 2</h3>
-      <p class="lead text-justify">Durante la pasada semana la tesis doctoral del presidente del Gobierno español, Pedro Sánchez, ocupó la mayoría del espacio
-        informativo en los medios de comunicación españoles, apartando del debate público algunas noticias que en otras circunstancias habrían sido
-        primera página de esos mismos medios.</p>
+  <div class="row">
+    {% for i in n.imagenes.all %}
+    <div class="col-md-4">
+      <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
     </div>
-    <div class="card">
-        <div class="card " style="width: 18rem;">
-            <img src="{% static "/index/images/cinqueterre.jpg" %}" class=" text-center" alt="Cinque Terre" />
-        </div>
-    </div>
+    {% endfor %}
   </div>
+  <hr>
+  {% endfor %}
+</div>
 
-  <div class="row"></div>
-
-</body>
 <div class="basic">
 {% include "partials/bottom.html" %}
 </div>

@@ -7,44 +7,44 @@ import django
 # Create your models here.
 
 # Table Image
-class Image(models.Model):
-    name = models.CharField(max_length=255,unique=True,default=str(dt.now()))
+class Imagen(models.Model):
+    nombre = models.CharField(max_length=255,unique=True,default=str(dt.now()))
     path = models.ImageField(upload_to="images")
 
     def __str__(self):
-        return self.name
+        return self.nombre
 
 # Table Community
-class Community(models.Model):
-    name = models.CharField(max_length=255,unique=True)
-    description = models.TextField(null=False)
-    images = models.ManyToManyField(Image)
+class Comunidad(models.Model):
+    nombre = models.CharField(max_length=255,unique=True)
+    descripcion = models.TextField(null=False)
+    imagenes = models.ManyToManyField(Imagen)
 
     def __str__(self):
-        return self.name
+        return self.nombre
 
 # Table Product
-class Product(models.Model):
-    name = models.CharField(max_length=255)
-    price=models.IntegerField()
-    community = models.ForeignKey(Community,on_delete=models.CASCADE)
-    images = models.ManyToManyField(Image)
+class Producto(models.Model):
+    nombre = models.CharField(max_length=255)
+    precio=models.IntegerField()
+    communidad = models.ForeignKey(Comunidad,on_delete=models.CASCADE)
+    imagenes = models.ManyToManyField(Imagen)
 
     def __str__(self):
 
-        return self.name
+        return self.nombre
 
 # Table Notice
-class Notice(models.Model):
-    title = models.CharField(max_length=255,null=False)
-    text = models.TextField(null=False)
-    endDate = models.DateField(default=django.utils.timezone.now() + django.utils.timezone.timedelta(30))
-    startDate = models.DateField(default=django.utils.timezone.now())
-    community = models.ForeignKey(Community,on_delete=models.CASCADE)
-    images = models.ManyToManyField(Image)
+class Noticia(models.Model):
+    titulo = models.CharField(max_length=255,null=False)
+    texto = models.TextField(null=False)
+    fechaInicio = models.DateField(default=django.utils.timezone.now())
+    fechaFin = models.DateField(default=django.utils.timezone.now() + django.utils.timezone.timedelta(30))
+    comunidad = models.ForeignKey(Comunidad,on_delete=models.CASCADE)
+    imagenes = models.ManyToManyField(Imagen)
 
     def __str__(self):
-        return self.title
+        return self.titulo
 
 
 # Table Video
@@ -55,15 +55,13 @@ class Video(models.Model):
         return self.url
 
 # Table IndexImages
-class IndexImage(models.Model):
+class InicioImagen(models.Model):
+    path = models.ImageField(upload_to="images")
+
+
+class GaleriaImagen(models.Model):
+    nombre = models.CharField(max_length=255,unique=True,default=str(dt.now()))
     path = models.ImageField(upload_to="images")
 
     def __str__(self):
-        return self.name
-
-class GaleryImage(models.Model):
-    name = models.CharField(max_length=255,unique=True,default=str(dt.now()))
-    path = models.ImageField(upload_to="galery")
-
-    def __str__(self):
-        return self.name
+        return self.nombre
