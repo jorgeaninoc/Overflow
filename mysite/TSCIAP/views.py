@@ -4,11 +4,8 @@ from TSCIAP.models import Comunidad, Noticia, Imagen, Producto, Video, InicioIma
 
 # Create your views here.
 def index(request):
-    """
-    To add a video copy the embedded link and add it (ONLY EMBEDDED LINK)
-    """
     vid_list = Video.objects.all()
-    if len(Video.objects.all()) > 0:
+    if len(vid_list) > 0:
         vid_list = vid_list[0].url.replace('watch?v=','embed/')
     else:
         vid_list = None

@@ -3,7 +3,6 @@ from datetime import timedelta as td
 from datetime import datetime as dt
 import django
 
-
 # Create your models here.
 
 # Table Image
@@ -16,7 +15,7 @@ class Imagen(models.Model):
 
 # Table Community
 class Comunidad(models.Model):
-    nombre = models.CharField(max_length=255,unique=True)
+    nombre = models.CharField(max_length=255,unique=True,null=False)
     descripcion = models.TextField(null=False)
     imagenes = models.ManyToManyField(Imagen)
 
@@ -25,13 +24,12 @@ class Comunidad(models.Model):
 
 # Table Product
 class Producto(models.Model):
-    nombre = models.CharField(max_length=255)
-    precio=models.IntegerField()
+    nombre = models.CharField(max_length=255,null=False)
+    precio=models.IntegerField(null=False)
     communidad = models.ForeignKey(Comunidad,on_delete=models.CASCADE)
-    imagenes = models.ManyToManyField(Imagen)
+    imagenes = models.ManyToManyField(Imagen,null=False)
 
     def __str__(self):
-
         return self.nombre
 
 # Table Notice
@@ -65,3 +63,50 @@ class GaleriaImagen(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class ColaboraImagen(models.Model):
+    nombre = models.CharField(max_length=255,unique=True,default=str(dt.now()))
+    path = models.ImageField(upload_to="images")
+
+    def __str__(self):
+        return self.nombre
+
+class Valor(models.Model):
+    valor = models.CharField(max_length=100,null=False)
+
+    def __str__(self):
+        return self.valor
+
+class Politica(models.Model):
+    politica = models.CharField(max_length=255,null=False)
+    def __str__(self):
+        return self.politica
+
+class Somos(models.Model):
+    titulo = models.CharField(max_length=255,null=False)
+    mision = models.TextField(null=False)
+    vision=models.TextField(null=False)
+    visionImagen = models.ImageField(upload_to="images")
+    misionImagen =  models.ImageField(upload_to="images")
+    valoresImagen = models.ImageField(upload_to="images")
+    valores = models.ManyToManyField(Valor)
+    politicas = models.ManyToManyField(Politica)
+
+    def __str__(self):
+        return self.titulo
+
+class Colaborador(models.Model):
+    nombre= models.CharField(max_length=255,null=False)
+    telefono=models.CharField(max_length=20)
+    correo=models.EmailField()
+    empresa=models.CharField(max_length=255)
+
+class Contacto(models.Model):
+    telefono = models.CharField(max_length=255,null=False)
+    horario = models.CharField(max_length=255,null=False)
+    mail = models.EmailField(null=False)
+
+class Mensajes(models.Model):
+    nombre =  models.CharField(max_length=255,null=False)
+    correo = models.EmailField(null=False)
+    mensaje = models.CharField(max_length=255,null=False)
