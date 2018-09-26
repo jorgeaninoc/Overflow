@@ -72,7 +72,8 @@ class ColaboraImagen(models.Model):
         return self.nombre
 
 class Valor(models.Model):
-    valor = models.CharField(max_length=100,null=False)
+    valor = models.TextField(null=False)
+    valoresImagen = models.ImageField(upload_to="images")
 
     def __str__(self):
         return self.valor
@@ -84,16 +85,18 @@ class Politica(models.Model):
 
 class Somos(models.Model):
     titulo = models.CharField(max_length=255,null=False)
-    mision = models.TextField(null=False)
+
+class Vision(models.Model):
     vision=models.TextField(null=False)
     visionImagen = models.ImageField(upload_to="images")
-    misionImagen =  models.ImageField(upload_to="images")
-    valoresImagen = models.ImageField(upload_to="images")
-    valores = models.ManyToManyField(Valor)
-    politicas = models.ManyToManyField(Politica)
 
     def __str__(self):
         return self.titulo
+
+class Mision(models.Model):
+    mision = models.TextField(null=False)
+    imagen =  models.ImageField(upload_to="images")
+
 
 class Colaborador(models.Model):
     nombre= models.CharField(max_length=255,null=False)
