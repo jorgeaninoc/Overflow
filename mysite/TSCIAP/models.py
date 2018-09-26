@@ -109,7 +109,7 @@ class Contacto(models.Model):
     horario = models.CharField(max_length=255,null=False)
     mail = models.EmailField(null=False)
 
-class Mensajes(models.Model):
+class Mensaje(models.Model):
     nombre =  models.CharField(max_length=255,null=False)
     correo = models.EmailField(null=False)
     mensaje = models.CharField(max_length=255,null=False)
