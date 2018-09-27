@@ -54,7 +54,11 @@ class Video(models.Model):
 
 # Table IndexImages
 class InicioImagen(models.Model):
+    nombre = models.CharField(max_length=255,default=str(dt.now()))
     path = models.ImageField(upload_to="images")
+
+    def __str__(self):
+        return self.nombre
 
 
 class GaleriaImagen(models.Model):

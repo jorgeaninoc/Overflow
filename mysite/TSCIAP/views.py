@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from TSCIAP.models import Comunidad, Noticia, Imagen, Producto, Video, InicioImagen, GaleriaImagen
 
@@ -11,10 +12,6 @@ def index(request):
         vid_list = None
 
     indeximg = InicioImagen.objects.all()
-    if len(indeximg) > 0:
-        indeximg = indeximg[0]
-    else:
-        indeximg = None
 
     products_list = Producto.objects.all()
     images_list = []
@@ -47,9 +44,10 @@ def index(request):
 
 def noticias(request):
     news_list = Noticia.objects.all()
-    if len(news_list) == 0:
-        news_list = None
-    entry_dict = {"news": news_list}
+    paginator = Paginator(news_list,3)
+    page = request.GET.get('page')
+    news = paginator.get_page(page)
+    entry_dict = {"news": news}
     return render(request,'TSCIAP/noticias.html',context=entry_dict)
 
 
