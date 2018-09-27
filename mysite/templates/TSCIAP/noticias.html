@@ -30,6 +30,7 @@
   {% endfor %}
   <div class="pagination">
     <span class="step-links">
+      <h5 class="title" align="center">
       {% if news.has_previous %}
             <a href="?page=1">&laquo; primera</a>
             <a href="?page={{ news.previous_page_number }}">anterior</a>
@@ -43,6 +44,7 @@
             <a href="?page={{ news.next_page_number }}">siguiente</a>
             <a href="?page={{ news.paginator.num_pages }}">ultima &raquo;</a>
         {% endif %}
+      </h5>
     </span>
   </div>
 </div>

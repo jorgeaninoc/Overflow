@@ -50,18 +50,24 @@ def noticias(request):
     entry_dict = {"news": news}
     return render(request,'TSCIAP/noticias.html',context=entry_dict)
 
+def catalogo(request):
+    product_list = Producto.objects.all()
+    paginator = Paginator(product_list,9)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+    entry_dict = {"products":products}
+
+    return render(request,'TSCIAP/catalogo.html',context=entry_dict)
+
 
 def quiensomos(request):
-	return render(request, 'TSCIAP/quiensomos.html');
+	return render(request, 'TSCIAP/quiensomos.html')
 
 def comunidades(request):
-	return render(request, 'TSCIAP/comunidades.html');
+	return render(request, 'TSCIAP/comunidades.html')
 
 def colabora(request):
-	return render(request, 'TSCIAP/colabora.html');
+	return render(request, 'TSCIAP/colabora.html')
 
 def contactanos(request):
-	return render(request, 'TSCIAP/contactinformation.html');
-
-def catalogo(request):
-	return render(request, 'TSCIAP/catalogo.html');
+	return render(request, 'TSCIAP/contactinformation.html')
