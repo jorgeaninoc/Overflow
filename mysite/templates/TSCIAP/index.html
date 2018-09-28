@@ -27,7 +27,7 @@
   <div class="row">
     {% for i in products_images %}
       <div class="col-md-4">
-        <a href="#"><img src="../media/{{ i.path }}" class="img-responsive img-circle bor" alt="Imagen no encontrada." /></a>
+        <a href="#"><img src="../media/{{ i.path }}" class="catalogo img-circle bor" alt="Imagen no encontrada." /></a>
       </div>
     {% endfor %}
     <div class="row">
@@ -43,8 +43,7 @@
   {% if indeximages %}
   <br><br><hr>
   <div class="row">
-    <div class="col-md-12">
-    <div id="myCarousel" class="carousel slide span6" data-interval="3000" data-ride="carousel" style="overflow:hidden" >
+    <div id="myCarousel" class="carousel slide" data-interval="3000" data-ride="carousel" >
         <!-- Carousel indicators -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -60,7 +59,7 @@
                 <div class="item">
             {% endif %}
                 <img align="center" src="../media/{{ i.path }}"  class="carouselimg" alt="Cinque Terre" width="100%" height="150px" />
-            </div>
+              </div>
         {% endfor %}
         </div>
         <!-- Carousel nav -->
@@ -72,28 +71,33 @@
         </a>
       </div>
     </div>
-      </div>
-    </div>
+  </div>
   {% endif %}
-
-  {% if galeryimages %}
-  <br><hr>
+  {% if galeryimages|slice:":3" %}
+  <br>
   <div class="row">
     <h1 class="title" align="center">Galería</h1>
   </div>
-  <br>
+  <br><hr>
   <div class="row">
-    {% for g in galeryimages %}
-        <div class="col-sm-4">
-            <a href="#">
-                <img src="../media/{{ g.path }}"  class="img-responsive" alt="Cinque Terre" />
-            </a>
+    {% for g in galeryimages|slice:":3"%}
+        <div class="col-md-4">
+                <img src="../media/{{ g.path }}"  class="img-responsive" alt="Cinque Terre"/>
         </div>
     {% endfor %}
   </div>
   {% endif %}
-  <br>
-<br><br>
+  {% if galeryimages|slice:"3:7" %}
+  <div class="row">
+    {% for g in galeryimages|slice:"3:7" %}
+        <div class="col-md-4">
+                <img src="../media/{{ g.path }}"  class="img-responsive" alt="Cinque Terre"/>
+        </div>
+    {% endfor %}
+    <br><br>
+  </div>
+  {% endif %}
+
 </div>
 
 <div class="basic">

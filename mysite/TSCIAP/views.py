@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
-from TSCIAP.models import Comunidad, Noticia, Imagen, Producto, Video, InicioImagen, GaleriaImagen
+from TSCIAP.models import *
 
 # Create your views here.
 def index(request):
@@ -59,12 +59,21 @@ def catalogo(request):
 
     return render(request,'TSCIAP/catalogo.html',context=entry_dict)
 
+def comunidades(request):
+    communities_list = Comunidad.objects.all()
+    paginator=Paginator(communities_list,3)
+    page = request.GET.get("page")
+    communities = paginator.get_page(page)
+    entry_dict = {
+    "communities":communities
+    }
+    return render(request,'TSCIAP/comunidades.html',context=entry_dict)
+
+
 
 def quiensomos(request):
 	return render(request, 'TSCIAP/quiensomos.html')
 
-def comunidades(request):
-	return render(request, 'TSCIAP/comunidades.html')
 
 def colabora(request):
 	return render(request, 'TSCIAP/colabora.html')

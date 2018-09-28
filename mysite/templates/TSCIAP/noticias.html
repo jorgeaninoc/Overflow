@@ -12,12 +12,22 @@
     </div>
   </div>
   <hr>
+  {% if news %}
  {% for n in news %}
  <div class="row">
+   <div class="col-md-3">
+     <h3 class="title" align="left">{{ n.titulo }}</h3>
+   </div>
+   <div class="col-md-6">
+   </div>
+   <div class="col-md-3">
+     <h3 class="title" align="right">{{ n.fechaInicio }}</h3>
+   </div>
+ </div>
+  <div class="row">
     <div class="col-md-12">
-      <h3 class="rosa">{{ n.titulo }}</h3>
       <p class="lead text-justify">{{ n.texto }}</p>
-    </div>
+      </div>
   </div>
   <div class="row">
     {% for i in n.imagenes.all %}
@@ -47,6 +57,7 @@
       </h5>
     </span>
   </div>
+  {% endif %}
 </div>
 
 <div class="basic">

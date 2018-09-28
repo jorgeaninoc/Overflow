@@ -13,7 +13,7 @@
   border-style: solid;
 }
 
-body, html{
+.container{
     background: url("../index/images/circulos.png") no-repeat center center fixed;
     background-size: 80% 80%;
 }
@@ -32,15 +32,23 @@ body, html{
 	height: 100%;
 }
 
+
+.catalogo{
+  height:360px;
+  weight:360px;
+}
+
 .title{
   color: #f48fb1;
 }
+
 
 
 .indeximage{
     width: 100%;
     height:100%;
 }
+
 
 .footer {
     width: 100%;
