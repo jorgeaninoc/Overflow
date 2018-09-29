@@ -32,6 +32,10 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name: "Producto"
+        verbose_name_plural = "Productos"
+
 # Table Notice
 class Noticia(models.Model):
     titulo = models.CharField(max_length=255,null=False)
