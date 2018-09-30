@@ -206,7 +206,7 @@ class Mensaje(models.Model):
 class Anuncio(models.Model):
     titulo = models.CharField(max_length=255,null=False)
     texto = models.TextField(null=False)
-    imagenes = models.ManyToManyField(Imagen)
+    imagen = models.ImageField(upload_to="images")
 
     def __str__(self):
         return self.titulo

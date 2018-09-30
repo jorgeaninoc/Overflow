@@ -6,14 +6,16 @@ from TSCIAP.models import *
 # Create your views here.
 def index(request):
     vid_list = Video.objects.all()
+    indeximg = InicioImagen.objects.all()
+    products_list = Producto.objects.all()
+    galery_list = GaleriaImagen.objects.all()
+    announces_list = Anuncio.objects.all()
+
     if len(vid_list) > 0:
         vid_list = vid_list[0].url.replace('watch?v=','embed/')
     else:
         vid_list = None
 
-    indeximg = InicioImagen.objects.all()
-
-    products_list = Producto.objects.all()
     images_list = []
 
     if len(products_list) >= 3:
@@ -23,8 +25,6 @@ def index(request):
         if len(i.imagenes.all())>0:
             images_list.append(i.imagenes.all()[0])
 
-
-    galery_list = GaleriaImagen.objects.all()
     if len(galery_list) >= 6:
         galery_list = galery_list[:6]
     else:
@@ -34,12 +34,17 @@ def index(request):
                 galery_list = img_list[:6]
             else:
                 galery_list = img_list
+
+    if len(announces_list) >= 1:
+        announces_list = announces_list[0]
+
     entry_dict = {
     "videos": vid_list,
     "products":products_list,
     "products_images":images_list,
     "indeximages" : indeximg,
-    "galeryimages": galery_list}
+    "galeryimages": galery_list,
+    "announces":announces_list}
     return render(request,'TSCIAP/index.html',context=entry_dict)
 
 def noticias(request):
