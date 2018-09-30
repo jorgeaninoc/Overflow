@@ -70,13 +70,39 @@ def comunidades(request):
     return render(request,'TSCIAP/comunidades.html',context=entry_dict)
 
 
-
 def quiensomos(request):
-	return render(request, 'TSCIAP/quiensomos.html')
+    somos_list = Somos.objects.all()
+    mision_list = Mision.objects.all()
+    vision_list = Vision.objects.all()
+    valor_list = Valor.objects.all()
+    politicas_list = Politica.objects.all()
+
+
+    if len(somos_list) >= 1:
+        somos_list = somos_list[0]
+    if len(mision_list) >=1:
+        mision_list = mision_list[0]
+    if len(vision_list) >=1:
+        vision_list = vision_list[0]
+    if len(valor_list) >=1:
+        valor_list = valor_list[0]
+    if len(politicas_list) >=1:
+        politicas_list = politicas_list[0]
+
+    entry_dict = {
+    "titles":somos_list,
+    "misions":mision_list,
+    "valores":valor_list,
+    "visions":vision_list,
+    "politics":politicas_list
+    }
+
+
+    return render(request, 'TSCIAP/quiensomos.html', context = entry_dict )
 
 
 def colabora(request):
-	return render(request, 'TSCIAP/colabora.html')
+    return render(request, 'TSCIAP/colabora.html')
 
 def contactanos(request):
-	return render(request, 'TSCIAP/contactinformation.html')
+    return render(request, 'TSCIAP/contactinformation.html')

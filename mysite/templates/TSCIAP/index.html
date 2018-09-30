@@ -33,7 +33,8 @@
     <div class="row">
       {% for p in products %}
     <div class="col-md-4">
-      <h3 align="center">{{ p.nombre }}</h3>
+      <h3 class="title" align="center">{{ p.nombre }}</h3>
+      <h3 class="title" align="center">Precio: {{ p.precio }}$</h3>
     </div>
     {% endfor %}
     </div>
@@ -82,7 +83,7 @@
   <div class="row">
     {% for g in galeryimages|slice:":3"%}
         <div class="col-md-4">
-                <img src="../media/{{ g.path }}"  class="img-responsive" alt="Cinque Terre"/>
+                <img src="../media/{{ g.path }}"  class="img-thumbnail img-fluid text-center" alt="Cinque Terre"/>
         </div>
     {% endfor %}
   </div>
@@ -91,7 +92,7 @@
   <div class="row">
     {% for g in galeryimages|slice:"3:7" %}
         <div class="col-md-4">
-                <img src="../media/{{ g.path }}"  class="img-responsive" alt="Cinque Terre"/>
+                <img src="../media/{{ g.path }}"  class="img-thumbnail img-fluid text-center" alt="Cinque Terre"/>
         </div>
     {% endfor %}
     <br><br>

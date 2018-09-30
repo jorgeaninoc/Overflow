@@ -1,11 +1,6 @@
-
-
-
 <div class="basic">
 {% load static %}
 {% include "partials/top.html" %}
-
-
 </div>
 
 
@@ -16,112 +11,18 @@
         <!-- </div> -->
     </div>
     <hr>
-</div>
-
-<div class="jumbotron-fluid bg-success">
-<div class="card-group container border-success w-75 bg-success text-light">
-    <br><br><br>
+<div class="row">
     <h1>
+      {% if titles %}
+        {{ titles.titulo  }}
+      {% else %}
         ¡Somos solidarios!
+      {% endif %}
     </h1>
-    <br><br><br>
 </div>
-</div>
-
-<!-- Podria verse mejor si se aclara el fondo gris de la mision si es que quieren dejar el fondo gris -->
-<body>
-<div class="jumbotron border-light w-100 bg-white text-dark"w>
-  <div class="container border-light w-100 bg-white text-dark">
+<div class="border-light w-100  text-dark"w>
+  <div class="container border-light w-100 text-dark">
     <br>
-
-
-<!--
-    <table>
-      <tr>
-        <td>
-          <div class="form-group row">
-              <div class="col-xs-4" id="quienessomos">
-                <label for="mission" id="contactinfo"> Misión:</label> <br>
-              </div>
-        </td>
-        <td>
-          <div class="form-group row">
-              <div class="col-xs-4" id="quienessomos">
-                <label for="mission" id="contactinfo"> Visión:</label> <br>
-              </div>
-        </td>
-        <td>
-              <div class="col-xs-4" id="quienessomos">
-                <label for="values" id="contactinfo">Valores</label> <br>
-              </div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="form-group row">
-              <div class="col-xs-4" id="quienessomos">
-                <label for="phone" id="contactinfo"> <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" /></label>
-              </div>
-        </td>
-        <td>
-          <div class="form-group row">
-              <div class="col-xs-4" id="quienessomos">
-                <label for="phone" id="contactinfo"> <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" /></label>
-              </div>
-        </td>
-        <td>
-              <div class="col-xs-4" id="quienessomos">
-                <label for="phone" id="contactinfo"> <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" /></label>
-              </div>
-          </div>
-        </td>
-      </tr>
-    </table>
--->
-
-
-
-<!-- Guía
-http://uniq.education/nosotros
-https://www.youtube.com/watch?v=W0ubfqwd4G4
-https://www.youtube.com/watch?v=onAfy3nZCHc
-https://codepen.io/zFunx/pen/ZeJEzZ
--->
-
-<style>
-  .textWithBlurredBg{
-      width: 300px;
-      height: 400px;
-      margin: auto;
-      left: -5px;
-      position: relative;
-  }
-  .textWithBlurredBg :not(img){
-      position: absolute;
-      top: 10%;
-      z-index: 1;
-      color: #fff;
-      text-align: center;
-      width: 100%;
-      transition: 0.6s;
-      opacity: 0;
-  }
-  .textWithBlurredBg img{
-    transition: 0.6s;
-    width: 300px;
-    height: 400px;
-    margin: auto;
-
-  }
-  .textWithBlurredBg:hover img{
-    filter: blur(2px) brightness(60%);
-  }
-  .textWithBlurredBg:hover :not(img){
-    opacity: 1;
-  }
-</style>
-
 
     <div class="row">
         <div class="col-lg-12">
@@ -130,11 +31,21 @@ https://codepen.io/zFunx/pen/ZeJEzZ
                     <!--MISIÓN-->
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <div>
-                                <center><h3><b>MISIÓN<b></h2></center>
+                                <center><h2 class="title"><b>Misión<b></h2></center>
                           </div>
                           <div class="textWithBlurredBg">
+                            {% if misions %}
+                              <img src="../media/{{ misions.imagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
+                            {% else %}
                               <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos"/>
-                              <h2>Aqui va la misión de TSIAP</h2>
+                            {% endif %}
+                              <p class="somosText">
+                                {% if misions %}
+                                  {{ misions.mision }}
+                                {% else %}
+                                  ¡Somos solidarios!
+                                {% endif %}
+                              </p>
                           </div>
                     </div>
 
@@ -143,11 +54,21 @@ https://codepen.io/zFunx/pen/ZeJEzZ
                     <!--VISIÓN-->
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <div>
-                                <center><h3><b>VISIÓN<b></h2></center>
+                                <center><h2 class="title"><b>Visión<b></h2></center>
                           </div>
                           <div class="textWithBlurredBg">
+                            {% if visions %}
+                              <img src="../media/{{ visions.imagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
+                            {% else %}
                               <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos"/>
-                              <h2>Aquí va la visión de TSCIAP</h2>
+                            {% endif %}
+                              <p class="somosText">
+                                {% if visions %}
+                                  {{ visions.mision }}
+                                {% else %}
+                                  ¡Somos solidarios!
+                                {% endif %}
+                              </p>
                           </div>
                     </div>
 
@@ -155,11 +76,21 @@ https://codepen.io/zFunx/pen/ZeJEzZ
                     <!--VALORES-->
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                           <div>
-                                <center><h3><b>VALORES<b></h2></center>
+                                <center><h2 class="title"><b>Valores<b></h2></center>
                           </div>
                           <div class="textWithBlurredBg">
+                            {% if valores %}
+                              <img src="../media/{{ valores.imagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
+                            {% else %}
                               <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos"/>
-                              <h2>Aquí van los valores de TSCIAP</h2>
+                            {% endif %}
+                              <p class="somosText">
+                                {% if valores %}
+                                  {{ valores.mision }}
+                                {% else %}
+                                  ¡Somos solidarios!
+                                {% endif %}
+                              </p>
                           </div>
                     </div>
 
@@ -170,14 +101,14 @@ https://codepen.io/zFunx/pen/ZeJEzZ
     <br><br>
 
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <h3 for="politics" id="rosa"><b> Politicas:<b></h3>
-        <br>
-        <p>Aqui se puede escribir todo lo que sea necesario para las politcas
-          de la organizacion asi com los valores, la mision y la vision de
-          la orrganizacion, los cuales fueron puestos y explicado en la
-          parte de arriba. Tambien se espera que cuando una de las
-          imagenes de una de esas tres columnas sea seleccionada esta
-          puede desplegar la informacion que contiene dicha columna</p>
+        <h2 for="politics" class="title"><b>Politica<b></h2>
+        <p class="politicas">
+          {% if politics %}
+            {{ politics.politica }}
+          {% else %}
+            ¡Somos solidarios!
+          {% endif %}
+        </p>
     </div>
 
 
@@ -195,8 +126,8 @@ https://codepen.io/zFunx/pen/ZeJEzZ
 
     </div>
 </div>
+</div>
 
-</body>
 <div class="basic">
 {% include "partials/bottom.html" %}
 </div>
