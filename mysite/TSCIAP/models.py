@@ -216,7 +216,8 @@ class Anuncio(models.Model):
         verbose_name: "Anuncio"
         verbose_name_plural = "Anuncios"
 
-class SaleSummary(Sale):
+
+class SaleSummary(Producto):
     class Meta:
         proxy = True
         verbose_name ="Sale Summary"
