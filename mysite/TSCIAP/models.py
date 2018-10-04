@@ -83,6 +83,7 @@ class InicioImagen(models.Model):
     class Meta:
         verbose_name: "Imagen de Inicio"
         verbose_name_plural = "Imagenes de Inicio"
+        #app_label = 'Inicio'
 
 
 class GaleriaImagen(models.Model):
