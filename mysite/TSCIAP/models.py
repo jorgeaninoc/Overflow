@@ -215,13 +215,3 @@ class Anuncio(models.Model):
     class Meta:
         verbose_name: "Anuncio"
         verbose_name_plural = "Anuncios"
-<<<<<<< HEAD
-
-
-class SaleSummary(Producto):
-    class Meta:
-        proxy = True
-        verbose_name ="Sale Summary"
-        verbose_name_plural = "Sales Summary"
-=======
->>>>>>> 595b43a990d24769f8cbf6aadbb8ec710107b4ad

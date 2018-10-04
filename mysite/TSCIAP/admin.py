@@ -1,5 +1,5 @@
 from django.contrib import admin
-from TSCIAP.models import SaleSummary, Comunidad, Imagen, Producto, Noticia, Video, InicioImagen, GaleriaImagen, ColaboraImagen, Valor, Politica, Somos, Vision, Mision, Colaborador, Contacto, Mensaje
+from TSCIAP.models import Comunidad, Imagen, Producto, Noticia, Video, InicioImagen, GaleriaImagen, ColaboraImagen, Valor, Politica, Somos, Vision, Mision, Colaborador, Contacto, Mensaje
 
 # Register your models here.
 admin.site.register(Comunidad)
