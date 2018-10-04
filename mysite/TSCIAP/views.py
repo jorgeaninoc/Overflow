@@ -1,7 +1,12 @@
 from django.shortcuts import render
+from django.views.generic import View
+from django.http import JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from TSCIAP.models import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 
 # Create your views here.
 def index(request):
@@ -111,3 +116,38 @@ def colabora(request):
 
 def contactanos(request):
     return render(request, 'TSCIAP/contactinformation.html')
+
+
+class ChartView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'charts.html', {})
+
+def get_data(request, *args, **kwargs):
+    data= {
+        "sales":100,
+        "customers":10,
+    }
+    return JsonResponse(data) #Jsonn Response
+
+
+class ChartData(APIView):
+    """
+    View to list all users in the system.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+
+        data = {
+            "sales": 100,
+            "customers":10,
+        }
+
+        return Response(data)

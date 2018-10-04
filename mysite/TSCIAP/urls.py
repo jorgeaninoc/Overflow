@@ -8,8 +8,11 @@ from . import views
 app_name = 'TSCIAP'
 urlpatterns = [
     # ex: /polls/
-    
+
     path('',views.index,name='index'),
+    path('api/',views.ChartView.as_view(),name='charts'),
+    path('api/data/',views.get_data,name='get_data'),
+    path('api/chart/data/',views.ChartData.as_view(),name='chart_data'),
     path('quiensomos/', views.quiensomos, name='quiensomos'),
     path('noticias/', views.noticias, name='noticias'),
     path('comunidades/', views.comunidades, name='comunidades'),
