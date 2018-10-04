@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Todos Somos Comunidad IAP Admin{% endblock %}
+
+{% block extrastyle %}
+<style>
+#header{
+  background-color: #f48fb1;
+}
+
+.button:active, input[type="submit"]:active, input[type="button"]:active, .button:focus, input[type="submit"]:focus, input[type="button"]:focus, .button:hover, input[type="submit"]:hover, input[type="button"]:hover {
+    background: #f48fb1;
+}
+input[type="submit"], button {
+
+    -webkit-appearance: none;
+    appearance: none;
+    background: #f48fb1;
+
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #ffff;
+}
+
+.module caption, .inline-group h2 {
+  background: #f48fb1;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+a {
+    color:#f48fb1;
+    text-decoration: underline;
+}
+
+td, th {
+    color:#f48fb1;
+    font-size: 20px;
+    line-height: 16px;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Todos Somos Comunidad IAP</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
