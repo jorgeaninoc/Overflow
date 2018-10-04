@@ -8,7 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="{% static '/js/script.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
-
   <meta charset="UTF-8">
     <title>Todos Somos Comunidad</title>
 </head>
@@ -37,10 +36,19 @@
               <li><a href="{% url 'TSCIAP:contactanos' %}">Contacto</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-              <li><a href="#"><img src="{% static "/index/images/Grocery_Cart.png" %}" height="20px"></a></li>
+              <li><a href="#!"><img src="{% static "/index/images/Grocery_Cart.png" %}" height="20px"></a></li>
               <li><a href="#!">PayPal</a></li>
           </ul>
       </div>
   </nav>
+  <!-- Al parecer si se inserta el script aqui el codigo funciona -->
+  
+  <!-- Ademas, el codigo que se uso es distinto al que se tiene en script.js -->
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('li.active').removeClass('active');
+        $('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+      });
+</script>
   <br>
 <body>
