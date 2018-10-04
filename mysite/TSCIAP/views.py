@@ -2,13 +2,6 @@ from django.shortcuts import render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from TSCIAP.models import *
-from django.http import JsonResponse
-from django.views.generic import View
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
 
 # Create your views here.
 def index(request):
@@ -118,23 +111,3 @@ def colabora(request):
 
 def contactanos(request):
     return render(request, 'TSCIAP/contactinformation.html')
-
-
-
-def get(self, request, *args, **kwargs):
-    return render(request, 'charts.html', {})
-
-def get_data(request):
-        data = {
-            "sales" : 100,
-            "customers" : 10,
-        }
-        return JsonResponse(data)
-
-
-
-def get_chart(request):
-        data = {
-            "users": User.objects.all().count(),
-        }
-        return JsonResponse (data)
