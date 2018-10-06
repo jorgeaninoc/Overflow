@@ -1,0 +1,46 @@
+<div class="basic">
+{% load static %}
+{% include "partials/top.html" %}
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1">
+        <h1 class="title">Contactanos</h1>
+        </div>
+    </div>
+    <hr>
+  <div class="row">
+    <div class="col-xs-6">
+        <h3>Envianos un mensaje o marcanos por telefono</h3>
+    </div>
+  </div>
+    <br>
+  <div class="row">
+      <div class="col-xs-6">
+        <form method='POST'>
+            <div class="form-group row">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" name="Enviar" value="Enviar" class="btn btn-success active btn-green green-bg">
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-2">
+
+    </div>
+    <div class='col-xs-4'>
+      {% if contacto %}
+        <h3><strong>Telefono:</strong> {{ contacto.telefono }}</h3>
+        <br><br>
+        <h3><strong>Horario:</strong> {{ contacto.horario }}</h3>
+        <br><br>
+        <h3><strong>Correo:</strong> {{ contacto.mail }}</h3>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="basic">
+{% include "partials/bottom.html" %}
+</div>
