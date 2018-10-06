@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from TSCIAP.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from TSCIAP.forms import *
 
 
 # Create your views here.
@@ -112,7 +113,25 @@ def quiensomos(request):
 
 
 def colabora(request):
-    return render(request, 'TSCIAP/colabora.html')
+    form = ColaboradorForm()
+
+    if request.method == 'POST':
+        form = ColaboradorForm(request.POST)
+        if form.is_valid():
+            c = Colaborador()
+            c.nombre = request.POST.get('nombre')
+            c.telefono = request.POST.get('telefono')
+            c.correo = request.POST.get('correo')
+            c.empresa = request.POST.get('empresa')
+            c.save()
+            return HttpResponseRedirect('')
+    else:
+        form = ColaboradorForm()
+
+    entry_dict = {
+    "form":form
+    }
+    return render(request, 'TSCIAP/colabora.html',context=entry_dict)
 
 def contactanos(request):
     return render(request, 'TSCIAP/contactinformation.html')
