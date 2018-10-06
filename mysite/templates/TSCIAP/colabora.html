@@ -36,89 +36,16 @@
         </form>
       </div>
       <div class="col-md-6">
-        <img src="{% static "/index/images/ninos.jpg" %}" class=" text-center" alt="ninos" />
+        {% if icolab %}
+          <img src="../media/{{ icolab.path }}" class="text-center" alt="Imagen no encontrada"/>
+        {% else %}
+          <img src="{% static "/index/images/ninos.jpg" %}" class=" text-center" alt="ninos" />
+        {% endif %}
       </div>
     </div>
     <br><br>
-
-  <!--<table>
-    <tr>
-      <td>
-        <img src="{% static "/index/images/banner.png" %}" class=" text-center" alt="banner"/>
-      </td>
-      <td>
-          <h3>Aqui podras enviar tus datos para poder ser voluntario en nuestra organizacion.</h3>
-      </td>
-    </tr>
-  </table>
-</div>
-</div>
-
-<body>
-<div class=" card-group container border-right border-light w-75 bg-white text-dark">
-  <div class="container">
-    <br><br><br>
-  <form>
-    <table>
-        <tr>
-          <td>
-            <div class="form-group row">
-                <div class="col-xs-4" style="text-align: left;">
-                <label for="name" id="contactinfo"> Nombre:</label>
-                {{ form.nombre }}
-                </div>
-            </div>
-          </td>
-          <td rowspan = 4>
-            <div class="col-xs-4" style="text-align: left;">
-              <label for="phone" id="contactinfo" style="margin-left: 15%;"> <img src="{% static "/index/images/ninos.jpg" %}" class=" text-center" alt="ninos" /></label>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-                <div class="form-group row">
-                  <div class="col-xs-4" style="text-align: left;">
-                    <label for="phone" id="contactinfo"> Telefono:</label>
-                    {{ form.telefono }}
-                  </div>
-                </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="form-group row">
-                <div class="col-xs-4">
-                <label for="email" id="contactinfo">Correo Electronico:</label>
-                {{ form.email }}
-                </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-                <div class="form-group row">
-                <div class="col-xs-4" style="text-align: left;">
-                <label for="company" id="contactinfo"> Empresa:</label>
-                {{ form.empresa }}
-                </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="btn-group-toggle" data-toggle="buttons">
-                <label class="btn active">
-                <input type="submit" name="Enviar" value="Enviar" style="margin-left: 150%;"class="btn btn-success active btn-green green-bg">
-                </label>
-            </div>
-          </td>
-        </tr>
-      </table>-->
-      </form>
   </div>
 </div>
-</body>
 <div class="basic">
 {% include "partials/bottom.html" %}
 </div>

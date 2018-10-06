@@ -49,6 +49,8 @@ body, html{
 
 
 .footer {
+    clear: both;
+    position: relative;
     width: 100%;
     background-color: #f48fb1;
     color: white;

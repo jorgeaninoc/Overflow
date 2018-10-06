@@ -114,6 +114,7 @@ def quiensomos(request):
 
 def colabora(request):
     form = ColaboradorForm()
+    icolab = ColaboraImagen.objects.all()
 
     if request.method == 'POST':
         form = ColaboradorForm(request.POST)
@@ -128,13 +129,39 @@ def colabora(request):
     else:
         form = ColaboradorForm()
 
+    if len(icolab) >= 1:
+        icolab = icolab[0]
+
     entry_dict = {
-    "form":form
+    "form":form,
+    "icolab":icolab
     }
     return render(request, 'TSCIAP/colabora.html',context=entry_dict)
 
 def contactanos(request):
-    return render(request, 'TSCIAP/contactinformation.html')
+    form = MensajeForm()
+    contacto = Contacto.objects.all()
+
+    if request.method == 'POST':
+        form = MensajeForm(request.POST)
+        if form.is_valid():
+            m = Mensaje()
+            m.nombre = request.POST.get('nombre')
+            m.correo = request.POST.get('correo')
+            m.mensaje = request.POST.get('mensaje')
+            print(m.nombre,m.mensaje,m.correo)
+            m.save()
+            return HttpResponseRedirect('')
+        else:
+            form = MensajeForm()
+    if len(contacto)>=1:
+        contacto = contacto[0]
+
+    entry_dict = {
+        "form":form,
+        "contacto":contacto
+    }
+    return render(request, 'TSCIAP/contactinformation.html',context=entry_dict)
 
 
 class ChartView(View):

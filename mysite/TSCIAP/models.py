@@ -194,7 +194,7 @@ class Contacto(models.Model):
 class Mensaje(models.Model):
     nombre =  models.CharField(max_length=255,null=False)
     correo = models.EmailField(null=False)
-    mensaje = models.CharField(max_length=255,null=False)
+    mensaje = models.TextField(max_length=255,null=False)
 
     def __str__(self):
         return self.nombre

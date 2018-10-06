@@ -1,12 +1,8 @@
-
-
-
 <div class="basic">
 {% load static %}
 {% include "partials/top.html" %}
-
-
 </div>
+
 <div class="container">
     <div class="row">
         <div class="col-sm-1">
@@ -14,60 +10,37 @@
         </div>
     </div>
     <hr>
-</div>
-
-<!-- Insert image -->
-
-
-<body>
-<div class="container">
-<form>
-    <div class="row">
-        <div class="col-xs-6">
-            <h3>Envianos un mensaje o marcanos por telefono</h3>
-        </div>
+  <div class="row">
+    <div class="col-xs-6">
+        <h3>Envianos un mensaje o marcanos por telefono</h3>
     </div>
-
+  </div>
     <br>
-    <div class="form-group row">
-        <div class="col-xs-4" style="text-align: left;">
-        <label for="name" id="contactinfo"> Nombre:</label>
-        <input type="name" class="form-control" id="contactinput">
-        </div>
-        <div class="col-xs-4" style="text-align: right; margin-left: 500px;">
-            <label id="contactinfo">Telefono: </label> 01-800-000-000
-        </div>
+  <div class="row">
+      <div class="col-xs-6">
+        <form method='POST'>
+            <div class="form-group row">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" name="Enviar" value="Enviar" class="btn btn-success active btn-green green-bg">
+            </div>
+        </form>
     </div>
-    <div class="form-group row">
-        <div class="col-xs-4">
-        <label for="email" id="contactinfo">Correo Electronico(E-MAIL):</label>
-        <input type="email" class="form-control" id="contactinput">
-        </div>
-        <div class="col-xs-4" style="text-align: right; margin-left: 460px;">
-            <label id="contactinfo"> Horario de Oficina: </label>
-        </div>
+    <div class="col-xs-2">
+
     </div>
-    <div class="form-group row">
-        <div class="col-xs-4">
-        <label for="message" id="contactinfo">Tu Mensaje:</label>
-        <textarea class="form-control" rows="5" id="contactinput"> </textarea>
-        </div>
-        <div class="col-xs-4" style="text-align: right; margin-left: 505px;" >
-            <label id="contactinfo"> E-mail: </label> correo@correo.com
-        </div>
+    <div class='col-xs-4'>
+      {% if contacto %}
+        <h3><strong>Telefono:</strong> {{ contacto.telefono }}</h3>
+        <br><br>
+        <h3><strong>Horario:</strong> {{ contacto.horario }}</h3>
+        <br><br>
+        <h3><strong>Correo:</strong> {{ contacto.mail }}</h3>
+      {% endif %}
     </div>
-    <div class="btn-group-toggle" data-toggle="buttons">
-        <label class="btn active">
-        <input type="submit" name="Enviar" value="Enviar" class="btn btn-primary  btn-green green-bg">
-        </label>
-    </div>
-</form>
+  </div>
 </div>
-
-
-
-</div>
-</body>
+<br><br>
 <div class="basic">
 {% include "partials/bottom.html" %}
 </div>
