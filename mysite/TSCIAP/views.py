@@ -80,7 +80,8 @@ def getProducto(request, productoid):
         # productname = get_object_or_404(Producto, nombre)
     except:
         raise Http404("Producto does not exist")
-    return HttpResponse("Este es el Producto %s." % productoid)
+    # return HttpResponse("Este es el Producto %s." % productoid)
+    return render(request, 'TSCIAP/productoinfo.html', {'producto': producto})
 
 def comunidades(request):
     communities_list = Comunidad.objects.all()
