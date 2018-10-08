@@ -19,6 +19,7 @@ urlpatterns = [
     path('colabora/', views.colabora, name='colabora'),
     path('contactanos/', views.contactanos, name='contactanos'),
     path('catalogo/',views.catalogo,name='catalogo'),
+    path('catalogo/<int:productoid>/', views.getProducto, name='producto'),
 ]
 
 if settings.DEBUG:

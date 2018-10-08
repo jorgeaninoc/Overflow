@@ -8,6 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from TSCIAP.forms import *
 
+# from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+
 
 # Create your views here.
 def index(request):
@@ -69,6 +73,15 @@ def catalogo(request):
     entry_dict = {"products":products}
 
     return render(request,'TSCIAP/catalogo.html',context=entry_dict)
+
+def getProducto(request, productoid):
+    try:
+        producto = get_object_or_404(Producto, pk=productoid)
+        # productname = get_object_or_404(Producto, nombre)
+    except:
+        raise Http404("Producto does not exist")
+    # return HttpResponse("Este es el Producto %s." % productoid)
+    return render(request, 'TSCIAP/productoinfo.html', {'producto': producto})
 
 def comunidades(request):
     communities_list = Comunidad.objects.all()
