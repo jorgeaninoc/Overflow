@@ -22,26 +22,23 @@ $.ajax({
   }
 })
 
-
 {% endblock %}
 </script>
-
 
 {% block content %}
 <div class="row">
   <div class="col-sm-12" url-endpoint="/api/data/">
     <h1>Hello World</h1>
-
-
+  {%for collaborators in col_list%}
+    <p>Nombre: {{collaborators.nombre}}</p>
+  {%endfor%}
+  <h1>Hello World</h1>
 
     <div class="panel panel-default">
       <div class="panel-body">
           <canvas id="myChart" width="300" height="200"></canvas>
       </div>
     </div>
-
-
-
 
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
@@ -82,34 +79,12 @@ var myChart = new Chart(ctx, {
     }
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </div>
 
 </div>
 
 
 {% endblock content %}
-
-
-
-
-
-
 
 <div class="basic">
 {% include "partials/bottom.html" %}

@@ -174,26 +174,12 @@ def get_data(request, *args, **kwargs):
         "customers":10,
     }
     return JsonResponse(data) #Jsonn Response
-
-
 class ChartData(APIView):
-    """
-    View to list all users in the system.
-
-    * Requires token authentication.
-    * Only admin users are able to access this view.
-    """
     authentication_classes = []
     permission_classes = []
-
     def get(self, request, format=None):
-        """
-        Return a list of all users.
-        """
-
-        data = {
+         data = {
             "sales": 100,
             "customers":10,
         }
-
-        return Response(data)
+         return Response(data)

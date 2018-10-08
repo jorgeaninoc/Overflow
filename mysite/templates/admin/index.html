@@ -82,5 +82,86 @@
             </ul>
             {% endif %}
     </div>
+
+
+  <div id="content-related">
+    <div class="module" id="recent-actions-module">
+      <h2>{% trans 'Reporte colaboradores' %}</h2>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+      <script>
+      {% block jquery %}
+        var endpoint = '/api/chart/data/' //{$ url "get_data"}
+        $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+          console.log(data)
+          console.log(data.customers * 1000)
+        }
+        error: function(error_data){
+          console.log("error")
+          console.log(error_data)
+        }
+      })
+      {% endblock %}
+      </script>
+
+      <div class="row">
+        <div class="col-sm-12" url-endpoint="/api/data/">
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+                <canvas id="myChart" width="300" height="200"></canvas>
+            </div>
+          </div>
+
+      <script>
+      var ctx = document.getElementById("myChart").getContext('2d');
+      var uno = 1;
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+              datasets: [{
+                  label: '# de colaboradores',
+                  data: [7, 10, 4, 5, 8, 2],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      });
+      </script>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
 </div>
 {% endblock %}
