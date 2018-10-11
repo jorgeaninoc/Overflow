@@ -1,0 +1,118 @@
+<div class="basic">
+{% load static %}
+{% load bootstrap %}
+{% load widget_tweaks %}
+{% include "partials/top.html" %}
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1">
+        <h1 class="title">
+            Noticias
+        </h1>
+
+    </div>
+  </div>
+
+<!--
+  <div>
+      <form id="form" role="form" action="{% url 'TSCIAP:search-submit' %}" method="post">
+        	{% csrf_token %}
+        	<input name="search"
+                  id="search"
+                  type="search"
+                  placeholder="Search"
+                  ic-post-to="{% url 'TSCIAP:search-ajax-submit' %}"
+          	       ic-trigger-on="keyup changed"
+          	       ic-trigger-delay="300ms"
+          	       ic-target="#search-result-container"/>
+        	<button type="submit">Submit</button>
+      </form>
+  </div>
+
+  <span id="search-result-container"></span>
+-->
+
+
+
+
+<br>
+<form method="get">
+  {% csrf_token %}
+    <div class="">
+        <h3 style="margin-top: 0">Filtrar</h3>
+        <div class="row">
+            <div class="form-group col-sm-4 col-md-3">
+                {{ filter.form.titulo.label_tag }}
+                {% render_field filter.form.titulo class="form-control" %}
+            </div>
+            <div class="form-group col-sm-4 col-md-3">
+                {{ filter.form.texto.label_tag }}
+                {% render_field filter.form.texto class="form-control" %}
+            </div>
+            <div class="form-group col-sm-4 col-md-3">
+                {{ filter.form.comunidad.label_tag }}
+                {% render_field filter.form.comunidad class="form-control" %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span> Buscar
+        </button>
+    </div>
+</form>
+
+
+
+  <hr>
+  {% if filter.qs %}
+ {% for n in filter.qs %}
+
+ <div class="row">
+   <div class="col-md-3">
+     <h3 class="title" align="left">{{ n.titulo }}</h3>
+   </div>
+   <div class="col-md-6">
+   </div>
+   <div class="col-md-3">
+     <h3 class="title" align="right">{{ n.fechaInicio }}</h3>
+   </div>
+ </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead text-justify">{{ n.texto }}</p>
+      </div>
+  </div>
+  <div class="row">
+    {% for i in n.imagenes.all %}
+    <div class="col-md-4">
+      <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
+    </div>
+    {% endfor %}
+  </div>
+  <hr>
+  {% endfor %}
+  <div class="pagination">
+    <span class="step-links">
+      <h5 class="title" align="center">
+      {% if news.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ news.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ news.number }} of {{ news.paginator.num_pages }}.
+        </span>
+
+        {% if news.has_next %}
+            <a href="?page={{ news.next_page_number }}">siguiente</a>
+            <a href="?page={{ news.paginator.num_pages }}">ultima &raquo;</a>
+        {% endif %}
+      </h5>
+    </span>
+  </div>
+  {% endif %}
+</div>
+
+<div class="basic">
+{% include "partials/bottom.html" %}
+</div>

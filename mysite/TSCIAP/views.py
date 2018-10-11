@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
+from django.template import loader
+from django.views.generic import ListView, DetailView
 from django.http import JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,6 +9,7 @@ from TSCIAP.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from TSCIAP.forms import *
+from TSCIAP.filters import *
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -65,6 +68,44 @@ def noticias(request):
     entry_dict = {"news": news}
     return render(request,'TSCIAP/noticias.html',context=entry_dict)
 
+
+class noticiasFilter(ListView):
+    model = Noticia
+    template_name = 'TSCIAP/noticiasFilter.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = NoticiaFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+
+
+class SearchSubmitView(View):
+    template = 'TSCIAP/search_submit.html'
+    """
+    template = 'TSCIAP/search_results.html'
+    """
+    response_message = 'This is the response'
+
+    def post(self, request):
+        template = loader.get_template(self.template)
+        query = request.POST.get('search', '')
+
+        # A simple query for Item objects whose title contain 'query'
+        items = Noticia.objects.filter(titulo__icontains=query)
+
+        context = {'title': self.response_message, 'query': query, 'items': items}
+
+        rendered_template = template.render(context, request)
+        return HttpResponse(rendered_template, content_type='text/html')
+
+class SearchAjaxSubmitView(SearchSubmitView):
+    template = 'TSCIAP/search_results.html'
+    response_message = 'This is the AJAX response'
+
+
+
+
 def catalogo(request):
     product_list = Producto.objects.all()
     paginator = Paginator(product_list,9)
@@ -73,6 +114,19 @@ def catalogo(request):
     entry_dict = {"products":products}
 
     return render(request,'TSCIAP/catalogo.html',context=entry_dict)
+
+
+
+class catalogoFilter(ListView):
+    model = Producto
+    template_name = 'TSCIAP/catalogoFilter.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = CatalogoFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+
 
 def getProducto(request, productoid):
     try:
@@ -92,6 +146,21 @@ def comunidades(request):
     "communities":communities
     }
     return render(request,'TSCIAP/comunidades.html',context=entry_dict)
+
+
+class comunidadesFilter(ListView):
+    model = Comunidad
+    template_name = 'TSCIAP/comunidadesFilter.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = ComunidadFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+
+
+
+
 
 
 def quiensomos(request):
