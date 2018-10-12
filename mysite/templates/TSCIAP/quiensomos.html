@@ -57,14 +57,14 @@
                                 <center><h2 class="title"><b>Visión<b></h2></center>
                           </div>
                           <div class="textWithBlurredBg">
-                            {% if visions %}
-                              <img src="../media/{{ visions.imagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
+                            {% if visions  %}
+                              <img src="../media/{{ visions.visionImagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
                             {% else %}
                               <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos"/>
                             {% endif %}
                               <p class="somosText">
                                 {% if visions %}
-                                  {{ visions.mision }}
+                                  {{ visions.vision }}
                                 {% else %}
                                   ¡Somos solidarios!
                                 {% endif %}
@@ -80,13 +80,13 @@
                           </div>
                           <div class="textWithBlurredBg">
                             {% if valores %}
-                              <img src="../media/{{ valores.imagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
+                              <img src="../media/{{ valores.valoresImagen }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
                             {% else %}
                               <img src="{% static "/index/images/agua.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos"/>
                             {% endif %}
                               <p class="somosText">
                                 {% if valores %}
-                                  {{ valores.mision }}
+                                  {{ valores.valor }}
                                 {% else %}
                                   ¡Somos solidarios!
                                 {% endif %}

@@ -182,6 +182,7 @@ def quiensomos(request):
     if len(politicas_list) >=1:
         politicas_list = politicas_list[0]
 
+    print(vision_list.visionImagen)
     entry_dict = {
     "titles":somos_list,
     "misions":mision_list,

@@ -14,7 +14,7 @@
 }
 body, html{
     background: url("../index/images/circulos.png") no-repeat center center fixed;
-    background-size: 80% 80%;
+    background-size: 45% 90%;
 }
 
 .videoWrapper {
@@ -50,7 +50,7 @@ body, html{
 
 .footer {
     clear: both;
-    position: relative;
+    position: static;
     width: 100%;
     background-color: #f48fb1;
     color: white;
