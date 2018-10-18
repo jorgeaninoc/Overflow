@@ -252,11 +252,17 @@ class ChartView(View):
         return render(request, 'charts.html', {})
 
 def get_data(request, *args, **kwargs):
-    data= {
-        "sales":100,
-        "customers":10,
+    queryset = Foo.objects.all()
+    dates = [obj.created for obj in queryset]
+    counts = [obj.amount for obj in queryset]
+    context = {
+        'dates': json.dumps(dates),
+        'counts': json.dumps(counts),
     }
-    return JsonResponse(data) #Jsonn Response
+
+    return render(request, template, context)#Jsonn Response
+
+
 class ChartData(APIView):
     authentication_classes = []
     permission_classes = []

@@ -81,12 +81,9 @@
             {% endfor %}
             </ul>
             {% endif %}
-    </div>
 
 
-  <div id="content-related">
-    <div class="module" id="recent-actions-module">
-      <h2>{% trans 'Reporte colaboradores' %}</h2>
+      <h2>{% trans 'Reporte visitas' %}</h2>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 
       <script>
@@ -95,14 +92,6 @@
         $.ajax({
         method: "GET",
         url: endpoint,
-        success: function(data){
-          console.log(data)
-          console.log(data.customers * 1000)
-        }
-        error: function(error_data){
-          console.log("error")
-          console.log(error_data)
-        }
       })
       {% endblock %}
       </script>
@@ -117,7 +106,38 @@
           </div>
 
       <script>
-      var ctx = document.getElementById("myChart").getContext('2d');
+          var ctx = document.getElementById('myChart');
+           var dates = JSON.parse('{{ dates|safe }}');
+           var counts = JSON.parse('{{ counts|safe }}');
+           var myChart = new Chart(ctx, {
+               type: 'line',
+               data: {
+                   labels: dates,
+                   datasets: [
+                       {
+                           data: counts,
+                           label: 'Counts',
+                       }
+                   ]
+               }
+           })
+
+         </script>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12" url-endpoint="/api/data/">
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+                <canvas id="myChart2" width="300" height="200"></canvas>
+            </div>
+          </div>
+
+      <script>
+      /*var ctx = document.getElementById("myChart").getContext('2d');
       var uno = 1;
       var myChart = new Chart(ctx, {
           type: 'line',
@@ -154,11 +174,90 @@
                   }]
               }
           }
-      });
-      </script>
-        </div>
+      });*/
+          var ctx = document.getElementById('myChart');
+           var dates = JSON.parse('{{ dates|safe }}');
+           var counts = JSON.parse('{{ counts|safe }}');
+           var myChart = new Chart(ctx, {
+               type: 'line',
+               data: {
+                   labels: dates,
+                   datasets: [
+                       {
+                           data: counts,
+                           label: 'Counts',
+                       }
+                   ]
+               }
+           })
 
-      </div>
+         </script>
+
+
+          <h2>{% trans 'Reporte colaboradores' %}</h2>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+          <div class="row">
+            <div class="col-sm-12" url-endpoint="/api/data/">
+
+              <div class="panel panel-default">
+                <div class="panel-body">
+                    <canvas id="myChart" width="300" height="200"></canvas>
+                </div>
+              </div>
+
+          <script>
+              var ctx = document.getElementById('myChart');
+               var dates = JSON.parse('{{ dates|safe }}');
+               var counts = JSON.parse('{{ counts|safe }}');
+               var myChart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                       labels: dates,
+                       datasets: [
+                           {
+                               data: counts,
+                               label: 'Counts',
+                           }
+                       ]
+                   }
+               })
+
+             </script>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12" url-endpoint="/api/data/">
+
+              <div class="panel panel-default">
+                <div class="panel-body">
+                    <canvas id="myChart2" width="300" height="200"></canvas>
+                </div>
+              </div>
+
+          <script>
+              var ctx = document.getElementById('myChart');
+               var dates = JSON.parse('{{ dates|safe }}');
+               var counts = JSON.parse('{{ counts|safe }}');
+               var myChart = new Chart(ctx, {
+                   type: 'line',
+                   data: {
+                       labels: dates,
+                       datasets: [
+                           {
+                               data: counts,
+                               label: 'Counts',
+                           }
+                       ]
+                   }
+               })
+
+             </script>
+            </div>
+
+          </div>
 
     </div>
   </div>
