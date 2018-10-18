@@ -34,7 +34,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'TSCIAP.apps.TSCIAPConfig',
+    'Inicio.apps.InicioConfig',
+    'Comunidades.apps.ComunidadesConfig',
+    'Catalogo.apps.CatalogoConfig',
+    'Contacto.apps.ContactoConfig',
+    'Colabora.apps.ColaboraConfig',
+    'Actividades.apps.ActividadesConfig',
+    'Somos.apps.SomosConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
