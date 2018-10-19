@@ -14,8 +14,6 @@ class LogInOutTest(TestCase):
         loginresponse = self.client.login(username='user',password='passphrase')
         self.assertTrue(loginresponse) # should now return "true"
 
-
-
     def testLogOut(self):
         self.client = Client()
         self.client.login(username='fred', password='secret')
