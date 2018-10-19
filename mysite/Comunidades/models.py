@@ -25,7 +25,7 @@ class Imagen(models.Model):
 # Table Community
 class Comunidad(models.Model):
     nombre = models.CharField(max_length=255,unique=True,null=False)
-    descripcion = models.TextField(null=False)
+    descripcion = models.TextField()
     imagenes = models.ManyToManyField(Imagen)
 
     def __str__(self):
