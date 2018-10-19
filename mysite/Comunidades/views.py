@@ -41,8 +41,10 @@ class SearchSubmitView(View):
         # A simple query for Item objects whose title contain 'query'
         items = Noticia.objects.filter(titulo__icontains=query)
 
+        # Declare dictionary with info that is going to be sent to the html
         context = {'title': self.response_message, 'query': query, 'items': items}
 
+        # Save the rendered template
         rendered_template = template.render(context, request)
         return HttpResponse(rendered_template, content_type='text/html')
 
