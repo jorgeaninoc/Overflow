@@ -52,7 +52,7 @@ class SearchAjaxSubmitView(SearchSubmitView):
     template = 'search_results.html'
     response_message = 'This is the AJAX response'
 
-# Declare function for showing communities in the url
+# Declare function for showing communities sitel
 def comunidades(request):
     # Get all the objects from the communities model
     communities_list = Comunidad.objects.all()
