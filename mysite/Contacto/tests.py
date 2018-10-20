@@ -1,6 +1,6 @@
 """
 Created by Framework
-This file is where the tests of Colabora are declared.
+This file is where the tests of Contacto are declared.
 Modified by: Maritza
 Modification date: 19/10/18
 """
