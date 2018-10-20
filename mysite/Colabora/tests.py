@@ -2,7 +2,7 @@
 Created by Framework
 This file is where the tests of Colabora are declared.
 Modified by: Maritza
-Date: 19/10/18
+Modification date: 19/10/18
 """
 from django.test import TestCase
 
