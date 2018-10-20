@@ -4,14 +4,17 @@ This file is where the urls of Comunidades are declared for search and for consu
 Modified by: Jorge Nino
 Date: 19/10/18
 """
+# Import the libraries used
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
 
-
+# Declare the app name
 app_name = 'Comunidades'
+
+# Declare the url patterns
 urlpatterns = [
     # ex: /polls/
 

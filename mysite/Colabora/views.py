@@ -36,21 +36,29 @@ def colabora(request):
         form = ColaboradorForm(request.POST)
         # Check if the form is valid
         if form.is_valid():
+            # If the form is valid create an object of the model Colaborador
             c = Colaborador()
+            # Set the attributed of the Colaborador object according to the form
             c.nombre = request.POST.get('nombre')
             c.telefono = request.POST.get('telefono')
             c.correo = request.POST.get('correo')
             c.empresa = request.POST.get('empresa')
+            # Save the object to the db
             c.save()
+            # Reload the site
             return HttpResponseRedirect('')
     else:
+        # Declare a new object for the form of Colabora
         form = ColaboradorForm()
 
+    # If theres more than one Image for Colabora site, get the last one uploaded
     if len(icolab) >= 1:
         icolab = icolab[0]
 
+    # Declare the dict that will be sent to the Colabora site
     entry_dict = {
     "form":form,
     "icolab":icolab
     }
+    # Render Colabora site
     return render(request, 'Colabora/colabora.html',context=entry_dict)
