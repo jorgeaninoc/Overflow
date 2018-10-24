@@ -36,3 +36,17 @@ class EditCommunitiesTest(TestCase):
         c = self.testCreateCommunity()
         c.nombre='Prueba E'
         self.assertTrue(c.nombre,'Prueba E')
+
+class DeleteCommunitiesTest(TestCase):
+    def testCreateCommunity(self):
+        i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+        im = Imagen.objects.get(nombre='Prueba I')
+        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+        c.imagenes.add(im)
+        co = Comunidad.objects.get(nombre='Prueba C')
+        return co
+
+    def testDeleteCommunities(self):
+        c = self.testCreateCommunity()
+        c.delete()
+        self.assertTrue(c,None)
