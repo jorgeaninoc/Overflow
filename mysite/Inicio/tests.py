@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 
 class LogInOutTest(TestCase):
@@ -19,3 +20,16 @@ class LogInOutTest(TestCase):
         self.client.login(username='fred', password='secret')
         response = self.client.get('/admin/logout/')
         self.assertEqual(response.status_code, 302)
+
+
+class AddAnnouncementTest(TestCase):
+
+    def testCreateAnnouncement(self):
+        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+        an = Anuncio.objects.get(titulo='Prueba A')
+        return an
+
+
+    def testEditNews(self):
+        w = self.testCreateAnnouncement()
+        self.assertTrue(isinstance(w,Anuncio))
