@@ -30,6 +30,19 @@ class AddAnnouncementTest(TestCase):
         return an
 
 
-    def testEditNews(self):
+    def testAddAnnouncement(self):
         w = self.testCreateAnnouncement()
         self.assertTrue(isinstance(w,Anuncio))
+
+class EditAnnouncementTest(TestCase):
+
+    def testCreateAnnouncement(self):
+        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+        an = Anuncio.objects.get(titulo='Prueba A')
+        return an
+
+
+    def testEditAnnouncement(self):
+        w = self.testCreateAnnouncement()
+        w.titulo='Prueba B'
+        self.assertTrue(w.titulo,'Prueba B')
