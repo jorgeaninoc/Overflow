@@ -1,0 +1,16 @@
+<div class="basic">
+{% load static %}
+{% include "partials/top.html" %}
+</div>
+
+
+{% if query %}
+    {% include 'TSCIAP/search_results.html' %}
+{% else %}
+    <h1 class="h3">Nothing found. <br>Try entering an actual search term.</h1>
+{% endif %}
+
+
+<div class="basic">
+{% include "partials/bottom.html" %}
+</div>

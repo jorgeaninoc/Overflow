@@ -16,6 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 STATIC_DIR = os.path.join(BASE_DIR,"static")
+MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,14 +34,23 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'noticias.apps.NoticiasConfig',
-    'catalogo.apps.CatalogoConfig',
+    'Inicio.apps.InicioConfig',
+    'Comunidades.apps.ComunidadesConfig',
+    'Catalogo.apps.CatalogoConfig',
+    'Contacto.apps.ContactoConfig',
+    'Colabora.apps.ColaboraConfig',
+    'Actividades.apps.ActividadesConfig',
+    'Somos.apps.SomosConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters',
+    'bootstrapform',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -80,8 +90,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+       # 'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tsci',
+        'USER': 'root',
+        'PASSWORD':'Overflow953687',
+        'HOST': '127.0.0.1',
+        'PORT':'3306'
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -108,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -125,5 +141,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     STATIC_DIR,
-
+    MEDIA_ROOT,
 ]
+
+MEDIA_URL = '/media/'

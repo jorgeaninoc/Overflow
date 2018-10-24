@@ -1,0 +1,65 @@
+<div class="basic">
+{% load static %}
+{% include "partials/top.html" %}
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-1">
+        <h1 class="title">
+            Actividades
+        </h1>
+
+    </div>
+  </div>
+  <hr>
+  {% if news %}
+ {% for n in news %}
+ <div class="row">
+   <div class="col-md-3">
+     <h3 class="title" align="left">{{ n.titulo }}</h3>
+   </div>
+   <div class="col-md-6">
+   </div>
+   <div class="col-md-3">
+     <h3 class="title" align="right">{{ n.fechaInicio }}</h3>
+   </div>
+ </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="lead text-justify">{{ n.texto }}</p>
+      </div>
+  </div>
+  <div class="row">
+    {% for i in n.imagenes.all %}
+    <div class="col-md-4">
+      <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
+    </div>
+    {% endfor %}
+  </div>
+  <hr>
+  {% endfor %}
+  <div class="pagination">
+    <span class="step-links">
+      <h5 class="title" align="center">
+      {% if news.has_previous %}
+            <a href="?page=1">&laquo; primera</a>
+            <a href="?page={{ news.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ news.number }} of {{ news.paginator.num_pages }}.
+        </span>
+
+        {% if news.has_next %}
+            <a href="?page={{ news.next_page_number }}">siguiente</a>
+            <a href="?page={{ news.paginator.num_pages }}">ultima &raquo;</a>
+        {% endif %}
+      </h5>
+    </span>
+  </div>
+  {% endif %}
+</div>
+
+<div class="basic">
+{% include "partials/bottom.html" %}
+</div>

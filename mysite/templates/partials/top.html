@@ -2,57 +2,71 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    
-    <link rel="stylesheet" type="text/css" href="{% static '/index/css/styles.css' %}">
+    <script src="{% static '/js/script.js' %}"></script>
 
+    <!-- Add intercooler library   -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://intercoolerreleases-leaddynocom.netdna-ssl.com/intercooler-1.1.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
   <meta charset="UTF-8">
     <title>Todos Somos Comunidad</title>
 </head>
-<nav class="navbar navbar-expand navbar-left navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'index:index' %}">
-      <img src="{% static "/index/images/logo.png" %}" height="80" width="75"/>
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<body>
+  <nav class="navbar navbar-default">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+          <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a id="logo" class="navbar-brand" href="{% url 'Inicio:index' %}"><img src="{% static "/index/images/logo.png" %}" alt="Dispute Bills"></a>
+          <!--<a href="#" class="navbar-brand"><img src="{% static "/index/images/logo.png" %}" height="40" width="35"/></a>-->
+      </div>
+      <!-- Collection of nav links and other content for toggling -->
+      <div id="navbarCollapse" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+              <li class="active"><a href="{% url 'Inicio:index' %}">Inicio</a></li>
+              <li><a href="{% url 'Somos:quiensomos' %}">Quienes Somos</a></li>
+              <li><a href="{% url 'Actividades:actividades' %}">Actividades</a></li>
+              <li><a href="{% url 'Comunidades:comunidades' %}">Comunidades</a></li>
+              <li><a href="{% url 'Colabora:colabora' %}">Colabora</a></li>
+              <li><a href="{% url 'Catalogo:catalogo' %}">Catálogo</a></li>
+              <li><a href="{% url 'Contacto:contactanos' %}">Contacto</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="#!"><img src="{% static "/index/images/Grocery_Cart.png" %}" height="20px"></a></li>
+             <!--  <li><a href="#!">PayPal</a></li> -->
+             <!-- PAYPAL DONATION -->
+             <li style="padding-top: 10px;"><!-- <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                  <input type="hidden" name="cmd" value="_s-xclick">
+                  <input type="hidden" name="hosted_button_id" value="LGTHJAR7947WY">
+                  <input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
+                  <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"> </form> -->
+                  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                      <input type="hidden" name="cmd" value="_s-xclick">
+                      <input type="hidden" name="hosted_button_id" value="LGTHJAR7947WY">
+                      <input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
+                      <!-- <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1"> -->
+                </form>
+             </li>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:index' %}">Inicio<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:quiensomos' %}">Somos<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:noticias' %}">Noticias<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:comunidades' %}">Comunidades<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:colabora' %}">Colabora<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:catalogo' %}">Catálogo<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'index:contactanos' %}">Contacto<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="#"> <!-- Boton de Donaciones -->
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="LGTHJAR7947WY">
-        <input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
-        <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
-        </form>
-        <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-  </div>
-</nav>
+          </ul>
+      </div>
+  </nav>
+  <!-- Al parecer si se inserta el script aqui el codigo funciona -->
+
+  <!-- Ademas, el codigo que se uso es distinto al que se tiene en script.js -->
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('li.active').removeClass('active');
+        $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+      });
+  </script>
+  <br>
