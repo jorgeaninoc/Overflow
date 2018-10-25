@@ -2,7 +2,7 @@
 {% load static %}
 {% include "partials/top.html" %}
 </div>
-<div class="container">
+<div class="container panel">
   <div class="row">
     <div class="col-sm-1">
         <h1 class="title">
@@ -14,13 +14,13 @@
   <hr>
   {% if communities %}
  {% for c in communities %}
- <div class="row">
+ <div class="row panel">
     <div class="col-md-12">
       <h3 class="title">{{ c.nombre }}</h3>
       <p class="lead text-justify">{{ c.descripcion }}</p>
     </div>
   </div>
-  <div class="row">
+  <div class="row panel">
     {% for i in c.imagenes.all %}
     <div class="col-md-4">
       <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
