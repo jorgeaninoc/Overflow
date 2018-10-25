@@ -4,7 +4,7 @@
 </div>
 <div class="container">
 
-    <div class="row">
+    <div class="row panel">
         <div class="col-sm-4">
             <h1 class="title">
                 Catálogo
@@ -17,7 +17,7 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div class="row panel">
       {% for p in products %}
         <div class="col-md-4">
           {% for i in p.imagenes.all|slice:":1" %}

@@ -37,9 +37,9 @@
       </div>
       <div class="col-md-6">
         {% if icolab %}
-          <img src="../media/{{ icolab.path }}" class="text-center" alt="Imagen no encontrada"/>
+          <img src="../media/{{ icolab.path }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
         {% else %}
-          <img src="{% static "/index/images/ninos.jpg" %}" class=" text-center" alt="ninos" />
+          <img src="{% static "/index/images/ninos.jpg" %}" class="img-thumbnail img-fluid text-center" alt="ninos" />
         {% endif %}
       </div>
     </div>
