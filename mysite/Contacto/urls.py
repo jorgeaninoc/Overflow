@@ -8,7 +8,7 @@ from . import views
 app_name = 'Contacto'
 urlpatterns = [
     # ex: /polls/
-    path('contactanos/', views.contactanos, name='contactanos'),
+    path('contacto/', views.contactanos, name='contacto'),
 ]
 
 if settings.DEBUG:
