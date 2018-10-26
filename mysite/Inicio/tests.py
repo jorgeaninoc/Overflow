@@ -60,9 +60,17 @@ class DeleteAnnouncementTest(TestCase):
         w.delete()
         self.assertTrue(w,None)
 
+
+"""
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
 class AddRoleTest(TestCase):
 
-    def testCreateNews(self):
+    def testCreateRole(self):
         i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
         im = Imagen.objects.get(nombre='Prueba O')
         c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
@@ -74,14 +82,20 @@ class AddRoleTest(TestCase):
         return n
 
 
-    def testAddNews(self):
-        w = self.testCreateNews()
+    def testAddRole(self):
+        w = self.testCreateRole()
         self.assertTrue(isinstance(w, Noticia))
 
+"""
+Created by Framework
+This file is where the tests of Edit Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
 
 class EditRoleTest(TestCase):
 
-    def testCreateNews(self):
+    def testCreateRole(self):
         i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
         im = Imagen.objects.get(nombre='Prueba O')
         c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
@@ -93,20 +107,27 @@ class EditRoleTest(TestCase):
         return n
 
 
-    def testEditNews(self):
-        w = self.testCreateNews()
+    def testEditRole(self):
+        w = self.testCreateRole()
         w.titulo = 'Prueba N'
         self.assertTrue(w.titulo,'Prueba N')
 
+"""
+Created by Framework
+This file is where the tests of Delete Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
 class DeleteRoleTest(TestCase):
 
-    def testCreateAnnouncement(self):
+    def testCreateRole(self):
         a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
         an = Anuncio.objects.get(titulo='Prueba A')
         return an
 
 
-    def testDeleteAnnouncement(self):
-        w = self.testCreateAnnouncement()
+    def testDeleteRole(self):
+        w = self.testCreateRole()
         w.delete()
         self.assertTrue(w,None)
