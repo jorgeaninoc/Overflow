@@ -10,6 +10,8 @@ from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
 from Somos.models import Mision
+from Catalogo.models import Producto
+from Comunidades.models import Comunidad
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
@@ -170,8 +172,9 @@ Modification date: 25/10/18
 class EditMVHTest(TestCase):
 
     def testCreateMVH(self):
-        g = Mision.objects.create(nombre="Prueba A")
-        gr = Mision.objects.get(nombre='Prueba A')
+        g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+        gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+
         return gr
 
     def testEditMVH(self):
@@ -183,7 +186,7 @@ class EditMVHTest(TestCase):
 Created by Framework
 This file is where the tests of Delete Mission and Vission are declared.
 Modified by: Maritza
-Modification date: 25/10/18
+Modification date: 26/10/18
 """
 class DeleteMVHTest(TestCase):
 
@@ -196,3 +199,26 @@ class DeleteMVHTest(TestCase):
         w = self.testCreateMVH()
         w.delete()
         self.assertTrue(w,None)
+
+"""
+Created by Framework
+This file is where the tests of Add Products to catalog are declared.
+Modified by: Maritza
+Modification date: 26/10/18
+"""
+class AddProductsCatalog(TestCase):
+
+    def testCreateCommunity(self):
+        c = Comunidad.objects.create(nombre='Prueba A', descripcion = 'Lorem ipsum')
+        co = Comunidad.objects.get(nombre='Prueba A', descripcion = 'Lorem ipsum')
+
+    def testCreateProduct(self):
+        n = Producto.objects.create(nombre='Prueba B', precio='15',
+                                    communidad = 'Prueba A', subCat = 'dol sit')
+        nv = Producto.objects.get(nombre='Prueba B', precio='15',
+                                    communidad = 'Prueba A', subCat = 'dol sit')
+        return nv
+
+    def testAddProductC(self):
+        w = self.testCreateProduct()
+        self.assertTrue(isinstance(w, Producto))
