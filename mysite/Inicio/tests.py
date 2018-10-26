@@ -154,7 +154,7 @@ class AddMVHTest(TestCase):
     def testCreateMVH(self):
         i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
         im = Imagen.objects.get(nombre='Prueba O')
-        n = Somos.objects.create(nombre='Prueba A', mission='Lorem Ipsum')
+        n = Somos.objects.create(nombre='Prueba A',texto='Lorem Ipsum')
         n.imagenes.add(im)
 
         return n
@@ -169,16 +169,14 @@ This file is where the tests of Edit Mission and Vission are declared.
 Modified by: Maritza
 Modification date: 25/10/18
 """
-class AddMVHTest(TestCase):
+class EditMVHTest(TestCase):
 
     def testCreateMVH(self):
-        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba O')
-        n = Somos.objects.create(nombre='Prueba A' , texto='Lorem Ipsum')
-        n.imagenes.add(im)
+        g = Somos.objects.create(nombre="Prueba A")
+        gr = Somos.objects.get(nombre='Prueba A')
+        return gr
 
-        return n
-
-    def testAddRole(self):
+    def testEditMVH(self):
         w = self.testCreateMVH()
-        self.assertTrue(isinstance(w, Somos))
+        w.nombre = 'Prueba B'
+        self.assertTrue(w.nombre,'Prueba B')
