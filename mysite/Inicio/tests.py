@@ -70,21 +70,14 @@ Modification date: 25/10/18
 
 class AddRoleTest(TestCase):
 
-    def testCreateRole(self):
-        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba O')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        co = Comunidad.objects.get(nombre='Prueba C')
-        n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
-        fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
-        ,comunidad=co)
-        n.imagenes.add(im)
-        return n
-
+    def testCreatRole(self):
+        g = Grupo.objects.create(titulo="Prueba A")
+        gr = Grupo.objects.get(titulo='Prueba A')
+        return gr
 
     def testAddRole(self):
         w = self.testCreateRole()
-        self.assertTrue(isinstance(w, Noticia))
+        self.assertTrue(isinstance(w, Grupo))
 
 """
 Created by Framework
@@ -95,22 +88,15 @@ Modification date: 25/10/18
 
 class EditRoleTest(TestCase):
 
-    def testCreateRole(self):
-        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba O')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        co = Comunidad.objects.get(nombre='Prueba C')
-        n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
-        fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
-        ,comunidad=co)
-        n.imagenes.add(im)
-        return n
-
+    def testCreatRole(self):
+        g = Grupo.objects.create(titulo="Prueba A")
+        gr = Grupo.objects.get(titulo='Prueba A')
+        return gr
 
     def testEditRole(self):
         w = self.testCreateRole()
-        w.titulo = 'Prueba N'
-        self.assertTrue(w.titulo,'Prueba N')
+        w.titulo = 'Prueba B'
+        self.assertTrue(w.titulo,'Prueba B')
 
 """
 Created by Framework
@@ -120,12 +106,10 @@ Modification date: 25/10/18
 """
 
 class DeleteRoleTest(TestCase):
-
-    def testCreateRole(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
-
+    def testCreatRole(self):
+        g = Grupo.objects.create(titulo="Prueba A")
+        gr = Grupo.objects.get(titulo='Prueba A')
+        return gr
 
     def testDeleteRole(self):
         w = self.testCreateRole()
