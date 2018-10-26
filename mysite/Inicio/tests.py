@@ -15,8 +15,9 @@ from Comunidades.models import Comunidad
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
+
 
 """
 Function LogIn-logOut.
@@ -111,6 +112,11 @@ return roleCreated
 
 class AddRoleTest(TestCase):
 
+    def newAdmin(self):
+        self.my_admin = User(username='user', is_staff=True)
+        my_group = Group.objects.get(name='user')
+        my_group.user_set.add(your_user)
+
     def testCreateRole(self):
         g = Comunidad.objects.create(nombre="Prueba A")
         gr = Comunidad.objects.get(nombre='Prueba A')
@@ -156,7 +162,6 @@ class DeleteRoleTest(TestCase):
         w = self.testCreateRole()
         w.delete()
         self.assertTrue(w,None)
-
 
 
 """
@@ -231,3 +236,16 @@ class DeleteMVHTest(TestCase):
         w = self.testCreateMVH()
         w.delete()
         self.assertTrue(w,None)
+
+"""
+Function Consult visits graphics.
+Function description: The admin/editor can view visits report.
+Function parameters: testCase
+return MisionCreated
+"""
+class ConsulReportTest(TestCase):
+    # This function gets the site /colabora and returns if it is possible to access it.
+    def testReports(self):
+        self.client = Client()
+        response = self.client.get('/admin')
+        self.assertEqual(response.status_code, 301)
