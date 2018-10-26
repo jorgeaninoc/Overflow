@@ -1,8 +1,8 @@
 """
 Created by Framework
 This file is where you can create tests for the App
-Modified by: Jorge Nino
-Date: 19/10/18
+Modified by: Abraham Lemus
+Date: 26/10/18
 """
 # Import libraries that will be used.
 from django.contrib.auth.models import User
@@ -15,7 +15,7 @@ import django
 
 
 
-# Test for UC: Consult News
+# Test for UC: Consult Mission from "Somos" app
 class ConsultMissionTest(TestCase):
     # Function that will be tested.
     def testConsultMission(self):
