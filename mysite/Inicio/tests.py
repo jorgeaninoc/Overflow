@@ -59,3 +59,54 @@ class DeleteAnnouncementTest(TestCase):
         w = self.testCreateAnnouncement()
         w.delete()
         self.assertTrue(w,None)
+
+class AddRoleTest(TestCase):
+
+    def testCreateNews(self):
+        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+        im = Imagen.objects.get(nombre='Prueba O')
+        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+        co = Comunidad.objects.get(nombre='Prueba C')
+        n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
+        fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
+        ,comunidad=co)
+        n.imagenes.add(im)
+        return n
+
+
+    def testAddNews(self):
+        w = self.testCreateNews()
+        self.assertTrue(isinstance(w, Noticia))
+
+
+class EditRoleTest(TestCase):
+
+    def testCreateNews(self):
+        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+        im = Imagen.objects.get(nombre='Prueba O')
+        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+        co = Comunidad.objects.get(nombre='Prueba C')
+        n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
+        fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
+        ,comunidad=co)
+        n.imagenes.add(im)
+        return n
+
+
+    def testEditNews(self):
+        w = self.testCreateNews()
+        w.titulo = 'Prueba N'
+        self.assertTrue(w.titulo,'Prueba N')
+
+class DeleteRoleTest(TestCase):
+
+    def testCreateAnnouncement(self):
+        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+        an = Anuncio.objects.get(titulo='Prueba A')
+        return an
+
+
+    def testDeleteAnnouncement(self):
+        w = self.testCreateAnnouncement()
+        w.delete()
+        self.assertTrue(w,None)
