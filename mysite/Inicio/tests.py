@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
+from datetime import datetime as dt
+from datetime import timedelta as td
+import django
 
 class LogInOutTest(TestCase):
     def setUp(self):
@@ -126,22 +129,8 @@ Modification date: 25/10/18
 
 class AssignRoleTest(TestCase):
 
-    def testCreateNews(self):
-        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba O')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        co = Comunidad.objects.get(nombre='Prueba C')
-        n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
-        fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
-        ,comunidad=co)
-        n.imagenes.add(im)
-        return n
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
 
-
-    def testAssignRole(self):
-        n = User.objects.create(nombre="Nombre A")
-        nm = User.objects.get(nombre="Nombre A")
-        a = User.objects.create(apellido="Apellido A")
-        ap = User.objects.get(apellido="Apellido A")
-
-        return ap
+    
