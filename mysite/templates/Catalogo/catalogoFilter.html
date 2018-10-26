@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 {% include "partials/top.html" %}
 </div>
-<div class="container">
+<div class="container panel">
 
     <div class="row">
         <div class="col-sm-4">
@@ -14,9 +14,7 @@
         </div>
         <div class="col-sm-4">
         </div>
-        <div class="col-sm-4">
-            <input type="text" placeholder="Search..">
-        </div>
+      
     </div>
 
 
@@ -56,7 +54,7 @@
       {% for p in filter.qs %}
         <div class="col-md-4">
           {% for i in p.imagenes.all|slice:":1" %}
-          <a href="{% url 'Catalogo:producto' p.id %}"><img src="../media/{{ i.path }}" class="catalogo img-circle bor" alt="Imagen no encontrada." /></a>
+          <a href="{% url 'Catalogo:producto' p.id %}"><img src="../media/{{ i.path }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada." /></a>
           {% endfor %}
           <h3 class="title" align="" style="padding-left: 60px;">Nombre: {{ p.nombre }}</h3>
           <h3 class="title" align="" style="padding-left: 60px;">Precio: {{ p.precio }}$</h3>

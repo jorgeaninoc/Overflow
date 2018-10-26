@@ -20,7 +20,7 @@
       <p class="lead text-justify">{{ c.descripcion }}</p>
     </div>
   </div>
-  <div class="row panel">
+  <div class="row">
     {% for i in c.imagenes.all %}
     <div class="col-md-4">
       <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
