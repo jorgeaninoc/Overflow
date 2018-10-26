@@ -8,8 +8,16 @@
 
 </div>
 <!-- <br><br> -->
+
 <div class=" card-group container border-right border-light w-75 bg-white text-dark panel">
     <!-- <br><br><br> -->
+    {% if messages %}
+        {% for message in messages %}
+        <div {% if message.tags %}  class="alert alert-success {{ message.tags }}"{% endif %}>
+          <strong>¡Exito!</strong> {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
     <h1 class="title">
         Colabora con nosotros
     </h1>

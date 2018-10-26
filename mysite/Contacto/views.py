@@ -9,6 +9,7 @@ from Contacto.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Contacto.forms import *
+from django.contrib import messages
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -27,6 +28,7 @@ def contactanos(request):
             m.mensaje = request.POST.get('mensaje')
             print(m.nombre,m.mensaje,m.correo)
             m.save()
+            messages.success(request, 'Tu mensaje ha sido enviado.')
             return HttpResponseRedirect('')
         else:
             form = MensajeForm()
