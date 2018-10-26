@@ -101,6 +101,78 @@ class DeleteAnnouncementTest(TestCase):
         w.delete()
         self.assertTrue(w,None)
 
+"""
+Function Add Mission and Vission.
+Function description: The admin/editor can Add Mission and Vission.
+Function parameters: testCase
+return MisionCreated
+"""
+class AddMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+        nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+
+        return nv
+
+    def testAddMVH(self):
+        w = self.testCreateMVH()
+        self.assertTrue(isinstance(w, Mision))
+
+"""
+Function Edit Mission and Vission.
+Function description: The admin/editor can Edit Mission and Vission.
+Function parameters: testCase
+return MisionCreated
+"""
+class EditMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+        gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+
+        return gr
+
+    def testEditMVH(self):
+        w = self.testCreateMVH()
+        w.nombre = 'Prueba B'
+        self.assertTrue(w.nombre,'Prueba B')
+
+
+
+"""
+Function Delete Mission and Vission.
+Function description: The admin/editor can Delete Mission and Vission.
+Function parameters: testCase
+return MisionCreated
+"""
+class DeleteMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Mision.objects.create(nombre="Prueba A")
+        gr = Mision.objects.get(nombre='Prueba A')
+        return gr
+
+    def testDeleteRole(self):
+        w = self.testCreateMVH()
+        w.delete()
+        self.assertTrue(w,None)
+
+"""
+Function Add Products to shopping catalog.
+Function description: The admin/editor can  Add Products to shopping catalog.
+Function parameters: testCase
+return productCreated
+"""
+
+class AddProductCatalog(TestCase):
+
+    def testCreateProduct(self):
+        g = Producto.objects.create(nombre="Prueba A")
+        gr = Producto.objects.get(nombre='Prueba A')
+
+        return gr
+
 
 """
 Function Add Role.
@@ -173,61 +245,3 @@ class AssignRoleTest(TestCase):
         gr = Comunidad.objects.get(nombre='Prueba A')
 
         return gr
-
-
-"""
-Function Add Mission and Vission.
-Function description: The admin/editor can Add Mission and Vission.
-Function parameters: testCase
-return MisionCreated
-"""
-class AddMVHTest(TestCase):
-
-    def testCreateMVH(self):
-        n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
-        nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
-
-        return nv
-
-    def testAddMVH(self):
-        w = self.testCreateMVH()
-        self.assertTrue(isinstance(w, Mision))
-
-"""
-Function Edit Mission and Vission.
-Function description: The admin/editor can Edit Mission and Vission.
-Function parameters: testCase
-return MisionCreated
-"""
-class EditMVHTest(TestCase):
-
-    def testCreateMVH(self):
-        g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
-        gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
-
-        return gr
-
-    def testEditMVH(self):
-        w = self.testCreateMVH()
-        w.nombre = 'Prueba B'
-        self.assertTrue(w.nombre,'Prueba B')
-
-
-
-"""
-Function Delete Mission and Vission.
-Function description: The admin/editor can Delete Mission and Vission.
-Function parameters: testCase
-return MisionCreated
-"""
-class DeleteMVHTest(TestCase):
-
-    def testCreateMVH(self):
-        g = Mision.objects.create(nombre="Prueba A")
-        gr = Mision.objects.get(nombre='Prueba A')
-        return gr
-
-    def testDeleteRole(self):
-        w = self.testCreateMVH()
-        w.delete()
-        self.assertTrue(w,None)
