@@ -5,7 +5,6 @@ Modified by: Jorge Nino
 Date: 19/10/18
 """
 # Import libraries needed
-from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
@@ -18,6 +17,7 @@ import django
 from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
 
+<<<<<<< HEAD
 
 """
 Function LogIn-logOut.
@@ -25,69 +25,78 @@ Function description: The admin/editor can login/logout.
 Function parameters: testCase
 return none
 """
+=======
+>>>>>>> c11761c467151f6c2b63c164c59c916bec6a51ee
 class LogInOutTest(TestCase):
-    def setUp(self):
+
+
+    def testLogInAdmin(self):
         self.client = Client()
+        response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
         self.my_admin.set_password('passphrase') # can't set above because of hashing
         self.my_admin.save() # needed to save to temporary test db
-
-    def testLogIn(self):
-        response = self.client.get('/admin/', follow=True)
         loginresponse = self.client.login(username='user',password='passphrase')
         self.assertTrue(loginresponse) # should now return "true"
 
-    def testLogOut(self):
+    def testLogOutAdmin(self):
         self.client = Client()
-        self.client.login(username='fred', password='secret')
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
         response = self.client.get('/admin/logout/')
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
 
-"""
-Function Add announcement.
-Function description: The admin/editor can Add announcement.
-Function parameters: testCase
-return announcementCreated
-"""
+    def testLogInEditor(self):
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(pk=1)
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        self.assertTrue(loginresponse) # should now return "true"
+
+
 class AddAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
 
+    def testAddAnnouncementAdmin(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+        self.assertTrue(an,c)
 
-    def testAddAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        self.assertTrue(isinstance(w,Anuncio))
-
-"""
-Function Edit announcement.
-Function description: The admin/editor can Edit announcement.
-Function parameters: testCase
-return announcementCreated
-"""
 class EditAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
-
-
-    def testEditAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        w.titulo='Prueba B'
-        self.assertTrue(w.titulo,'Prueba B')
-
-
-"""
-Function Delete announcement.
-Function description: The admin/editor can Delete announcement.
-Function parameters: testCase
-return announcementCreated
-"""
+    def testEditAnnouncementAdmin(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            an.titulo='Prueba B'
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba B')
+        self.assertTrue(an,c)
 
 class DeleteAnnouncementTest(TestCase):
 
@@ -104,10 +113,10 @@ class DeleteAnnouncementTest(TestCase):
 
 
 """
-Function Add Role.
-Function description: The admin/editor can Add Role.
-Function parameters: testCase
-return roleCreated
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 
 class AddRoleTest(TestCase):
@@ -127,10 +136,10 @@ class AddRoleTest(TestCase):
         self.assertTrue(isinstance(w, Comunidad))
 
 """
-Function Edit Role.
-Function description: The admin/editor can edit role.
-Function parameters: testCase
-return roleCreated
+Created by Framework
+This file is where the tests of Edit Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 
 class EditRoleTest(TestCase):
@@ -146,10 +155,10 @@ class EditRoleTest(TestCase):
         self.assertTrue(w.nombre,'Prueba B')
 
 """
-Function Delete Role.
-Function description: The admin/editor can Delete role.
-Function parameters: testCase
-return roleCreated
+Created by Framework
+This file is where the tests of Delete Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 
 class DeleteRoleTest(TestCase):
@@ -163,12 +172,15 @@ class DeleteRoleTest(TestCase):
         w.delete()
         self.assertTrue(w,None)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c11761c467151f6c2b63c164c59c916bec6a51ee
 """
-Function Assign Role to account.
-Function description: The admin/editor can Assign Role to account.
-Function parameters: testCase
-return roleCreated
+Created by Framework
+This file is where the tests of Assign Role to account are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 
 class AssignRoleTest(TestCase):
@@ -177,14 +189,11 @@ class AssignRoleTest(TestCase):
         g = Comunidad.objects.create(nombre="Prueba A")
         gr = Comunidad.objects.get(nombre='Prueba A')
 
-        return gr
-
-
 """
-Function Add Mission and Vission.
-Function description: The admin/editor can Add Mission and Vission.
-Function parameters: testCase
-return MisionCreated
+Created by Framework
+This file is where the tests of Add Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 class AddMVHTest(TestCase):
 
@@ -199,10 +208,10 @@ class AddMVHTest(TestCase):
         self.assertTrue(isinstance(w, Mision))
 
 """
-Function Edit Mission and Vission.
-Function description: The admin/editor can Edit Mission and Vission.
-Function parameters: testCase
-return MisionCreated
+Created by Framework
+This file is where the tests of Edit Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 class EditMVHTest(TestCase):
 
@@ -217,13 +226,11 @@ class EditMVHTest(TestCase):
         w.nombre = 'Prueba B'
         self.assertTrue(w.nombre,'Prueba B')
 
-
-
 """
-Function Delete Mission and Vission.
-Function description: The admin/editor can Delete Mission and Vission.
-Function parameters: testCase
-return MisionCreated
+Created by Framework
+This file is where the tests of Delete Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 26/10/18
 """
 class DeleteMVHTest(TestCase):
 
