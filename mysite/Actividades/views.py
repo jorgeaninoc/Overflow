@@ -1,3 +1,10 @@
+"""
+Created by Framework
+This file is where you can create views for the App
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+# Import the libraries used.
 from django.shortcuts import render
 from django.views.generic import View
 from django.template import loader
@@ -15,15 +22,23 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 
+# Declare the view for accesing the Actividades.
 def noticias(request):
+    # Get all the Notice objects from the DB
     news_list = Noticia.objects.all()
+    # Set a paginator of 3 objects.
     paginator = Paginator(news_list,3)
+    # Get the site.
     page = request.GET.get('page')
+    # Set the paginator to the site.
     news = paginator.get_page(page)
+    # Declare the dict with the data that will be used in the view.
     entry_dict = {"news": news}
+    # Render the site.
     return render(request,'Actividades/noticias.html',context=entry_dict)
 
 
+# This function filters the data of a Notice.
 class noticiasFilter(ListView):
     model = Noticia
     template_name = 'noticiasFilter.html'
@@ -34,7 +49,7 @@ class noticiasFilter(ListView):
         return context
 
 
-
+# This function searches for the data of a Notice when submitted
 class SearchSubmitView(View):
     template = 'search_submit.html'
     """

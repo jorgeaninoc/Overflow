@@ -1,3 +1,10 @@
+"""
+Created by Framework
+This file is where you can create views for the App
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+# Import libraries needed
 from django.shortcuts import render
 from django.views.generic import View
 from django.template import loader

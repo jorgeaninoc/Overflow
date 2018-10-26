@@ -1,3 +1,11 @@
+"""
+Created by Framework
+This file is where you can declare the models (tables) of the DB
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+
+#Import libraries that will be used
 from django.db import models
 from datetime import timedelta as td
 from datetime import datetime as dt
