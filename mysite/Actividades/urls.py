@@ -17,8 +17,8 @@ app_name = 'Actividades'
 # Declare the url patterns for each view.
 urlpatterns = [
     # ex: /polls/
-    path('actividades/', views.noticias, name='actividades'),
-    path('noticiasFilter/', views.noticiasFilter.as_view(), name='noticiasFilter'),
+    path('actividades2/', views.noticias, name='actividades2'),
+    path('actividades/', views.noticiasFilter.as_view(), name='actividades'),
 
     path('search-submit/', views.SearchSubmitView.as_view(), name='search-submit'),
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),
