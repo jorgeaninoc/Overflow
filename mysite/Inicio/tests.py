@@ -66,3 +66,59 @@ class DeleteAnnouncementTest(TestCase):
         w = self.testCreateAnnouncement()
         w.delete()
         self.assertTrue(w,None)
+
+
+"""
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class AddRoleTest(TestCase):
+
+    def testCreatRole(self):
+        g = Grupo.objects.create(titulo="Prueba A")
+        gr = Grupo.objects.get(titulo='Prueba A')
+        return gr
+
+    def testAddRole(self):
+        w = self.testCreateRole()
+        self.assertTrue(isinstance(w, Grupo))
+
+"""
+Created by Framework
+This file is where the tests of Edit Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class EditRoleTest(TestCase):
+
+    def testCreatRole(self):
+        g = Grupo.objects.create(titulo="Prueba A")
+        gr = Grupo.objects.get(titulo='Prueba A')
+        return gr
+
+    def testEditRole(self):
+        w = self.testCreateRole()
+        w.titulo = 'Prueba B'
+        self.assertTrue(w.titulo,'Prueba B')
+
+"""
+Created by Framework
+This file is where the tests of Delete Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class DeleteRoleTest(TestCase):
+    def testCreatRole(self):
+        g = Grupo.objects.create(titulo="Prueba A")
+        gr = Grupo.objects.get(titulo='Prueba A')
+        return gr
+
+    def testDeleteRole(self):
+        w = self.testCreateRole()
+        w.delete()
+        self.assertTrue(w,None)

@@ -40,10 +40,10 @@
   </div>
   {% if products %}
   <br><br><hr>
-  <div class="row">
+  <div class="row panel">
     <h1 class="title" align="center">Productos Destacados</h1>
   </div>
-  <div class="row">
+  <div class="row ">
     {% for p in products %}
      {% for i in p.imagenes.all|slice:":1" %}
       <div class="col-md-4">
@@ -52,7 +52,7 @@
     {% endfor %}
     {% endfor %}
   </div>
-    <div class="row">
+    <div class="row panel">
 <!-- Aqui estaba el inicio del for del producto -->
   {% for p in products %}
     <div class="col-md-4">
@@ -97,7 +97,7 @@
   {% endif %}
   {% if galeryimages|slice:":3" %}
   <br>
-  <div class="row">
+  <div class="row panel">
     <h1 class="title" align="center">Galería</h1>
   </div>
   <br><hr>
