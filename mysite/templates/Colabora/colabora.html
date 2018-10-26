@@ -8,7 +8,7 @@
 
 </div>
 <!-- <br><br> -->
-<div class=" card-group container border-right border-light w-75 bg-white text-dark">
+<div class=" card-group container border-right border-light w-75 bg-white text-dark panel">
     <!-- <br><br><br> -->
     <h1 class="title">
         Colabora con nosotros
@@ -16,7 +16,7 @@
     <hr>
     <br><br><br>
 </div>
-<div class="jumbotron-fluid bg-light">
+<div class="jumbotron-fluid bg-light panel">
   <div class="container bg-light">
     <div class="row">
       <div class="col-md-4">
@@ -37,7 +37,7 @@
       </div>
       <div class="col-md-6">
         {% if icolab %}
-          <img src="../media/{{ icolab.path }}" class="text-center" alt="Imagen no encontrada"/>
+          <img src="../media/{{ icolab.path }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
         {% else %}
           <img src="{% static "/index/images/ninos.jpg" %}" class=" text-center" alt="ninos" />
         {% endif %}

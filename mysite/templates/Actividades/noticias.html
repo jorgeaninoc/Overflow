@@ -2,7 +2,7 @@
 {% load static %}
 {% include "partials/top.html" %}
 </div>
-<div class="container">
+<div class="container panel">
   <div class="row">
     <div class="col-sm-1">
         <h1 class="title">
@@ -14,7 +14,7 @@
   <hr>
   {% if news %}
  {% for n in news %}
- <div class="row">
+ <div class="row panel">
    <div class="col-md-3">
      <h3 class="title" align="left">{{ n.titulo }}</h3>
    </div>
