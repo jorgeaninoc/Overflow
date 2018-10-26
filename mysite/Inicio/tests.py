@@ -199,26 +199,3 @@ class DeleteMVHTest(TestCase):
         w = self.testCreateMVH()
         w.delete()
         self.assertTrue(w,None)
-
-"""
-Created by Framework
-This file is where the tests of Add Products to catalog are declared.
-Modified by: Maritza
-Modification date: 26/10/18
-"""
-class AddProductsCatalog(TestCase):
-
-    def testCreateCommunity(self):
-        c = Comunidad.objects.create(nombre='Prueba A', descripcion = 'Lorem ipsum')
-        co = Comunidad.objects.get(nombre='Prueba A', descripcion = 'Lorem ipsum')
-
-    def testCreateProduct(self):
-        n = Producto.objects.create(nombre='Prueba B', precio='15',
-                                    communidad = 'Prueba A', subCat = 'dol sit')
-        nv = Producto.objects.get(nombre='Prueba B', precio='15',
-                                    communidad = 'Prueba A', subCat = 'dol sit')
-        return nv
-
-    def testAddProductC(self):
-        w = self.testCreateProduct()
-        self.assertTrue(isinstance(w, Producto))
