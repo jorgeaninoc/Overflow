@@ -1,3 +1,10 @@
+"""
+Created by Framework
+This file is where you can create views for the App
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+# Import libraries needed
 from django.shortcuts import render
 from django.views.generic import View
 from django.template import loader
@@ -9,11 +16,11 @@ from Contacto.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Contacto.forms import *
+from django.contrib import messages
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-
 def contactanos(request):
     form = MensajeForm()
     contacto = Contacto.objects.all()
@@ -27,6 +34,7 @@ def contactanos(request):
             m.mensaje = request.POST.get('mensaje')
             print(m.nombre,m.mensaje,m.correo)
             m.save()
+            messages.success(request, 'Tu mensaje ha sido enviado.')
             return HttpResponseRedirect('')
         else:
             form = MensajeForm()

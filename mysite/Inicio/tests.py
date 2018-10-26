@@ -1,3 +1,10 @@
+"""
+Created by Framework
+This file is where you can create tests for the App
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+# Import libraries needed
 from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client

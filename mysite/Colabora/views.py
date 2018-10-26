@@ -17,6 +17,7 @@ from Colabora.models import *
 from rest_framework.views import APIView
 from Colabora.forms import *
 from rest_framework.response import Response
+from django.contrib import messages
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -46,6 +47,7 @@ def colabora(request):
             # Save the object to the db
             c.save()
             # Reload the site
+            messages.success(request, 'Tu información ha sido enviada.')
             return HttpResponseRedirect('')
     else:
         # Declare a new object for the form of Colabora

@@ -1,3 +1,10 @@
+"""
+Created by Framework
+This file is where you can create views for the App
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+# Import libraries needed
 from django.shortcuts import render
 from django.views.generic import View
 from django.template import loader
@@ -49,6 +56,8 @@ def index(request):
 
     if len(announces_list) >= 1:
         announces_list = announces_list[0]
+
+    print(products_list[0].imagenes)
 
     entry_dict = {
     "videos": vid_list,

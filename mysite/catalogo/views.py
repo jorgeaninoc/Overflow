@@ -1,3 +1,10 @@
+"""
+Created by Framework
+This file is where you can create views for the App
+Modified by: Jorge Nino
+Date: 19/10/18
+"""
+# Import the libraries used.
 from django.shortcuts import render
 from django.views.generic import View
 from django.template import loader
@@ -17,7 +24,7 @@ from django.shortcuts import get_object_or_404
 
 
 
-
+# This function searches for the data of a Product when submitted
 class SearchSubmitView(View):
     template = 'search_submit.html'
     """
@@ -43,18 +50,23 @@ class SearchAjaxSubmitView(SearchSubmitView):
 
 
 
-
+# Declare the view for accesing the Catalogo site.
 def catalogo(request):
+    # Get all the objects of Product from the DB.
     product_list = Producto.objects.all()
+    # Set a paginator of 9 objects.
     paginator = Paginator(product_list,9)
+    # Get the site of the view.
     page = request.GET.get('page')
+    # Set the paginator to the site.
     products = paginator.get_page(page)
+    # Declare a dict with the data passed to the view.
     entry_dict = {"products":products}
-
+    # Render the view.
     return render(request,'Catalogo/catalogo.html',context=entry_dict)
 
 
-
+# This function filters the data of a Product.
 class catalogoFilter(ListView):
     model = Producto
     template_name = 'Catalogo/catalogoFilter.html'
