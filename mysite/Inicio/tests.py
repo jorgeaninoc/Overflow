@@ -18,32 +18,38 @@ from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
 
 class LogInOutTest(TestCase):
-    def setUpAdmin(self):
-        self.client = Client()
-        self.my_admin = User(username='user', is_staff=True)
-        self.my_admin.set_password('passphrase') # can't set above because of hashing
-        self.my_admin.save() # needed to save to temporary test db
 
 
     def testLogInAdmin(self):
+        self.client = Client()
         response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
         loginresponse = self.client.login(username='user',password='passphrase')
         self.assertTrue(loginresponse) # should now return "true"
 
     def testLogOutAdmin(self):
         self.client = Client()
-        self.client.login(username='fred', password='secret')
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
         response = self.client.get('/admin/logout/')
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
-    def setUpEditor(self):
+
+    def testLogInEditor(self):
         self.client = Client()
         self.my_editor = User(username='editor')
-        self.my_editor.profile.role
         self.my_editor.set_password('pass') # can't set above because of hashing
-        self.my_admin.save() # needed to save to temporary test db
-
-    def testLogInAdmin(self):
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(pk=1)
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
         response = self.client.get('/admin/', follow=True)
         loginresponse = self.client.login(username='editor',password='pass')
         self.assertTrue(loginresponse) # should now return "true"
@@ -51,28 +57,36 @@ class LogInOutTest(TestCase):
 
 class AddAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
 
-
-    def testAddAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        self.assertTrue(isinstance(w,Anuncio))
+    def testAddAnnouncementAdmin(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+        self.assertTrue(an,c)
 
 class EditAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
-
-
-    def testEditAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        w.titulo='Prueba B'
-        self.assertTrue(w.titulo,'Prueba B')
+    def testEditAnnouncementAdmin(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            an.titulo='Prueba B'
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba B')
+        self.assertTrue(an,c)
 
 class DeleteAnnouncementTest(TestCase):
 

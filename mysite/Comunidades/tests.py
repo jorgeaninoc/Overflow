@@ -7,6 +7,7 @@ Date: 19/10/18
 #Import libraries used.
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad,Imagen
+from django.contrib.auth.models import User, Group
 
 # Create your tests here.
 
@@ -14,68 +15,75 @@ from Comunidades.models import Comunidad,Imagen
 # Test by roles
 class AddCommunitiesTest(TestCase):
 
-    def testCreateCommunity(self):
-        """
-        This function creates an object Imagen and passes it to Comunidad, it returns the object Comunidad
-        """
-        i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba I')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        c.imagenes.add(im)
-        co = Comunidad.objects.get(nombre='Prueba C')
-        return co
-
-    def testAddCommunities(self):
+    def testAddCommunitiesAdmin(self):
         """
         This function calls the function to create the object Comunidad and checks if it is an instance of Comunidad.
         """
-        w = self.testCreateCommunity()
-        # Check if the community exists in the DB
-        self.assertEqual(w,Comunidad.objects.get(nombre='Prueba C', descripcion='Lorem Ipsum'))
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba I')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            c.imagenes.add(im)
+            co = Comunidad.objects.get(nombre='Prueba C')
+            co.save()
+            # Check if the community exists in the DB
+            c = Comunidad.objects.get(nombre='Prueba C')
+        self.assertEqual(co,c)
 
 # Test for CU: Edit Communities
 class EditCommunitiesTest(TestCase):
 
-    def testCreateCommunity(self):
-        """
-        This function creates an object Imagen and passes it to Comunidad, it returns the object Comunidad
-        Returns nothing.
-        """
-        i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba I')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        c.imagenes.add(im)
-        co = Comunidad.objects.get(nombre='Prueba C')
-        return co
 
-    def testEditCommunities(self):
+    def testEditCommunitiesAdmin(self):
         """
         This function calls the function to create the object Comunidad and changes a value from it, then checks if the value is the same as tested.
         Returns nothing.
         """
-        c = self.testCreateCommunity()
-        c.nombre='Prueba E'
-        self.assertTrue(c.nombre,'Prueba E')
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba I')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            c.imagenes.add(im)
+            c.save()
+            c.nombre = 'Prueba C2'
+            c.save()
+            co = Comunidad.objects.get(nombre='Prueba C2')
+        self.assertTrue(co,c)
 
 # Test for the CU: Delete Community
 class DeleteCommunitiesTest(TestCase):
-    def testCreateCommunity(self):
-        """
-        This function creates an object Imagen and passes it to Comunidad, it returns the object Comunidad
-        Returns nothing.
-        """
-        i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba I')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        c.imagenes.add(im)
-        co = Comunidad.objects.get(nombre='Prueba C')
-        return co
 
-    def testDeleteCommunities(self):
+
+    def testDeleteCommunitiesAdmin(self):
         """
         This function calls the function to create the object Comunidad and deletes it, then checks if it was deleted.
         """
-        c = self.testCreateCommunity()
-        c.delete()
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba I')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            c.imagenes.add(im)
+            c.save()
+            c.delete()
+            c.save()
+            co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
-        self.assertTrue(c,None)
+        self.assertEquals(c,co)
