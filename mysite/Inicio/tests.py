@@ -132,5 +132,3 @@ class AssignRoleTest(TestCase):
     def testCreateRole(self):
         g = Comunidad.objects.create(nombre="Prueba A")
         gr = Comunidad.objects.get(nombre='Prueba A')
-
-    
