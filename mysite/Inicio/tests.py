@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
+from Comunidades.models import Comunidad
 
 class LogInOutTest(TestCase):
     def setUp(self):
@@ -70,14 +71,14 @@ Modification date: 25/10/18
 
 class AddRoleTest(TestCase):
 
-    def testCreatRole(self):
-        g = Grupo.objects.create(titulo="Prueba A")
-        gr = Grupo.objects.get(titulo='Prueba A')
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
         return gr
 
     def testAddRole(self):
         w = self.testCreateRole()
-        self.assertTrue(isinstance(w, Grupo))
+        self.assertTrue(isinstance(w, Comunidad))
 
 """
 Created by Framework
@@ -88,15 +89,15 @@ Modification date: 25/10/18
 
 class EditRoleTest(TestCase):
 
-    def testCreatRole(self):
-        g = Grupo.objects.create(titulo="Prueba A")
-        gr = Grupo.objects.get(titulo='Prueba A')
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
         return gr
 
     def testEditRole(self):
         w = self.testCreateRole()
-        w.titulo = 'Prueba B'
-        self.assertTrue(w.titulo,'Prueba B')
+        w.nombre = 'Prueba B'
+        self.assertTrue(w.nombre,'Prueba B')
 
 """
 Created by Framework
@@ -106,12 +107,41 @@ Modification date: 25/10/18
 """
 
 class DeleteRoleTest(TestCase):
-    def testCreatRole(self):
-        g = Grupo.objects.create(titulo="Prueba A")
-        gr = Grupo.objects.get(titulo='Prueba A')
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
         return gr
 
     def testDeleteRole(self):
         w = self.testCreateRole()
         w.delete()
         self.assertTrue(w,None)
+
+"""
+Created by Framework
+This file is where the tests of Assign Role to account are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class AssignRoleTest(TestCase):
+
+    def testCreateNews(self):
+        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+        im = Imagen.objects.get(nombre='Prueba O')
+        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+        co = Comunidad.objects.get(nombre='Prueba C')
+        n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
+        fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
+        ,comunidad=co)
+        n.imagenes.add(im)
+        return n
+
+
+    def testAssignRole(self):
+        n = User.objects.create(nombre="Nombre A")
+        nm = User.objects.get(nombre="Nombre A")
+        a = User.objects.create(apellido="Apellido A")
+        ap = User.objects.get(apellido="Apellido A")
+
+        return ap
