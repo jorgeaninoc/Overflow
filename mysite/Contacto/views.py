@@ -14,7 +14,6 @@ from django.contrib import messages
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-
 def contactanos(request):
     form = MensajeForm()
     contacto = Contacto.objects.all()
