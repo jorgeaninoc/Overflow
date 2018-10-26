@@ -2,9 +2,12 @@ from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
+from Somos.models import Somos
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
+from django.contrib.auth.models import User
+from Actividades.models import Noticia, Imagen
 
 class LogInOutTest(TestCase):
     def setUp(self):
@@ -132,3 +135,43 @@ class AssignRoleTest(TestCase):
     def testCreateRole(self):
         g = Comunidad.objects.create(nombre="Prueba A")
         gr = Comunidad.objects.get(nombre='Prueba A')
+
+"""
+Created by Framework
+This file is where the tests of Add Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+class AddMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+        im = Imagen.objects.get(nombre='Prueba O')
+        n = Somos.objects.create(nombre='Prueba A', mission='Lorem Ipsum')
+        n.imagenes.add(im)
+
+        return n
+
+    def testAddRole(self):
+        w = self.testCreateMVH()
+        self.assertTrue(isinstance(w, Somos))
+
+"""
+Created by Framework
+This file is where the tests of Edit Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+class AddMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+        im = Imagen.objects.get(nombre='Prueba O')
+        n = Somos.objects.create(nombre='Prueba A' , texto='Lorem Ipsum')
+        n.imagenes.add(im)
+
+        return n
+
+    def testAddRole(self):
+        w = self.testCreateMVH()
+        self.assertTrue(isinstance(w, Somos))
