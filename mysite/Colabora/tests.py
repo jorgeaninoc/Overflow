@@ -1,3 +1,12 @@
+from django.contrib.auth.models import User
+from django.test import TestCase, Client
+from Actividades.models import Noticia, Imagen
+from Comunidades.models import Comunidad
+from datetime import datetime as dt
+from datetime import timedelta as td
+import django
+from Colabora.forms import ColaboradorForm
+
 """
 Created by Framework
 This file is where the tests of Colabora are declared.

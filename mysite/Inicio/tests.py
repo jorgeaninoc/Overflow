@@ -8,6 +8,15 @@ Date: 19/10/18
 from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
+from Comunidades.models import Comunidad
+from Somos.models import Mision
+from Catalogo.models import Producto
+from Comunidades.models import Comunidad
+from datetime import datetime as dt
+from datetime import timedelta as td
+import django
+from django.contrib.auth.models import User
+from Actividades.models import Noticia, Imagen
 
 class LogInOutTest(TestCase):
     def setUp(self):
@@ -77,14 +86,14 @@ Modification date: 25/10/18
 
 class AddRoleTest(TestCase):
 
-    def testCreatRole(self):
-        g = Grupo.objects.create(titulo="Prueba A")
-        gr = Grupo.objects.get(titulo='Prueba A')
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
         return gr
 
     def testAddRole(self):
         w = self.testCreateRole()
-        self.assertTrue(isinstance(w, Grupo))
+        self.assertTrue(isinstance(w, Comunidad))
 
 """
 Created by Framework
@@ -95,15 +104,15 @@ Modification date: 25/10/18
 
 class EditRoleTest(TestCase):
 
-    def testCreatRole(self):
-        g = Grupo.objects.create(titulo="Prueba A")
-        gr = Grupo.objects.get(titulo='Prueba A')
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
         return gr
 
     def testEditRole(self):
         w = self.testCreateRole()
-        w.titulo = 'Prueba B'
-        self.assertTrue(w.titulo,'Prueba B')
+        w.nombre = 'Prueba B'
+        self.assertTrue(w.nombre,'Prueba B')
 
 """
 Created by Framework
@@ -113,12 +122,80 @@ Modification date: 25/10/18
 """
 
 class DeleteRoleTest(TestCase):
-    def testCreatRole(self):
-        g = Grupo.objects.create(titulo="Prueba A")
-        gr = Grupo.objects.get(titulo='Prueba A')
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
         return gr
 
     def testDeleteRole(self):
         w = self.testCreateRole()
+        w.delete()
+        self.assertTrue(w,None)
+
+"""
+Created by Framework
+This file is where the tests of Assign Role to account are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class AssignRoleTest(TestCase):
+
+    def testCreateRole(self):
+        g = Comunidad.objects.create(nombre="Prueba A")
+        gr = Comunidad.objects.get(nombre='Prueba A')
+
+"""
+Created by Framework
+This file is where the tests of Add Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+class AddMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+        nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+
+        return nv
+
+    def testAddMVH(self):
+        w = self.testCreateMVH()
+        self.assertTrue(isinstance(w, Mision))
+
+"""
+Created by Framework
+This file is where the tests of Edit Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+class EditMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+        gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+
+        return gr
+
+    def testEditMVH(self):
+        w = self.testCreateMVH()
+        w.nombre = 'Prueba B'
+        self.assertTrue(w.nombre,'Prueba B')
+
+"""
+Created by Framework
+This file is where the tests of Delete Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 26/10/18
+"""
+class DeleteMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Mision.objects.create(nombre="Prueba A")
+        gr = Mision.objects.get(nombre='Prueba A')
+        return gr
+
+    def testDeleteRole(self):
+        w = self.testCreateMVH()
         w.delete()
         self.assertTrue(w,None)
