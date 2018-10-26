@@ -244,7 +244,13 @@ Function parameters: testCase
 return MisionCreated
 """
 class ConsulReportTest(TestCase):
-    # This function gets the site /colabora and returns if it is possible to access it.
+
+    self.client = Client()
+    self.my_editor = User(username = 'editor')
+    self.my_editor.set_password('pass')
+    self.my_editor.save()
+    self.geditor = Group(name = 'Editor')
+
     def testReports(self):
         self.client = Client()
         response = self.client.get('/admin')
