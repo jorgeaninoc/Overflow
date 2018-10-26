@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
-from Somos.models import Somos
+from Somos.models import Mision
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
@@ -152,16 +152,14 @@ Modification date: 25/10/18
 class AddMVHTest(TestCase):
 
     def testCreateMVH(self):
-        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba O')
-        n = Somos.objects.create(nombre='Prueba A',texto='Lorem Ipsum')
-        n.imagenes.add(im)
+        n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+        nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
 
-        return n
+        return nv
 
-    def testAddRole(self):
+    def testAddMVH(self):
         w = self.testCreateMVH()
-        self.assertTrue(isinstance(w, Somos))
+        self.assertTrue(isinstance(w, Mision))
 
 """
 Created by Framework
@@ -172,11 +170,29 @@ Modification date: 25/10/18
 class EditMVHTest(TestCase):
 
     def testCreateMVH(self):
-        g = Somos.objects.create(nombre="Prueba A")
-        gr = Somos.objects.get(nombre='Prueba A')
+        g = Mision.objects.create(nombre="Prueba A")
+        gr = Mision.objects.get(nombre='Prueba A')
         return gr
 
     def testEditMVH(self):
         w = self.testCreateMVH()
         w.nombre = 'Prueba B'
         self.assertTrue(w.nombre,'Prueba B')
+
+"""
+Created by Framework
+This file is where the tests of Delete Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+class DeleteMVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Mision.objects.create(nombre="Prueba A")
+        gr = Mision.objects.get(nombre='Prueba A')
+        return gr
+
+    def testDeleteRole(self):
+        w = self.testCreateMVH()
+        w.delete()
+        self.assertTrue(w,None)
