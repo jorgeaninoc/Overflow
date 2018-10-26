@@ -5,7 +5,6 @@ Modified by: Jorge Nino
 Date: 19/10/18
 """
 # Import libraries needed
-from django.contrib.auth.models import User
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
@@ -15,27 +14,39 @@ from Comunidades.models import Comunidad
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
 
 class LogInOutTest(TestCase):
-    def setUp(self):
+    def setUpAdmin(self):
         self.client = Client()
         self.my_admin = User(username='user', is_staff=True)
         self.my_admin.set_password('passphrase') # can't set above because of hashing
         self.my_admin.save() # needed to save to temporary test db
 
 
-    def testLogIn(self):
+    def testLogInAdmin(self):
         response = self.client.get('/admin/', follow=True)
         loginresponse = self.client.login(username='user',password='passphrase')
         self.assertTrue(loginresponse) # should now return "true"
 
-    def testLogOut(self):
+    def testLogOutAdmin(self):
         self.client = Client()
         self.client.login(username='fred', password='secret')
         response = self.client.get('/admin/logout/')
         self.assertEqual(response.status_code, 302)
+
+    def setUpEditor(self):
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.profile.role
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+
+    def testLogInAdmin(self):
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        self.assertTrue(loginresponse) # should now return "true"
 
 
 class AddAnnouncementTest(TestCase):
