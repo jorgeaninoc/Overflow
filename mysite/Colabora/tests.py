@@ -13,14 +13,11 @@ This file is where the tests of Colabora are declared.
 Modified by: Maritza
 Modification date: 19/10/18
 """
-<<<<<<< HEAD
-=======
 # Import libraries used.
 from django.test import TestCase, Client
 from Colabora.forms import ColaboradorForm
 
 # Test for the UC: Consult Colabora
->>>>>>> 192f6eaba88b3d1070998b0cdcf4a5f3dc523fb8
 class ConsultColaboraTest(TestCase):
     # This function gets the site /colabora and returns if it is possible to access it.
     def testConsultColabora(self):
@@ -39,4 +36,5 @@ class OfferCollaborationTest(TestCase):
         'correo':'prueba@gmail.com','empresa':'ITESM'
         }
         form = ColaboradorForm(data=form_data)
+        # Check if the object exists in the DB.
         self.assertTrue(form.is_valid())

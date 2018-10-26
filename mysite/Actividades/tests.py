@@ -26,6 +26,15 @@ class ConsultNewsTest(TestCase):
         # Check if the code return is 301 for success.
         self.assertEqual(response.status_code, 301)
 
+    def testConsultNewsFalse(self):
+        # Get a client copy.
+        self.client = Client()
+        # Get the site from /actividades
+        response = self.client.get('/actividades2')
+        # Check if the code return is 404 for failure
+        self.assertEqual(response.status_code, 404)
+
+
 # Test for UC: Add News
 class AddNewsTest(TestCase):
 
