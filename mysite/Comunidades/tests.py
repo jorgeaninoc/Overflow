@@ -10,6 +10,28 @@ from Comunidades.models import Comunidad,Imagen
 
 # Create your tests here.
 
+# Test for UC: Consult News
+class ConsultCommunitiesTest(TestCase):
+    # Function that will be tested.
+    def testConsultNews(self):
+        # Get a client copy.
+        self.client = Client()
+        # Get the site from /actividades
+        response = self.client.get('/comunidades')
+        # Check if the code return is 301 for success.
+        self.assertEqual(response.status_code, 301)
+
+    def testConsultCommunitiesFalse(self):
+        # Get a client copy.
+        self.client = Client()
+        # Get the site from /actividades
+        response = self.client.get('/comunidades2')
+        # Check if the code return is 404 for failure
+        self.assertEqual(response.status_code, 404)
+
+
+
+
 # Test for the UC: Add Communities
 # Test by roles
 class AddCommunitiesTest(TestCase):
