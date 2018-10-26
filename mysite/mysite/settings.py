@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 # Import libraries needed
 import os
-
+from django.utils.translation import ugettext_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
@@ -125,6 +125,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'es-mx'
+LANGUAGES = (
+    ('de', ugettext_lazy('German')),
+    ('en', ugettext_lazy('English')),
+)
 
 TIME_ZONE = 'UTC'
 

@@ -1,6 +1,7 @@
 
 <div class="basic">
 {% load static %}
+{% load i18n %}
 {% include "partials/top.html" %}
 </div>
 {% if announces %}
@@ -10,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">{{ announces.titulo }}</h4>
+          <h4 class="modal-title">{% blocktrans %}{{ announces.titulo }}{% endblocktrans %}</h4>
         </div>
         <div class="modal-body">
           <p>{{ announces.texto }}</p>
@@ -41,7 +42,7 @@
   {% if products %}
   <br><br><hr>
   <div class="row panel">
-    <h1 class="title" align="center">Productos Destacados</h1>
+    <h1 class="title" align="center">{% blocktrans %}Productos Destacados{% endblocktrans %}</h1>
   </div>
   <div class="row ">
     {% for p in products %}

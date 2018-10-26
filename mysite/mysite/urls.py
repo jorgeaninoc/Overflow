@@ -21,7 +21,7 @@ Date: 19/10/18
 """
 # Import libraries needed
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include,re_path
 
 # Set the url paths for the complete system.
 urlpatterns = [
@@ -32,5 +32,6 @@ urlpatterns = [
     path('',include('Contacto.urls')),
     path('',include('Actividades.urls')),
     path('',include('Colabora.urls')),
+    re_path(r'^i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
 ]
