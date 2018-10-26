@@ -24,14 +24,18 @@ from django.shortcuts import get_object_or_404
 
 
 
-
+# View for Somos app
 def quiensomos(request):
+    """
+    This function renders the Somos site with the required information
+    """
+    # Declare the variables used in the site
     somos_list = Somos.objects.all()
     mision_list = Mision.objects.all()
     historia_list = Historia.objects.all()
     valor_list = Valor.objects.all()
 
-
+    # Conditionals to grab the last object uploaded to the DB.
     if len(somos_list) >= 1:
         somos_list = somos_list[0]
     if len(mision_list) >=1:
@@ -40,6 +44,8 @@ def quiensomos(request):
         historia_list = historia_list[0]
     if len(valor_list) >=1:
         valor_list = valor_list[0]
+
+    # Declare the context dict with the information used by the site
     entry_dict = {
     "titles":somos_list,
     "misions":mision_list,
@@ -47,5 +53,5 @@ def quiensomos(request):
     "historias":historia_list
     }
 
-
+    # Render the site of Somos.
     return render(request, 'Somos/quiensomos.html', context = entry_dict )

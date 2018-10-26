@@ -11,6 +11,7 @@ from Comunidades.models import Comunidad,Imagen
 # Create your tests here.
 
 # Test for the UC: Add Communities
+# Test by roles
 class AddCommunitiesTest(TestCase):
 
     def testCreateCommunity(self):
@@ -29,7 +30,8 @@ class AddCommunitiesTest(TestCase):
         This function calls the function to create the object Comunidad and checks if it is an instance of Comunidad.
         """
         w = self.testCreateCommunity()
-        self.assertTrue(isinstance(w, Comunidad))
+        # Check if the community exists in the DB
+        self.assertEqual(w,Comunidad.objects.get(nombre='Prueba C', descripcion='Lorem Ipsum'))
 
 # Test for CU: Edit Communities
 class EditCommunitiesTest(TestCase):
@@ -75,4 +77,5 @@ class DeleteCommunitiesTest(TestCase):
         """
         c = self.testCreateCommunity()
         c.delete()
+        # Check if it was deleted from the BD.
         self.assertTrue(c,None)

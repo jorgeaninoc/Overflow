@@ -11,8 +11,10 @@ from django.conf.urls.static import static
 from . import views
 
 
-
+# Set the name of the app
 app_name = 'Somos'
+
+# Declare the url patterns of the app views
 urlpatterns = [
     # ex: /polls/
     path('quiensomos/', views.quiensomos, name='quiensomos'),

@@ -23,6 +23,7 @@ Date: 19/10/18
 from django.contrib import admin
 from django.urls import path,include
 
+# Set the url paths for the complete system.
 urlpatterns = [
     path('',include('Inicio.urls')),
     path('',include('Comunidades.urls')),

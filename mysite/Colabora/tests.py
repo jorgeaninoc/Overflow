@@ -27,4 +27,5 @@ class OfferCollaborationTest(TestCase):
         'correo':'prueba@gmail.com','empresa':'ITESM'
         }
         form = ColaboradorForm(data=form_data)
+        # Check if the object exists in the DB.
         self.assertTrue(form.is_valid())
