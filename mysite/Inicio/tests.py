@@ -17,16 +17,13 @@ import django
 from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
 
-<<<<<<< HEAD
-
 """
 Function LogIn-logOut.
 Function description: The admin/editor can login/logout.
 Function parameters: testCase
 return none
 """
-=======
->>>>>>> c11761c467151f6c2b63c164c59c916bec6a51ee
+
 class LogInOutTest(TestCase):
 
 
@@ -121,15 +118,17 @@ Modification date: 25/10/18
 
 class AddRoleTest(TestCase):
 
-    def newAdmin(self):
-        self.my_admin = User(username='user', is_staff=True)
-        my_group = Group.objects.get(name='user')
-        my_group.user_set.add(your_user)
-
     def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-        return gr
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Comunidad.objects.create(nombre="Prueba A")
+            gr = Comunidad.objects.get(nombre='Prueba A')
+            return gr
 
     def testAddRole(self):
         w = self.testCreateRole()
@@ -145,9 +144,16 @@ Modification date: 25/10/18
 class EditRoleTest(TestCase):
 
     def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-        return gr
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Comunidad.objects.create(nombre="Prueba A")
+            gr = Comunidad.objects.get(nombre='Prueba A')
+            return gr
 
     def testEditRole(self):
         w = self.testCreateRole()
@@ -163,19 +169,22 @@ Modification date: 25/10/18
 
 class DeleteRoleTest(TestCase):
     def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-        return gr
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Comunidad.objects.create(nombre="Prueba A")
+            gr = Comunidad.objects.get(nombre='Prueba A')
+            return gr
 
     def testDeleteRole(self):
         w = self.testCreateRole()
         w.delete()
         self.assertTrue(w,None)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c11761c467151f6c2b63c164c59c916bec6a51ee
 """
 Created by Framework
 This file is where the tests of Assign Role to account are declared.
@@ -186,8 +195,15 @@ Modification date: 25/10/18
 class AssignRoleTest(TestCase):
 
     def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Comunidad.objects.create(nombre="Prueba A")
+            gr = Comunidad.objects.get(nombre='Prueba A')
 
 """
 Created by Framework
@@ -198,8 +214,15 @@ Modification date: 25/10/18
 class AddMVHTest(TestCase):
 
     def testCreateMVH(self):
-        n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
-        nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+            nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
 
         return nv
 
@@ -216,8 +239,15 @@ Modification date: 25/10/18
 class EditMVHTest(TestCase):
 
     def testCreateMVH(self):
-        g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
-        gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+            gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
 
         return gr
 
@@ -235,9 +265,16 @@ Modification date: 26/10/18
 class DeleteMVHTest(TestCase):
 
     def testCreateMVH(self):
-        g = Mision.objects.create(nombre="Prueba A")
-        gr = Mision.objects.get(nombre='Prueba A')
-        return gr
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Mision.objects.create(nombre="Prueba A")
+            gr = Mision.objects.get(nombre='Prueba A')
+            return gr
 
     def testDeleteRole(self):
         w = self.testCreateMVH()
@@ -252,13 +289,14 @@ return MisionCreated
 """
 class ConsulReportTest(TestCase):
 
-    self.client = Client()
-    self.my_editor = User(username = 'editor')
-    self.my_editor.set_password('pass')
-    self.my_editor.save()
-    self.geditor = Group(name = 'Editor')
-
     def testReports(self):
         self.client = Client()
-        response = self.client.get('/admin')
-        self.assertEqual(response.status_code, 301)
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            self.client = Client()
+            response = self.client.get('/admin')
+            self.assertEqual(response.status_code, 301)
