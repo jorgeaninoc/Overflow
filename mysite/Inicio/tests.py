@@ -180,3 +180,21 @@ class EditMVHTest(TestCase):
         w = self.testCreateMVH()
         w.nombre = 'Prueba B'
         self.assertTrue(w.nombre,'Prueba B')
+
+"""
+Created by Framework
+This file is where the tests of Delete Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+class Delete MVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Somos.objects.create(nombre="Prueba A")
+        gr = Somos.objects.get(nombre='Prueba A')
+        return gr
+
+    def testDeleteMVH(self):
+        w = self.testCreateMVH()
+        w.delete()
+        self.assertTrue(w,None)
