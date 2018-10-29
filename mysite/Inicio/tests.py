@@ -115,7 +115,10 @@ class DeleteAnnouncementTest(TestCase):
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> abraham_removeRole
 """
 Created by Framework
 This file is where the tests of Add Role are declared.
@@ -123,12 +126,18 @@ Modified by: Abraham
 Modification date: 25/10/18
 """
 
+<<<<<<< HEAD
 
 #ayuda: https://django-guardian.readthedocs.io/en/stable/userguide/assign.html
 
 class AssignPrivRoleTest(TestCase):
 
     def testAssignPrivRole(self):
+=======
+class RemoveRoleFromAccount(TestCase):
+
+    def RemoveRole(self):
+>>>>>>> abraham_removeRole
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -136,7 +145,10 @@ class AssignPrivRoleTest(TestCase):
         self.my_admin.save() # needed to save to temporary test db
         loginresponse = self.client.login(username='user',password='passphrase')
         if loginresponse:
+<<<<<<< HEAD
             #Create the Editor, user and assign
+=======
+>>>>>>> abraham_removeRole
             self.client = Client()
             self.my_editor = User(username='editor')
             self.my_editor.set_password('pass') # can't set above because of hashing
@@ -144,6 +156,7 @@ class AssignPrivRoleTest(TestCase):
             self.geditor = Group(name='Editor')
             self.geditor.save()
             my_group = Group.objects.get(pk=1)
+<<<<<<< HEAD
 
             #Create the task object
             an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
@@ -212,6 +225,13 @@ class RemovePrivRoleTest(TestCase):
 
 
 
+=======
+            my_group.user_set.add(self.my_editor)
+            my_group.save()
+            my_group.user_set.remove(self.my_editor) # now user doesn't belong to group
+            my_group.save()
+        self.assertTrue(!self.my_editor.groups.filter(name="Editor").exists())
+>>>>>>> abraham_removeRole
 
 
 

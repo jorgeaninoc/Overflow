@@ -79,6 +79,8 @@ class Anuncio(models.Model):
         verbose_name: "Anuncio"
         verbose_name_plural = "Anuncios"
 
+
+
 # Table Video
 # Create a model to save the video of the index
 class Video(models.Model):
