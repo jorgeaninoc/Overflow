@@ -109,3 +109,31 @@ class DeleteCommunitiesTest(TestCase):
             co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
         self.assertEquals(c,co)
+
+
+
+# Test for the UC: Filter Communities
+# Test by roles
+class FilterCommunitiesTest(TestCase):
+
+    def testFilterCommunities(self):
+        """
+        This function checks the objects at the communities and checks if filter works
+        """
+        self.client = Client()
+
+        # Create objects to filter and save them
+        c = Comunidad.objects.create(nombre="Prueba 1", descripcion="Lorem Ipsum")
+        c.save()
+        d = Comunidad.objects.create(nombre="Prueba 2", descripcion="Lorem Ipsum")
+        d.save()
+
+        response = client.get('/comunidades/')
+
+        #Checar que tiene 2 objetos
+        self.assertEquals(response.context_data['filter'].qs.count, 2)
+
+
+        response = client.get('/comunidades/?nombre=1')
+        #Checar que el filtro 1 solo regresa 1 objeto
+        self.assertEquals(response.context_data['filter'].qs.count, 1)
