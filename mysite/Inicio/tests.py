@@ -260,6 +260,7 @@ class EditMVHTest(TestCase):
 Created by Framework
 This file is where the tests of Delete Mission and Vission are declared.
 Modified by: Maritza
+<<<<<<< HEAD
 Modification date: 26/10/18
 """
 class DeleteMVHTest(TestCase):
@@ -300,3 +301,18 @@ class ConsulReportTest(TestCase):
             self.client = Client()
             response = self.client.get('/admin')
             self.assertEqual(response.status_code, 301)
+=======
+Modification date: 25/10/18
+"""
+class Delete MVHTest(TestCase):
+
+    def testCreateMVH(self):
+        g = Somos.objects.create(nombre="Prueba A")
+        gr = Somos.objects.get(nombre='Prueba A')
+        return gr
+
+    def testDeleteMVH(self):
+        w = self.testCreateMVH()
+        w.delete()
+        self.assertTrue(w,None)
+>>>>>>> e4fc794e0ef9aaecdfcbb08ffa3a2a9692e0e3e0
