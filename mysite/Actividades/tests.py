@@ -86,3 +86,32 @@ class EditNewsTest(TestCase):
             n.save()
             c = Noticia.objects.get(titulo='Prueba N')
         self.assertTrue(n,c)
+
+
+
+
+# Test for the UC: Filter Actividades
+# Test by roles
+class FilterActivitiesTest(TestCase):
+
+    def testFilterCommunities(self):
+        """
+        This function checks the objects at the communities and checks if filter works
+        """
+        self.client = Client()
+
+        # Create objects to filter and save them
+        c = Noticia.objects.create(titulo="Prueba 1", texto="Lorem Ipsum")
+        c.save()
+        d = Noticia.objects.create(titulo="Prueba 2", texto="Lorem Ipsum")
+        d.save()
+
+        response = client.get('/actividades/')
+
+        #Checar que tiene 2 objetos
+        self.assertEquals(response.context_data['filter'].qs.count, 2)
+
+
+        response = client.get('/actividades/?titulo=1')
+        #Checar que el filtro 1 solo regresa 1 objeto
+        self.assertEquals(response.context_data['filter'].qs.count, 1)
