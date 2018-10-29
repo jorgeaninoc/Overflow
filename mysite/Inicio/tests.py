@@ -64,6 +64,19 @@ class LogInOutTest(TestCase):
         loginresponse = self.client.login(username='editor',password='pass')
         self.assertTrue(loginresponse) # should now return "true"
 
+    def testLogOutEditor(self):
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        loginresponse = self.client.login(username='editor',password='pass')
+        response = self.client.get('/admin/logout/')
+        self.assertEqual(response.status_code, 302)
 
 class AddAnnouncementTest(TestCase):
 
@@ -449,18 +462,3 @@ class ConsulReportTest(TestCase):
             self.client = Client()
             response = self.client.get('/admin')
             self.assertEqual(response.status_code, 301)
-=======
-Modification date: 25/10/18
-"""
-class Delete MVHTest(TestCase):
-
-    def testCreateMVH(self):
-        g = Somos.objects.create(nombre="Prueba A")
-        gr = Somos.objects.get(nombre='Prueba A')
-        return gr
-
-    def testDeleteMVH(self):
-        w = self.testCreateMVH()
-        w.delete()
-        self.assertTrue(w,None)
->>>>>>> e4fc794e0ef9aaecdfcbb08ffa3a2a9692e0e3e0
