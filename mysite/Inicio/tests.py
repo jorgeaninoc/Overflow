@@ -225,6 +225,7 @@ class RemovePrivRoleTest(TestCase):
 
 
 
+<<<<<<< HEAD
 =======
             my_group.user_set.add(self.my_editor)
             my_group.save()
@@ -232,8 +233,27 @@ class RemovePrivRoleTest(TestCase):
             my_group.save()
         self.assertTrue(!self.my_editor.groups.filter(name="Editor").exists())
 >>>>>>> abraham_removeRole
+=======
+"""
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Abraham
+Modification date: 25/10/18
+"""
+class ViewUsersTest(TestCase):
+>>>>>>> abraham_viewUsers
 
 
+    def testViewUsers(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            response = self.client.get('/admin/auth/user/')
+            self.assertEqual(response.status_code, 200)
 
 
 
