@@ -160,8 +160,25 @@ class RemovePrivRoleTest(TestCase):
 
 
 
+"""
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Abraham
+Modification date: 25/10/18
+"""
+class ViewUsersTest(TestCase):
 
 
+    def testViewUsers(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            response = self.client.get('/admin/auth/user/')
+            self.assertEqual(response.status_code, 200)
 
 
 
