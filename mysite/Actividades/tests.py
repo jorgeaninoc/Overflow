@@ -94,24 +94,38 @@ class EditNewsTest(TestCase):
 # Test by roles
 class FilterActivitiesTest(TestCase):
 
-    def testFilterCommunities(self):
-        """
-        This function checks the objects at the communities and checks if filter works
-        """
+    def testFilterActivities(self):
         self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba O')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            co = Comunidad.objects.get(nombre='Prueba C')
+            n = Noticia.objects.create(titulo='Prueba 1', texto='Lorem Ipsum',
+            fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now()
+            + django.utils.timezone.timedelta(30),comunidad=co)
 
-        # Create objects to filter and save them
-        c = Noticia.objects.create(titulo="Prueba 1", texto="Lorem Ipsum")
-        c.save()
-        d = Noticia.objects.create(titulo="Prueba 2", texto="Lorem Ipsum")
-        d.save()
+            n2 = Noticia.objects.create(titulo='Prueba 2', texto='Lorem Ipsum',
+            fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now()
+            + django.utils.timezone.timedelta(30),comunidad=co)
 
-        response = client.get('/actividades/')
-
-        #Checar que tiene 2 objetos
-        self.assertEquals(response.context_data['filter'].qs.count, 2)
+            n2.imagenes.add(im)
+            n.imagenes.add(im)
+            n.save()
+            n2.save
 
 
-        response = client.get('/actividades/?titulo=1')
-        #Checar que el filtro 1 solo regresa 1 objeto
-        self.assertEquals(response.context_data['filter'].qs.count, 1)
+            response = self.client.get('/actividades/')
+
+            #Checar que tiene 2 objetos
+            self.assertEquals(response.context_data['filter'].qs.count(), 2)
+
+
+            response = self.client.get('/actividades/?titulo=1')
+            #Checar que el filtro 1 solo regresa 1 objeto
+            self.assertEquals(response.context_data['filter'].qs.count(), 1)

@@ -14,19 +14,19 @@ from django.contrib.auth.models import User, Group
 # Test for UC: Consult News
 class ConsultCommunitiesTest(TestCase):
     # Function that will be tested.
-    def testConsultNews(self):
+    def testConsultCommunities(self):
         # Get a client copy.
         self.client = Client()
         # Get the site from /actividades
-        response = self.client.get('/comunidades')
+        response = self.client.get('/comunidades/')
         # Check if the code return is 301 for success.
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, 200)
 
     def testConsultCommunitiesFalse(self):
         # Get a client copy.
         self.client = Client()
         # Get the site from /actividades
-        response = self.client.get('/comunidades2')
+        response = self.client.get('/comunidadesD')
         # Check if the code return is 404 for failure
         self.assertEqual(response.status_code, 404)
 
@@ -128,12 +128,12 @@ class FilterCommunitiesTest(TestCase):
         d = Comunidad.objects.create(nombre="Prueba 2", descripcion="Lorem Ipsum")
         d.save()
 
-        response = client.get('/comunidades/')
+        response = self.client.get('/comunidades/')
 
         #Checar que tiene 2 objetos
-        self.assertEquals(response.context_data['filter'].qs.count, 2)
+        self.assertEquals(response.context_data['filter'].qs.count(), 2)
 
 
-        response = client.get('/comunidades/?nombre=1')
+        response = self.client.get('/comunidades/?nombre=1')
         #Checar que el filtro 1 solo regresa 1 objeto
-        self.assertEquals(response.context_data['filter'].qs.count, 1)
+        self.assertEquals(response.context_data['filter'].qs.count(), 1)
