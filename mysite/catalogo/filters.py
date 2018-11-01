@@ -12,6 +12,7 @@ from Catalogo.models import *
 # Declare filter class for a model.
 class CatalogoFilter(filters.FilterSet):
     # Declare variables that save the columns that will be searched.
+    nombre = filters.CharFilter(lookup_expr='icontains')
     precio = filters.NumberFilter()
     precio__gt = filters.NumberFilter(field_name='precio', lookup_expr='gte')
     precio__lt = filters.NumberFilter(field_name='precio', lookup_expr='lte')

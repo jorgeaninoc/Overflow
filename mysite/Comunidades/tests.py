@@ -14,7 +14,7 @@ from django.contrib.auth.models import User, Group
 # Test for UC: Consult News
 class ConsultCommunitiesTest(TestCase):
     # Function that will be tested.
-    def testConsultNews(self):
+    def testConsultCommunities(self):
         # Get a client copy.
         self.client = Client()
         # Get the site from /actividades
@@ -26,7 +26,11 @@ class ConsultCommunitiesTest(TestCase):
         # Get a client copy.
         self.client = Client()
         # Get the site from /actividades
+<<<<<<< HEAD
         response = self.client.get('/comunidades100')
+=======
+        response = self.client.get('/comunidadesD')
+>>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
         # Check if the code return is 404 for failure
         self.assertEqual(response.status_code, 404)
 
@@ -219,6 +223,7 @@ class DeleteCommunitiesTest(TestCase):
             c.save()
             co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
+<<<<<<< HEAD
         self.assertNotEqual(c2,co)
 
     def testDeleteCommunitiesFalse(self):
@@ -240,3 +245,34 @@ class DeleteCommunitiesTest(TestCase):
             self.assertTrue(False)
         else:
             self.assertTrue(True)
+=======
+        self.assertEquals(c,co)
+
+
+
+# Test for the UC: Filter Communities
+# Test by roles
+class FilterCommunitiesTest(TestCase):
+
+    def testFilterCommunities(self):
+        """
+        This function checks the objects at the communities and checks if filter works
+        """
+        self.client = Client()
+
+        # Create objects to filter and save them
+        c = Comunidad.objects.create(nombre="Prueba 1", descripcion="Lorem Ipsum")
+        c.save()
+        d = Comunidad.objects.create(nombre="Prueba 2", descripcion="Lorem Ipsum")
+        d.save()
+
+        response = self.client.get('/comunidades/')
+
+        #Checar que tiene 2 objetos
+        self.assertEquals(response.context_data['filter'].qs.count(), 2)
+
+
+        response = self.client.get('/comunidades/?nombre=1')
+        #Checar que el filtro 1 solo regresa 1 objeto
+        self.assertEquals(response.context_data['filter'].qs.count(), 1)
+>>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09

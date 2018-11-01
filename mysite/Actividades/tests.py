@@ -133,6 +133,7 @@ class EditNewsTest(TestCase):
             n.titulo = 'Prueba N'
             n.save()
             c = Noticia.objects.get(titulo='Prueba N')
+<<<<<<< HEAD
         self.assertEqual(n,c)
 
     def testEditNewsFalse(self):
@@ -141,12 +142,30 @@ class EditNewsTest(TestCase):
         """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
+=======
+        self.assertTrue(n,c)
+
+
+
+
+# Test for the UC: Filter Actividades
+# Test by roles
+class FilterActivitiesTest(TestCase):
+
+    def testFilterActivities(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+>>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
         loginresponse = self.client.login(username='user',password='passphrase')
         if loginresponse:
             i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
             im = Imagen.objects.get(nombre='Prueba O')
             c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
             co = Comunidad.objects.get(nombre='Prueba C')
+<<<<<<< HEAD
             n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
             fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
             ,comunidad=co)
@@ -158,3 +177,28 @@ class EditNewsTest(TestCase):
             self.assertTrue(False)
         else:
             self.assertTrue(True)
+=======
+            n = Noticia.objects.create(titulo='Prueba 1', texto='Lorem Ipsum',
+            fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now()
+            + django.utils.timezone.timedelta(30),comunidad=co)
+
+            n2 = Noticia.objects.create(titulo='Prueba 2', texto='Lorem Ipsum',
+            fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now()
+            + django.utils.timezone.timedelta(30),comunidad=co)
+
+            n2.imagenes.add(im)
+            n.imagenes.add(im)
+            n.save()
+            n2.save
+
+
+            response = self.client.get('/actividades/')
+
+            #Checar que tiene 2 objetos
+            self.assertEquals(response.context_data['filter'].qs.count(), 2)
+
+
+            response = self.client.get('/actividades/?titulo=1')
+            #Checar que el filtro 1 solo regresa 1 objeto
+            self.assertEquals(response.context_data['filter'].qs.count(), 1)
+>>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
