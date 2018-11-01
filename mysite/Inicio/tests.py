@@ -17,6 +17,7 @@ import django
 from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
 
+
 """
 Function LogIn-logOut.
 Function description: The admin/editor can login/logout.
@@ -24,10 +25,32 @@ Function parameters: testCase
 return none
 """
 
+# Test for UC: log in and Log out
 class LogInOutTest(TestCase):
 
+    def testLogInFalse(self):
+        """
+        This test tries to log in without having an account.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        self.assertFalse(loginresponse) # should now return "false"
+
+    def testLogOutFalse(self):
+        """
+        This test tries to log out without having an account.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        response = self.client.logout()
+        self.assertFalse(response) # should now return "false"
 
     def testLogInAdmin(self):
+        """
+        This test tries to log in as an admin by creating one.
+        """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -37,6 +60,9 @@ class LogInOutTest(TestCase):
         self.assertTrue(loginresponse) # should now return "true"
 
     def testLogOutAdmin(self):
+        """
+        This test tries to log out as an admin.
+        """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -48,6 +74,9 @@ class LogInOutTest(TestCase):
 
 
     def testLogInEditor(self):
+        """
+        This test tries to log in as an editor.
+        """
         self.client = Client()
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
@@ -62,6 +91,9 @@ class LogInOutTest(TestCase):
         self.assertTrue(loginresponse) # should now return "true"
 
     def testLogOutEditor(self):
+        """
+        This test tries to log out as an editor.
+        """
         self.client = Client()
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
@@ -75,10 +107,14 @@ class LogInOutTest(TestCase):
         response = self.client.get('/admin/logout/')
         self.assertEqual(response.status_code, 302)
 
+# Test for UC: Add Announcement
 class AddAnnouncementTest(TestCase):
 
 
     def testAddAnnouncementAdmin(self):
+        """
+        This test adds an announcement and checks if it exist.
+        """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -89,11 +125,31 @@ class AddAnnouncementTest(TestCase):
             an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
             an.save()
             c = Anuncio.objects.get(titulo='Prueba A')
-        self.assertTrue(an,c)
+        self.assertEqual(an,c)
 
+    def testAddAnnouncementFalse(self):
+        """
+        This test tries to add an a Announcement without having an account.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+            self.assertTrue(False)
+        else:
+            self.assertTrue(True)
+
+
+# Test for UC: Edit Announcement
 class EditAnnouncementTest(TestCase):
 
     def testEditAnnouncementAdmin(self):
+        """
+        This test edits an announcement and checks if it saves.
+        """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -107,6 +163,21 @@ class EditAnnouncementTest(TestCase):
             an.save()
             c = Anuncio.objects.get(titulo='Prueba B')
         self.assertTrue(an,c)
+
+    def testEditAnnouncementFalse(self):
+        """
+        This test tries to edit an anonuncement without having an account
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+            self.assertTrue(False)
+        else:
+            self.assertTrue(True)
 
 class DeleteAnnouncementTest(TestCase):
 
