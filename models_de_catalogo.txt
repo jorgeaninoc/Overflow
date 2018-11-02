@@ -1,0 +1,7 @@
+# Estos son los modelos 
+
+Producto ya esta
+
+Compra (idReferenciaCompra, idProducto, Cantidad, ImporteTotal, idcliente)
+
+Cliente (idcliente, email)
