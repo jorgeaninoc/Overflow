@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'Colabora.apps.ColaboraConfig',
     'Actividades.apps.ActividadesConfig',
     'Somos.apps.SomosConfig',
+
+    'shopping_cart.apps.ShoppingCartConfig',
+    'accounts.apps.AccountsConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

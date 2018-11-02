@@ -8,7 +8,12 @@ from django.db.models.signals import post_save
 from django.db import models
 from Catalogo.models import *
 
-class Perfil(models.model): # Captura lo que el usuario hace
+from django.db import models
+from datetime import timedelta as td
+from datetime import datetime as dt
+import django
+
+class Perfil(models.Model): # Captura lo que el usuario hace
 	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
 	producto = models.ManyToManyField(Producto, blank = True)
 

@@ -13,7 +13,7 @@
   border-style: solid;
 }
 body, html{
-    background: url("../index/images/circulos.png") no-repeat center center fixed;
+    /*background: url("../index/images/circulos.png") no-repeat center center fixed;*/
     background-size: 45% 90%;
 }
 

@@ -38,15 +38,16 @@
           {% endfor %}
       </div>
         <div class="col-sm-5" align="right">
-          <h2>Precio: $ {{producto.precio}}.00</h2>
+          <h2>Precio: $ {{producto.precio}}</h2>
           <div class="row">
             <div class= "col-sm-12" align="right">
-            <input type="submit" name="Agregar" value="Agregar a Carrito de Compras" class="btn btn-success active btn-green green-bg">
+            <a href="{% url 'shopping_cart:add_to_cart' producto.id %}" class="btn btn-warning">Agregar a carro de Compras</a>
           </div>
           </div>
         </div>
+
     </div>    
-    <h3>FALTA PONER EN MODELS UNA DESCRIPCION PARA LOS PRODUCTOS</h3>
+    <h3>FALTA PONER EN MODELS UNA DESCRIPCION PARA CADA PRODUCTO</h3>
 
 </div class="container">
 <div class="basic">

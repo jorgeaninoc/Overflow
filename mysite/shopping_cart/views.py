@@ -34,9 +34,9 @@ def add_to_cart(request, **kwargs):
     # filter products by id
     product = Producto.objects.filter(id=kwargs.get('item_id', "")).first()
     # check if the user already owns this product
-    if product in request.user.profile.ebooks.all():
-        messages.info(request, 'Ya tienes este producto')
-        return redirect(reverse('products:catalogo')) 
+    # if product in request.user.profile.ebooks.all():
+    #     messages.info(request, 'Ya tienes este producto')
+    #     return redirect(reverse('products:catalogo')) 
     # create orderItem of the selected product
     order_item, status = OrderItem.objects.get_or_create(product=product)
     # create order associated with the user
