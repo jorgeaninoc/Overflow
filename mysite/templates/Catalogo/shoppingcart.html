@@ -1,0 +1,44 @@
+<div class="basic">
+{% load static %}
+{% include "partials/top.html" %}
+</div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h1 class="title">
+                Tu Carrito de Compras
+            </h1>
+        </div>
+        <div class="col-sm-4">
+        </div>
+<!--         <div class="col-sm-4">
+            <input type="text" placeholder="Search..">
+        </div> -->
+    </div>
+    <hr>
+<!-- <table> -->
+
+<tr>   
+<td><h5>{{ producto.nombre }}</h5>
+<td><p><strong>$ {{ producto.precio }}</strong></p></td>
+
+<td>
+    <form class='form-product-ajax' method="POST" action='{% url "cart:update" %}' data-endpoint='{% url "cart:update" %}' class="form"> {% csrf_token %}
+        <input type="hidden" name='product_id' value='{{ producto.id }}'>
+        <span class='submit-span'>
+        {% if product in cart.products.all %}
+            <button>Remove</button>
+        {% else %}
+            <button>Add to Cart</button>
+        </span>
+        {% endif %}
+    </form>
+</td>
+</tr>
+<!-- </table> -->
+{% endfor %} 
+
+
+{% include "partials/bottom.html" %}
+

@@ -1,8 +1,8 @@
 """
 Created by Framework
 This file is where you can create views for the App
-Modified by: Jorge Nino
-Date: 19/10/18
+Modified by: Enrique Posada
+Date: 03/11/18
 """
 # Import the libraries used.
 from django.shortcuts import render
@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from Catalogo.models import *
+from Catalogo.models import UserSession
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Catalogo.filters import *
@@ -86,3 +87,27 @@ def getProducto(request, productoid):
         raise Http404("Producto does not exist")
     # return HttpResponse("Este es el Producto %s." % productoid)
     return render(request, 'Catalogo/productoinfo.html', {'producto': producto})
+
+
+
+def getCarrito(request):
+    
+    if not request.session.session_key:
+        request.session.create()
+
+    print('Session KEY is: '+request.session.session_key)
+    # user = get_object_or_404(UserSession, user=request.session.session_key)
+    """ This view displays what is in a user's cart. """
+    # Based on the user who is making the request, grab the cart object
+    my_cart = Cart.objects.get(user=UserSession)
+    if my_cart == 0:
+        print('THE CART OF THE USER IS EMPTY')
+    else:
+    # Get a queryset of entries that correspond to "my_cart"
+        list_of_entries = Entry.objects.filter(cart=my_cart)
+        # Make a list of the product's names
+        list_of_products = list(list_of_entries.values_list('product__name', flat=True))
+        # Remove redundant product names
+        list_of_products = list(set(list_of_products))
+    return render(request, 'shoppingcart.html', {'list_of_products': list_of_products})
+    #return HttpResponse("Este es el Carrito %s.", % list_of_products: list_of_products)
