@@ -26,11 +26,8 @@ class ConsultCommunitiesTest(TestCase):
         # Get a client copy.
         self.client = Client()
         # Get the site from /actividades
-<<<<<<< HEAD
         response = self.client.get('/comunidades100')
-=======
         response = self.client.get('/comunidadesD')
->>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
         # Check if the code return is 404 for failure
         self.assertEqual(response.status_code, 404)
 
@@ -178,7 +175,6 @@ class EditCommunitiesTest(TestCase):
 # Test for the CU: Delete Community
 class DeleteCommunitiesTest(TestCase):
 
-
     def testDeleteCommunitiesAdmin(self):
         """
         This function calls the function to create the object Comunidad and deletes it, then checks if it was deleted.
@@ -223,7 +219,6 @@ class DeleteCommunitiesTest(TestCase):
             c.save()
             co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
-<<<<<<< HEAD
         self.assertNotEqual(c2,co)
 
     def testDeleteCommunitiesFalse(self):
@@ -245,7 +240,6 @@ class DeleteCommunitiesTest(TestCase):
             self.assertTrue(False)
         else:
             self.assertTrue(True)
-=======
         self.assertEquals(c,co)
 
 
@@ -275,4 +269,3 @@ class FilterCommunitiesTest(TestCase):
         response = self.client.get('/comunidades/?nombre=1')
         #Checar que el filtro 1 solo regresa 1 objeto
         self.assertEquals(response.context_data['filter'].qs.count(), 1)
->>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
