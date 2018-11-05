@@ -29,15 +29,28 @@
     <td><h1>Producto</h1></td>
     <td colspan="5"></td>
     <td colspan="5"></td>
-    <td><h1>Cantidad</h1></td>
+    <td colspan="5" width="10"><h1>Cantidad</h1></td>
+    <td><input type="submit" name="checkout" value="Continuar con la Compra" class="btn btn-success active btn-green green-bg" id="checkout"></td>
   </tr>
 
 
-{% for key,value in cart.items %}<tr><td colspan="8">
-  <h2>{{ key }}</td><td><td></td></td>
-  <td><h2>{{ value }}</h2></td></tr>
+{% for key,value in cart.items %}
+  
+
+  
+  <form method='POST'>
+  <tr align="center">
+  <td colspan="8"><h2>{{ key }}</h2></td><td><td></td></td>
+  <td colspan="6"><h2>{{ value }}</h2></td>
+  {% csrf_token %}
+  <td><input type="submit" name="boton{{ key }}" value="Quitar Producto del Carrito de Compras" class="btn btn-danger active btn-red red-bg" id="boton{{ key }}"></td>
+  </form>
+  </tr>
+  
   {% endfor %}
 </table>
+
+
 
 <!-- </td> -->
 <!-- </tr> -->

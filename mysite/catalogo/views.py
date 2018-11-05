@@ -107,23 +107,48 @@ def viewCart(request):
     cart = request.session.get('cart', {})
     # for item in cart:
     #     print (item)
-    return render(request, 'Catalogo/shoppingcart.html', {'cart':cart})
+    if request.method == 'POST':
+        # boton = request.POST.get('boton'+item)
+        for item in cart:
+            # print(item)
+            if request.POST.get('boton'+item):
+                boton = request.POST.get('boton'+item)
+                print(item+' button has been pressed')
+                # item_to_remove = cart[item]
+                # del item_to_remove
+                # cart.pop(item)
+                # del cart[item]
+                new_cart = removefromCart(cart, item)
+                # cart = new_cart # Equivalent line is below
+                request.session['cart'] = new_cart
+                print('The product '+item+' has been removed from the Cart')
+                return render(request, 'Catalogo/shoppingcart.html', {'cart':new_cart})
+        # print('Button pressed was: '+boton)
+    else:
+        return render(request, 'Catalogo/shoppingcart.html', {'cart':cart})
     # return HttpResponse("Este es el carrito %s." % json.dumps(cart))
         # for y in cart[item]: # y = quantity, should print 1
             # print (y,':',cart[item][y]) # Print the current cart
 
 
+def removefromCart(cart, key):
+    new_cart = dict(cart)
+    del new_cart[key]
+    return new_cart
+
+
+
 # Falta poder llamar por medio de un post a poder borrar el producto de un carrito
 
-def removefromCart(request, product):
-    product_id = str(product.id)
-    if product_id in self.cart:
-        # Subtract 1 from the quantity
-        self.cart[product_id]['quantity'] -= 1
-        # If the quantity is now 0, then delete the item
-        if self.cart[product_id]['quantity'] == 0:
-            del self.cart[product_id]
-    return HttpResponse("Este es el carrito")
+# def removefromCart(request, product):
+#     product_id = str(product.id)
+#     if product_id in self.cart:
+#         # Subtract 1 from the quantity
+#         self.cart[product_id]['quantity'] -= 1
+#         # If the quantity is now 0, then delete the item
+#         if self.cart[product_id]['quantity'] == 0:
+#             del self.cart[product_id]
+#     return HttpResponse("Este es el carrito")
 
 
     # print('Here is the content of the cart'+cart)
