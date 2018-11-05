@@ -31,7 +31,7 @@ class Colaborador(models.Model):
     # Declare the variables (Columns) for the table Colaborador.
     nombre= models.CharField(max_length=255,null=False)
     telefono=models.CharField(max_length=20)
-    correo=models.EmailField()
+    correo=models.EmailField(unique=True)
     empresa=models.CharField(max_length=255)
 
     # Function to return the name of the image

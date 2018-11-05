@@ -17,10 +17,6 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 import django
 
-<<<<<<< HEAD
-
-=======
->>>>>>> fdedcebcd7c187cce551438a179a297dd3b9fbfe
 # Create your tests here.
 
 # Test for the UC: Filter Catalogue
