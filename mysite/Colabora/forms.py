@@ -30,6 +30,7 @@ class ColaboradorForm(forms.ModelForm):
         if len(botcatcher) > 0:
             raise forms.ValidationError("BOT DETECTADO")
         return botcatcher
+
     # Class to change super Class attributes
     class Meta:
         # Set the mdoel to Colaborador

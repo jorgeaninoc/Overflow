@@ -223,7 +223,6 @@ class DeleteCommunitiesTest(TestCase):
             c.save()
             co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
-<<<<<<< HEAD
         self.assertNotEqual(c2,co)
 
     def testDeleteCommunitiesFalse(self):
@@ -245,7 +244,6 @@ class DeleteCommunitiesTest(TestCase):
             self.assertTrue(False)
         else:
             self.assertTrue(True)
-=======
         self.assertEquals(c,co)
 
 
@@ -275,4 +273,3 @@ class FilterCommunitiesTest(TestCase):
         response = self.client.get('/comunidades/?nombre=1')
         #Checar que el filtro 1 solo regresa 1 objeto
         self.assertEquals(response.context_data['filter'].qs.count(), 1)
->>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09

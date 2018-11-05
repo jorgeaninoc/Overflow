@@ -5,9 +5,7 @@ Modified by: Jorge Nino
 Date: 19/10/18
 """
 # Import libraries used.
-<<<<<<< HEAD
 from django.test import TestCase, Client
-=======
 from django.test import TestCase
 # Import libraries that will be used.
 from django.contrib.auth.models import User
@@ -19,8 +17,6 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 import django
 
-
->>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
 
 # Create your tests here.
 
