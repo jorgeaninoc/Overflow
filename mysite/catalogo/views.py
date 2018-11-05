@@ -87,7 +87,7 @@ def getProducto(request, productoid):
     if request.method == 'POST':
         quantity = request.POST.get('quantity')
         cart = request.session.get('cart', {})
-        cart[productoid] = quantity  # quantity.... Quantity of one by the moment
+        cart[producto.nombre] = quantity  # quantity.... Quantity of one by the moment
         request.session['cart'] = cart
         # print(cart[productoid])
         print('Item has been added to the cart')

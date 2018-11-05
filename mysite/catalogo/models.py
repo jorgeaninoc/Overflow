@@ -61,6 +61,10 @@ class Producto(models.Model):
         verbose_name_plural = "Productos"
 
 
+# Se va a tener que hacer una tabla que represente las ordenes hechas por usuarios con un numero aleatorio como referencia de compra y un apartado para almacenar todo los productos del carrito
+
+
+
 class Cart(models.Model):
     user = models.ForeignKey(UserSession, null=True, blank=True, on_delete='CASCADE')
     count = models.PositiveIntegerField(default=0)
