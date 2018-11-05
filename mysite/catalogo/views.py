@@ -91,8 +91,8 @@ def getProducto(request, productoid):
         request.session['cart'] = cart
         # print(cart[productoid])
         print('Item has been added to the cart')
-        for item in cart:
-            print (item)
+        # for item in cart:
+            # print (item)
             # for y in cart[item]: # y = quantity, should print 1
                 # print (y,':',cart[items][y]) # Print the current cart
         # print('Item:'+cart[productoid]+' has been added to the Cart')
@@ -102,14 +102,29 @@ def getProducto(request, productoid):
     # return HttpResponse("Este es el Producto %s." % productoid)
     return render(request, 'Catalogo/productoinfo.html', {'producto': producto})
 
-
+# This functions basically calls all of the items stored in the session alongside the quantity of the product
 def viewCart(request):
     cart = request.session.get('cart', {})
     # for item in cart:
     #     print (item)
-    return HttpResponse("Este es el carrito %s." % json.dumps(cart))
+    return render(request, 'Catalogo/shoppingcart.html', {'cart':cart})
+    # return HttpResponse("Este es el carrito %s." % json.dumps(cart))
         # for y in cart[item]: # y = quantity, should print 1
             # print (y,':',cart[item][y]) # Print the current cart
+
+
+# Falta poder llamar por medio de un post a poder borrar el producto de un carrito
+
+def removefromCart(request, product):
+    product_id = str(product.id)
+    if product_id in self.cart:
+        # Subtract 1 from the quantity
+        self.cart[product_id]['quantity'] -= 1
+        # If the quantity is now 0, then delete the item
+        if self.cart[product_id]['quantity'] == 0:
+            del self.cart[product_id]
+    return HttpResponse("Este es el carrito")
+
 
     # print('Here is the content of the cart'+cart)
 
@@ -119,24 +134,24 @@ def viewCart(request):
 #     request.session['cart'] = cart
 
 
-def getCarrito(request):
+# def getCarrito(request):
     
-    if not request.session.session_key:
-        request.session.create()
+#     if not request.session.session_key:
+#         request.session.create()
 
-    print('Session KEY is: '+request.session.session_key)
-    # user = get_object_or_404(UserSession, user=request.session.session_key)
-    """ This view displays what is in a user's cart. """
-    # Based on the user who is making the request, grab the cart object
-    # my_cart = Cart.objects.get(user=0)
-    if my_cart == 0:
-        print('THE CART OF THE USER IS EMPTY')
-    else:
-    # Get a queryset of entries that correspond to "my_cart"
-        list_of_entries = Entry.objects.filter(cart=my_cart)
-        # Make a list of the product's names
-        list_of_products = list(list_of_entries.values_list('product__name', flat=True))
-        # Remove redundant product names
-        list_of_products = list(set(list_of_products))
-    return render(request, 'shoppingcart.html', {'list_of_products': list_of_products})
-    #return HttpResponse("Este es el Carrito %s.", % list_of_products: list_of_products)
+#     print('Session KEY is: '+request.session.session_key)
+#     # user = get_object_or_404(UserSession, user=request.session.session_key)
+#     """ This view displays what is in a user's cart. """
+#     # Based on the user who is making the request, grab the cart object
+#     # my_cart = Cart.objects.get(user=0)
+#     if my_cart == 0:
+#         print('THE CART OF THE USER IS EMPTY')
+#     else:
+#     # Get a queryset of entries that correspond to "my_cart"
+#         list_of_entries = Entry.objects.filter(cart=my_cart)
+#         # Make a list of the product's names
+#         list_of_products = list(list_of_entries.values_list('product__name', flat=True))
+#         # Remove redundant product names
+#         list_of_products = list(set(list_of_products))
+#     return render(request, 'shoppingcart.html', {'list_of_products': list_of_products})
+#     #return HttpResponse("Este es el Carrito %s.", % list_of_products: list_of_products)

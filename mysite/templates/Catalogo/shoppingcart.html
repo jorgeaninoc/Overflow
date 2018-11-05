@@ -19,26 +19,25 @@
     <hr>
 <!-- <table> -->
 
-<tr>   
-<td><h5>{{ producto.nombre }}</h5>
-<td><p><strong>$ {{ producto.precio }}</strong></p></td>
+<!-- <tr>    -->
+<!-- <td><h5>{{ producto.nombre }}</h5> -->
+<!-- <td><p><strong>$ {{ producto.precio }}</strong></p></td> -->
 
-<td>
-    <!-- <form class='form-product-ajax' method="POST" action='{% url "cart:update" %}' data-endpoint='{% url "cart:update" %}' class="form"> {% csrf_token %}
-        <input type="hidden" name='product_id' value='{{ producto.id }}'>
-        <span class='submit-span'>
-        {% if product in cart.products.all %}
-            <button>Remove</button>
-        {% else %}
-            <button>Add to Cart</button>
-        </span>
-        {% endif %}
-    </form> -->
-    
-</td>
-</tr>
+
+<table>
+  <tr>
+    <td>IdProducto (De momento)</td>
+    <td>Cantidad</td>
+  </tr>
+
+
+{% for key,value in cart.items %}<tr><td>{{ key }}</td><td>{{ value }}</td></tr>{% endfor %}
+</table>
+
+<!-- </td> -->
+<!-- </tr> -->
 <!-- </table> -->
-{% endfor %} 
+
 
 
 {% include "partials/bottom.html" %}
