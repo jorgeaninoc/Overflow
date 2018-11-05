@@ -17,7 +17,10 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 import django
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fdedcebcd7c187cce551438a179a297dd3b9fbfe
 # Create your tests here.
 
 # Test for the UC: Filter Catalogue
@@ -31,14 +34,14 @@ class FilterCatalogueTest(TestCase):
         self.client = Client()
 
         # Create objects to filter and save them
-        i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
-        im = Imagen.objects.get(nombre='Prueba O')
-        c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-        c.save()
-        c2 = Producto.objects.create(nombre="prod 1", precio=200, communidad = c, subCat="a")
-        c2.save()
-        d2 = Producto.objects.create(nombre="prod 2", precio=200, communidad = c, subCat="a")
-        d2.save()
+        imagen= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+        imagenn = Imagen.objects.get(nombre='Prueba O')
+        comunidad = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+        comunidad.save()
+        producto = Producto.objects.create(nombre="prod 1", precio=200, communidad = comunidad, subCat="a")
+        producto.save()
+        crear = Producto.objects.create(nombre="prod 2", precio=200, communidad = comunidad, subCat="a")
+        crear.save()
 
         response = self.client.get('/catalogo/')
 

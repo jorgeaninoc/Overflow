@@ -16,6 +16,7 @@ from Inicio.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Comunidades.models import Imagen
+from Colabora.models import Colaborador
 from Catalogo.models import Producto
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -69,29 +70,24 @@ def index(request):
     return render(request,'Inicio/index.html',context=entry_dict)
 
 
+class ChartView(View): template_name = 'charts.html'
 
-class ChartView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'charts.html', {})
-
-def get_data(request, *args, **kwargs):
-    queryset = Foo.objects.all()
-    dates = [obj.created for obj in queryset]
-    counts = [obj.amount for obj in queryset]
-    context = {
-        'dates': json.dumps(dates),
-        'counts': json.dumps(counts),
-    }
-
-    return render(request, template, context)#Jsonn Response
+def get_data(self, **kwargs):
+    context = super(ChartView, self).get_data(**kwargs)
+    col = Colaborador.objects.all()
+    cols_count = [ Colaborador.objects.filter(nombre=cls).count() for cls in col ]
+    context['col'] = col
+    context['col_count'] = cols_count
+    return context
 
 
 class ChartData(APIView):
-    authentication_classes = []
-    permission_classes = []
+
     def get(self, request, format=None):
-         data = {
-            "sales": 100,
-            "customers":10,
+        default_items = []
+        labels = []
+        data = {
+            "labels": labels,
+            "default": default_items,
         }
-         return Response(data)
+        return Response(data)

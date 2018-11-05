@@ -26,11 +26,8 @@ class ConsultCommunitiesTest(TestCase):
         # Get a client copy.
         self.client = Client()
         # Get the site from /actividades
-<<<<<<< HEAD
         response = self.client.get('/comunidades100')
-=======
         response = self.client.get('/comunidadesD')
->>>>>>> 34a0d6cc54c924cf3af06bfd3ab4a66032ceff09
         # Check if the code return is 404 for failure
         self.assertEqual(response.status_code, 404)
 
@@ -177,7 +174,6 @@ class EditCommunitiesTest(TestCase):
 
 # Test for the CU: Delete Community
 class DeleteCommunitiesTest(TestCase):
-
 
     def testDeleteCommunitiesAdmin(self):
         """
