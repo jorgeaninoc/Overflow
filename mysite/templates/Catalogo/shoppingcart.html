@@ -24,14 +24,19 @@
 <!-- <td><p><strong>$ {{ producto.precio }}</strong></p></td> -->
 
 
-<table>
+<table align="center">
   <tr>
-    <td>IdProducto (De momento)</td>
-    <td>Cantidad</td>
+    <td><h1>Producto</h1></td>
+    <td colspan="5"></td>
+    <td colspan="5"></td>
+    <td><h1>Cantidad</h1></td>
   </tr>
 
 
-{% for key,value in cart.items %}<tr><td>{{ key }}</td><td>{{ value }}</td></tr>{% endfor %}
+{% for key,value in cart.items %}<tr><td colspan="8">
+  <h2>{{ key }}</td><td><td></td></td>
+  <td><h2>{{ value }}</h2></td></tr>
+  {% endfor %}
 </table>
 
 <!-- </td> -->
