@@ -41,7 +41,15 @@
           <h2>Precio: $ {{producto.precio}}.00</h2>
           <div class="row">
             <div class= "col-sm-12" align="right">
-            <input type="submit" name="Agregar" value="Agregar a Carrito de Compras" class="btn btn-success active btn-green green-bg">
+            
+            <form method='POST'>
+              <div class="form-group row">
+                {% csrf_token %}
+                
+                <input type="submit" name="AddItem" value="Agregar a Carrito de Compras" class="btn btn-success active btn-green green-bg">
+              </div>
+            </form>
+            <!-- <input type="submit" name="Agregar" value="Agregar a Carrito de Compras" class="btn btn-success active btn-green green-bg"> -->
           </div>
           </div>
         </div>

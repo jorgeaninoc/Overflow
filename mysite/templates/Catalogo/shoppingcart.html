@@ -24,7 +24,7 @@
 <td><p><strong>$ {{ producto.precio }}</strong></p></td>
 
 <td>
-    <form class='form-product-ajax' method="POST" action='{% url "cart:update" %}' data-endpoint='{% url "cart:update" %}' class="form"> {% csrf_token %}
+    <!-- <form class='form-product-ajax' method="POST" action='{% url "cart:update" %}' data-endpoint='{% url "cart:update" %}' class="form"> {% csrf_token %}
         <input type="hidden" name='product_id' value='{{ producto.id }}'>
         <span class='submit-span'>
         {% if product in cart.products.all %}
@@ -33,7 +33,8 @@
             <button>Add to Cart</button>
         </span>
         {% endif %}
-    </form>
+    </form> -->
+    
 </td>
 </tr>
 <!-- </table> -->

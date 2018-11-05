@@ -80,14 +80,35 @@ class catalogoFilter(ListView):
 
 
 def getProducto(request, productoid):
-    try:
-        producto = get_object_or_404(Producto, pk=productoid)
+    # try:
+    producto = get_object_or_404(Producto, pk=productoid)
+    if request.method == 'POST':
+        
+        cart = request.session.get('cart', {})
+        cart[productoid] = 1  # quantity.... Quantity of one by the moment
+        request.session['cart'] = cart
+        # print(cart[productoid])
+        print('Item has been added to the cart')
+        for items in cart:
+            print (items)
+            # for y in cart[items]: # y = quantity, should print 1
+            #     print (y,':',cart[items][y]) # Print the current cart
+        # print('Item:'+cart[productoid]+' has been added to the Cart')
         # productname = get_object_or_404(Producto, nombre)
-    except:
-        raise Http404("Producto does not exist")
+    # except:
+    #     raise Http404("El producto no existe")
     # return HttpResponse("Este es el Producto %s." % productoid)
     return render(request, 'Catalogo/productoinfo.html', {'producto': producto})
 
+
+def viewCart(request):
+    cart = request.session.get('cart', {})
+    print('Here is the content of the cart'+cart)
+
+# def addCart(request, item_id, quantity):
+#     cart = request.session.get('cart', {})
+#     cart[item_id] = quantity
+#     request.session['cart'] = cart
 
 
 def getCarrito(request):
@@ -99,7 +120,7 @@ def getCarrito(request):
     # user = get_object_or_404(UserSession, user=request.session.session_key)
     """ This view displays what is in a user's cart. """
     # Based on the user who is making the request, grab the cart object
-    my_cart = Cart.objects.get(user=UserSession)
+    # my_cart = Cart.objects.get(user=0)
     if my_cart == 0:
         print('THE CART OF THE USER IS EMPTY')
     else:

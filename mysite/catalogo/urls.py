@@ -25,7 +25,7 @@ urlpatterns = [
 
     path('catalogo/', views.catalogoFilter.as_view(),name='catalogo'),
     path('catalogo/<int:productoid>/', views.getProducto, name='producto'),
-    path('carrito/', views.getCarrito, name='carrito'),
+    path('carrito/', views.viewCart, name='carrito'),
 ]
 # if debug is on show images through their url.
 if settings.DEBUG:
