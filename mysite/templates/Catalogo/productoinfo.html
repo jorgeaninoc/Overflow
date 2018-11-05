@@ -45,7 +45,8 @@
             <form method='POST'>
               <div class="form-group row">
                 {% csrf_token %}
-                
+                Cantidad<br>
+                <input type="number" name="quantity" id="quantity" value="Inserte la cantidad" > <br>
                 <input type="submit" name="AddItem" value="Agregar a Carrito de Compras" class="btn btn-success active btn-green green-bg">
               </div>
             </form>

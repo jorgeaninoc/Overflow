@@ -23,6 +23,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 
+import json
+
 
 
 # This function searches for the data of a Product when submitted
@@ -83,16 +85,16 @@ def getProducto(request, productoid):
     # try:
     producto = get_object_or_404(Producto, pk=productoid)
     if request.method == 'POST':
-        
+        quantity = request.POST.get('quantity')
         cart = request.session.get('cart', {})
-        cart[productoid] = 1  # quantity.... Quantity of one by the moment
+        cart[productoid] = quantity  # quantity.... Quantity of one by the moment
         request.session['cart'] = cart
         # print(cart[productoid])
         print('Item has been added to the cart')
-        for items in cart:
-            print (items)
-            # for y in cart[items]: # y = quantity, should print 1
-            #     print (y,':',cart[items][y]) # Print the current cart
+        for item in cart:
+            print (item)
+            # for y in cart[item]: # y = quantity, should print 1
+                # print (y,':',cart[items][y]) # Print the current cart
         # print('Item:'+cart[productoid]+' has been added to the Cart')
         # productname = get_object_or_404(Producto, nombre)
     # except:
@@ -103,7 +105,13 @@ def getProducto(request, productoid):
 
 def viewCart(request):
     cart = request.session.get('cart', {})
-    print('Here is the content of the cart'+cart)
+    # for item in cart:
+    #     print (item)
+    return HttpResponse("Este es el carrito %s." % json.dumps(cart))
+        # for y in cart[item]: # y = quantity, should print 1
+            # print (y,':',cart[item][y]) # Print the current cart
+
+    # print('Here is the content of the cart'+cart)
 
 # def addCart(request, item_id, quantity):
 #     cart = request.session.get('cart', {})
