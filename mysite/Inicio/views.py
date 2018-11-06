@@ -77,13 +77,13 @@ def get_data(self, **kwargs):
     cols_count = [ Colaborador.objects.filter(nombre=cls).count() for cls in col ]
     context['col'] = col
     context['col_count'] = cols_count
+    context['arreglo'] = {}
     return context
-
 
 class ChartData(APIView):
 
-    def get(self, request, format=None):
-        default_items = []
+    def post(self, request, format=None):
+        default_items = [ {"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":False,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}   ]
         labels = []
         data = {
             "labels": labels,

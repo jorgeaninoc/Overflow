@@ -86,8 +86,40 @@
 
 
         <h2>{% trans 'Reporte colaboradores' %}</h2>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+        <script type="text/javascript">
+          function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+              }
+              var csrftoken = getCookie('csrftoken');
+              // Setup ajax connections safetly
 
+              function csrfSafeMethod(method) {
+                  // these HTTP methods do not require CSRF protection
+                  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+              }
+              $.ajaxSetup({
+                  beforeSend: function(xhr, settings) {
+                      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                      }
+                  }
+              });
+
+        </script>
         <div class="row">
           <div class="col-sm-12" url-endpoint="/api/data/">
             <div class="panel panel-default">
@@ -96,54 +128,56 @@
               </div>
             </div>
             <script>
+
+            $(window).on('load', function(){
               var endpoint = '/api/chart/data/'
               var defaultData = [];
               var labels = [];
-              array = {{ procedures3 }}
+
               $.ajax({
-                  method: "GET",
+                  type: "POST",
+                  dataType: 'json',
                   credentials: 'same-origin',
                   url: endpoint,
                   success: function(data){
-                      defaultData = data.default
+                    console.log(data);
                       var ctx = document.getElementById("myChart");
-                      var myChart = new Chart(ctx, {
+                      new Chart(ctx, {
                           type: 'line',
                           data: {
                               labels: [{% for i in col %}{{ i.id }},{% endfor %}],
-                              datasets: [{
-                                  label: "# of colaboradores",
-                                  data: [{% for j in col_count %}
-                                           {{ j }},
-                                         {% endfor %}],
-                                  backgroundColor: [
-                                      'rgba(255, 99, 132, 0.2)',
-                                      'rgba(255, 99, 132, 0.2)',
-                                      'rgba(54, 162, 235, 0.2)',
-                                      'rgba(255, 206, 86, 0.2)',
-                                      'rgba(75, 192, 192, 0.2)',
-                                      'rgba(153, 102, 255, 0.2)',
-                                      'rgba(255, 159, 64, 0.2)'
-                                  ],
-                                  borderColor: [
-                                      'rgba(255,99,132,1)',
-                                      'rgba(255,99,132,1)',
-                                      'rgba(54, 162, 235, 1)',
-                                      'rgba(255, 206, 86, 1)',
-                                      'rgba(75, 192, 192, 1)',
-                                      'rgba(153, 102, 255, 1)',
-                                      'rgba(255, 159, 64, 1)'
-                                  ],
-                                  borderWidth: 1
-                              }]
+                              datasets: [data.default],
+
+                          },
+                          options: {
+                            legend: {
+                               display: false,
+                               position: 'top',
+                            },
+                            scales: {
+                               yAxes: [{
+                                  ticks: {
+                                     beginAtZero: true,
+                                     callback: function(value, index, values) {
+                                        if (parseInt(value) >= 1000) {
+                                           return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                        } else {
+                                           return '$' + value;
+                                        }
+                                     }
+                                  }
+                               }]
+                            }
                           }
-                      })
+                      });
                   },
                   error: function(error_data){
                       console.log("error")
                       console.log(error_data)
                   },
               })
+
+            });
             </script>
 
 
@@ -152,122 +186,4 @@
 
 
 
-        <h2>{% trans 'Reporte visitas' %}</h2>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-          <div class="row">
-            <div class="col-sm-12" url-endpoint="/api/data/">
-
-              <div class="panel panel-default">
-                <div class="panel-body">
-                    <canvas id="myChart2" width="300" height="200"></canvas>
-                </div>
-              </div>
-        <script>
-          var ctx = document.getElementById("myChart2").getContext('2d');
-          var uno = 1;
-          var myChart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                  labels: [
-                  "Agosto", "Septiembre", "Octubre"],
-                  datasets: [{
-                      label: '# de visitas',
-                      data: [
-                      15, 30, 45, 90, 0, 0],
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255,99,132,1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero:true
-                          }
-                      }]
-                  }
-              }
-          });
-        </script>
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <canvas id="myChart2" width="300" height="200"></canvas>
-              </div>
-          </div>
-        <script>
-              var ctx = document.getElementById('myChart2');
-               var dates = JSON.parse('{{ dates|safe }}');
-               var counts = JSON.parse('{{ counts|safe }}');
-               var myChart = new Chart(ctx, {
-                   type: 'line',
-                   data: {
-                       labels: dates,
-                       datasets: [
-                           {
-                               data: counts,
-                               label: 'Counts',
-                           }
-                       ]
-                   }
-               })
-        </script>
-
-        <h2>{% trans 'Reporte ventas' %}</h2>
-        <script>
-              var ctx = document.getElementById('myChart3');
-               var dates = JSON.parse('{{ dates|safe }}');
-               var counts = JSON.parse('{{ counts|safe }}');
-               var myChart = new Chart(ctx, {
-                   type: 'line',
-                   data: {
-                       labels: dates,
-                       datasets: [
-                           {
-                               data: counts,
-                               label: 'Counts',
-                           }
-                       ]
-                   }
-               })
-        </script>
-          <div class="panel panel-default">
-              <div class="panel-body">
-                  <canvas id="myChart3" width="300" height="200"></canvas>
-              </div>
-          </div>
-        <script>
-              var ctx = document.getElementById('myChart3');
-               var dates = JSON.parse('{{ dates|safe }}');
-               var counts = JSON.parse('{{ counts|safe }}');
-               var myChart = new Chart(ctx, {
-                   type: 'line',
-                   data: {
-                       labels: dates,
-                       datasets: [
-                           {
-                               data: counts,
-                               label: 'Counts',
-                           }
-                       ]
-                   }
-               })
-
-        </script>
-  </div>
-</div>
 {% endblock %}
