@@ -25,5 +25,5 @@ class OrderForm(forms.ModelForm):
         return botcatcher
 
     class Meta:
-        # model = Order
+        model = Ordenes
         fields = "__all__"

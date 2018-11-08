@@ -12,27 +12,30 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Contacto',
+            name='Comunidad',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('telefono', models.CharField(max_length=255)),
-                ('horario', models.CharField(max_length=255)),
-                ('mail', models.EmailField(max_length=254)),
+                ('nombre', models.CharField(max_length=255, unique=True)),
+                ('descripcion', models.TextField()),
             ],
             options={
-                'verbose_name_plural': 'Informacion de Contacto',
+                'verbose_name_plural': 'Comunidades',
             },
         ),
         migrations.CreateModel(
-            name='Mensaje',
+            name='Imagen',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=255)),
-                ('correo', models.EmailField(max_length=254)),
-                ('mensaje', models.TextField(max_length=255)),
+                ('nombre', models.CharField(default='2018-11-08 17:49:06.118705', max_length=255, unique=True)),
+                ('path', models.ImageField(upload_to='images')),
             ],
             options={
-                'verbose_name_plural': 'Mensajes',
+                'verbose_name_plural': 'Imagenes',
             },
+        ),
+        migrations.AddField(
+            model_name='comunidad',
+            name='imagenes',
+            field=models.ManyToManyField(to='Comunidades.Imagen'),
         ),
     ]

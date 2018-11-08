@@ -13,7 +13,7 @@ from django.http import JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from Catalogo.models import *
-from Catalogo.models import UserSession
+# from Catalogo.models import UserSession
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Catalogo.filters import *
@@ -23,6 +23,8 @@ from django.contrib import messages
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+
+from Catalogo.forms import *
 
 
 import json
@@ -146,6 +148,9 @@ def removefromCart(cart, key):
 
 def checkout(request):
     cart = request.session.get('cart', {})
+    for product_name in cart: # y = quantity, should print 1
+        print (product_name,':',cart[product_name]) # Print the current cart
+
     form = OrderForm()
     order = Ordenes.objects.all()
 
@@ -168,9 +173,10 @@ def checkout(request):
 
     entry_dict = {
         "form":form,
-        "order":order
+        "order":order,
+        "cart":cart
     }
-    return render(request, 'Catalogo/checkout.html',context=entry_dict)
+    return render(request, 'Catalogo/checkout.html', context = entry_dict )
 
 
 # # This function makes all of the checkout process

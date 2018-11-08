@@ -57,7 +57,7 @@ def index(request):
     if len(announces_list) >= 1:
         announces_list = announces_list[0]
 
-    print(products_list[0].imagenes)
+    
 
     entry_dict = {
     "videos": vid_list,

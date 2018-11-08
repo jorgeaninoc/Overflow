@@ -20,8 +20,8 @@ from django.dispatch import receiver
 
 
 # Session id Table for User Handling
-class UserSession(models.Model):
-    user = models.CharField(max_length=32, null=True)
+# class UserSession(models.Model):
+#     user = models.CharField(max_length=32, null=True)
 
 
 # Declaring Table Image
@@ -87,32 +87,32 @@ class Ordenes(models.Model):
 
 
 
-class Cart(models.Model):
-    user = models.ForeignKey(UserSession, null=True, blank=True, on_delete='CASCADE')
-    count = models.PositiveIntegerField(default=0)
-    total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
-    updated = models.DateTimeField(auto_now=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+# class Cart(models.Model):
+#     user = models.ForeignKey(UserSession, null=True, blank=True, on_delete='CASCADE')
+#     count = models.PositiveIntegerField(default=0)
+#     total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
+#     updated = models.DateTimeField(auto_now=True)
+#     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return "User with key: {} has {} items in the cart. Total is ${}".format(self.user, self.count, self.total)
-
-
-class Entry(models.Model):
-    product = models.ForeignKey(Producto, null=True, on_delete='CASCADE')
-    cart = models.ForeignKey(Cart, null=True, on_delete='CASCADE')
-    quantity = models.PositiveIntegerField()
-
-    def __str__(self):
-        return "The entry contains {} {}(s).".format(self.quantity, self.product.name)
+#     def __str__(self):
+#         return "User with key: {} has {} items in the cart. Total is ${}".format(self.user, self.count, self.total)
 
 
-@receiver(post_save, sender=Entry)
-def update_cart(sender, instance, **kwargs):
-    line_cost = instance.quantity * instance.product.cost
-    instance.cart.total += line_cost
-    instance.cart.count += instance.quantity
-    instance.cart.updated = datetime.now()
+# class Entry(models.Model):
+#     product = models.ForeignKey(Producto, null=True, on_delete='CASCADE')
+#     cart = models.ForeignKey(Cart, null=True, on_delete='CASCADE')
+#     quantity = models.PositiveIntegerField()
+
+#     def __str__(self):
+#         return "The entry contains {} {}(s).".format(self.quantity, self.product.name)
+
+
+# @receiver(post_save, sender=Entry)
+# def update_cart(sender, instance, **kwargs):
+#     line_cost = instance.quantity * instance.product.cost
+#     instance.cart.total += line_cost
+#     instance.cart.count += instance.quantity
+#     instance.cart.updated = datetime.now()
 
 
 
