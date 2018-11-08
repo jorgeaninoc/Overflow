@@ -61,6 +61,28 @@ class Producto(models.Model):
         verbose_name_plural = "Productos"
 
 
+
+class Ordenes(models.Model):
+    # Falta Generar el numero al azar de la referencia
+
+    nombre =  models.CharField(max_length=255,null=False)
+    correo = models.EmailField(null=False)
+    # productos = models....
+    # timestamp = models.DateTimeField(auto_now_add=True)
+    # Declare function to return the name of the user sending the message
+    def __str__(self):
+        return self.nombre
+    
+    class Meta:
+        # Change verbose names to spanish language
+        verbose_name: "Orden Pendiente"
+        verbose_name_plural = "Ordenes Pendientes"
+    # Falta declarar un espacio de almacenmamiento para el diccionario
+    #     ya sea guardar por separado cantidad o juntarlo todo
+
+
+
+
 # Se va a tener que hacer una tabla que represente las ordenes hechas por usuarios con un numero aleatorio como referencia de compra y un apartado para almacenar todo los productos del carrito
 
 

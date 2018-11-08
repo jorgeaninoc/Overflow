@@ -6,7 +6,7 @@ Date: 03/11/18
 """
 # Import libraries used.
 from django.contrib import admin
-from Catalogo.models import Producto, Imagen, Cart, Entry
+from Catalogo.models import Producto, Imagen, Cart, Entry, Ordenes
 
 from django.utils.datetime_safe import datetime
 
@@ -26,6 +26,7 @@ class EntryAdmin(admin.ModelAdmin):
 admin.site.register(Producto)
 admin.site.register(Imagen)
 
+admin.site.register(Ordenes)
 
 admin.site.register(Cart)
 admin.site.register(Entry, EntryAdmin)

@@ -18,6 +18,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from Catalogo.filters import *
 
+from django.contrib import messages
+
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -124,6 +126,9 @@ def viewCart(request):
                 print('The product '+item+' has been removed from the Cart')
                 return render(request, 'Catalogo/shoppingcart.html', {'cart':new_cart})
         # print('Button pressed was: '+boton)
+        # if request.POST.get('checkout'):
+            # print('Se presiono ir a checkout')
+            # return render(request, 'Catalogo/checkout.html', {'cart':cart})
     else:
         return render(request, 'Catalogo/shoppingcart.html', {'cart':cart})
     # return HttpResponse("Este es el carrito %s." % json.dumps(cart))
@@ -131,10 +136,73 @@ def viewCart(request):
             # print (y,':',cart[item][y]) # Print the current cart
 
 
+# This function removes the item from the cart
 def removefromCart(cart, key):
     new_cart = dict(cart)
     del new_cart[key]
     return new_cart
+
+
+
+def checkout(request):
+    cart = request.session.get('cart', {})
+    form = OrderForm()
+    order = Ordenes.objects.all()
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order_form = Ordenes()
+            order_form.nombre = request.POST.get('nombre')
+            order_form.correo = request.POST.get('correo')
+            # order_form.productos = cart
+            
+            # print(order_form.nombre,order_form.mensaje, json.dumps(cart))
+            order_form.save()
+            # messages.success(request, 'Tu mensaje ha sido enviado.')
+            return HttpResponseRedirect('')
+        else:
+            form = OrderForm()
+    if len(order)>=1:
+        order = order[0]
+
+    entry_dict = {
+        "form":form,
+        "order":order
+    }
+    return render(request, 'Catalogo/checkout.html',context=entry_dict)
+
+
+# # This function makes all of the checkout process
+# def checkout():
+    
+#     if request.method == 'POST'
+#         form = OrderForm() # Client Information
+#         if form.is_valid():
+#             # cart_order = Order()
+#             # cart_order.numero_referencia  # Aqui se debe de generar un numero aleatorio de alrededor de 15 caracteres
+#             cart_order.nombre = request.POST.get('nombre')
+#             cart_order.correo = request.POST.get('correo')
+#             cart_order.telefono = request.POST.get('telefono')
+#             # This saves the order to the database
+#             cart_order.save()
+#             messages.success(request, 'Tu orden ha sido solicitada, tu numero de referencia es: '+cart_order.numero_referencia+'. Alguien de la organizacion se pondra en contacto con '+cart_order.correo)
+#             return HttpResponseRedirect('')
+#     else:
+#         # Declare a new object for the form of Order
+#         form = OrderForm() # Client Information
+
+#     entry_dict = {
+#     "form":form }
+
+#     # Render Checkout site
+#     return render(request, 'Catalogo/checkout.html',context=entry_dict)
+
+
+
+
+
+
 
 
 

@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm-4">
             <h1 class="title">
-                Tu Carrito de Compras
+                Checkout
             </h1>
         </div>
         <div class="col-sm-4">
@@ -30,10 +30,6 @@
     <td colspan="5"></td>
     <td colspan="5"></td>
     <td colspan="5" width="10"><h1>Cantidad</h1></td>
-<!--     <form method='POST'> -->
-
-      <td><a href="{% url 'Catalogo:checkout' %}"><input type="submit" name="checkout" value="Continuar con la Compra" class="btn btn-success active btn-green green-bg" id="checkout"></a></td>
-
   </tr>
 
 
@@ -45,13 +41,23 @@
   <tr align="center">
   <td colspan="8" width="10"><h2>{{ key }}</h2></td><td><td></td></td>
   <td colspan="6"><h2>{{ value }}</h2></td>
-  {% csrf_token %}
-  <td><input type="submit" name="boton{{ key }}" value="Quitar Producto del Carrito de Compras" class="btn btn-danger active btn-red red-bg" id="boton{{ key }}"></td>
   </form>
   </tr>
   
   {% endfor %}
 </table>
+
+    <div class="container row panel">
+      <div class="col-xs-6">
+        <form method='POST'>
+            <div class="form-group row">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" name="comprar" value="Desea Confirmar la Compra?" class="btn btn-success active btn-green green-bg" id="comprar" align="right">
+            </div>
+        </form>
+    </div>
+
 
 
 
