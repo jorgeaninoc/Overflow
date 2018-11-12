@@ -29,6 +29,8 @@ from Catalogo.forms import *
 
 import json
 
+import re
+
 
 
 # This function searches for the data of a Product when submitted
@@ -91,14 +93,38 @@ def getProducto(request, productoid):
     if request.method == 'POST':
         quantity = request.POST.get('quantity')
         cart = request.session.get('cart', {})
-        cart[producto.nombre] = quantity  # quantity.... Quantity of one by the moment
+        total = int(quantity) * float(producto.precio)
+        # total_cart = request.session.get('total', 0)
+        print('Quantity('+ str(quantity) +') * Price('+ str(producto.precio) +') = ' + str(total))
+        cart[producto.nombre] = total # quantity.... Quantity of one by the moment
         request.session['cart'] = cart
+
+
+        # Dictionary made in order to store product with it's quantity
+        quantity_dict = request.session.get('quantity_dict', {})
+        quantity_dict[producto.nombre] = quantity
+        request.session['quantity_dict'] = quantity_dict
+
         # print(cart[productoid])
+
         print('Item has been added to the cart')
+        # for key, value in cart.items():
+
+        # total_cart += value
+
+        # request.session['total'] = total_cart
+
+        # total = float(request.session.get('total_cart', re('"', '')))
+        # total = total + (float(producto.precio) * int(quantity))  # quantity.... Quantity of one by the moment
+        # request.session['total_cart'] = total
+        # print('Total in cart is currently of: ' + total)
+
         # for item in cart:
             # print (item)
+        print('Item with total: $'+str(cart[producto.nombre]))
+        print('Quantity: ' +str(quantity_dict[producto.nombre]))
             # for y in cart[item]: # y = quantity, should print 1
-                # print (y,':',cart[items][y]) # Print the current cart
+            #     print (y+':'+cart[item][y]) # Print the current cart
         # print('Item:'+cart[productoid]+' has been added to the Cart')
         # productname = get_object_or_404(Producto, nombre)
     # except:
@@ -109,33 +135,82 @@ def getProducto(request, productoid):
 # This functions basically calls all of the items stored in the session alongside the quantity of the product
 def viewCart(request):
     cart = request.session.get('cart', {})
+    quantity_dict = request.session.get('quantity_dict', {})
+    request.session['total'] = sum(cart.values())
+
+    entry_dict = {
+        "cart":cart,
+        "quantity_dict":quantity_dict
+    }
+
+    #just declare another dictionary inside the if
+
     # for item in cart:
     #     print (item)
     if request.method == 'POST':
         # boton = request.POST.get('boton'+item)
-        for item in cart:
+        for item, price in cart.items():
             # print(item)
             if request.POST.get('boton'+item):
+                
+                
+
                 boton = request.POST.get('boton'+item)
                 print(item+' button has been pressed')
                 # item_to_remove = cart[item]
                 # del item_to_remove
                 # cart.pop(item)
                 # del cart[item]
+
+                # new_total = request.session.get('total')
+
+                # new_total -= float(price)
+
+                # print('New TOTAL: $' + str(new_total))
+
+                # request.session['total'] = 0
+
+
                 new_cart = removefromCart(cart, item)
+
                 # cart = new_cart # Equivalent line is below
                 request.session['cart'] = new_cart
+
+                # Uses same function in order to remove from both dictionaries
+                new_quantity_dict = removefromCart(quantity_dict, item)
+                request.session['quantity_dict'] = new_quantity_dict
+
+                prev_val = sum(cart.values())
+                print('Previous Total: $' + str(prev_val))
+
+                request.session['total'] = sum(new_cart.values())
+
+                new_val = sum(new_cart.values())
+
+                print('New total: $' + str(new_val))
+
                 print('The product '+item+' has been removed from the Cart')
-                return render(request, 'Catalogo/shoppingcart.html', {'cart':new_cart})
+
+                new_entry_dict = {
+                    "cart":new_cart,
+                    "quantity_dict":quantity_dict
+                }
+
+                cart = new_cart
+                return render(request, 'Catalogo/shoppingcart.html', context = new_entry_dict)
         # print('Button pressed was: '+boton)
         # if request.POST.get('checkout'):
             # print('Se presiono ir a checkout')
             # return render(request, 'Catalogo/checkout.html', {'cart':cart})
-    else:
-        return render(request, 'Catalogo/shoppingcart.html', {'cart':cart})
+    # else:
+    return render(request, 'Catalogo/shoppingcart.html', context = entry_dict)
     # return HttpResponse("Este es el carrito %s." % json.dumps(cart))
         # for y in cart[item]: # y = quantity, should print 1
             # print (y,':',cart[item][y]) # Print the current cart
+
+
+    # {'cart':cart}
+    # {'cart':new_cart}
 
 
 # This function removes the item from the cart
@@ -148,6 +223,8 @@ def removefromCart(cart, key):
 
 def checkout(request):
     cart = request.session.get('cart', {})
+    quantity_dict = request.session.get('quantity_dict', {})
+
     for product_name in cart: # y = quantity, should print 1
         print (product_name,':',cart[product_name]) # Print the current cart
 
@@ -174,7 +251,8 @@ def checkout(request):
     entry_dict = {
         "form":form,
         "order":order,
-        "cart":cart
+        "cart":cart,
+        "quantity_dict":quantity_dict
     }
     return render(request, 'Catalogo/checkout.html', context = entry_dict )
 
