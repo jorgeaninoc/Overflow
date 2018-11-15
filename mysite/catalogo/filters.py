@@ -11,6 +11,14 @@ from Catalogo.models import *
 
 # Declare filter class for a model.
 class CatalogoFilter(filters.FilterSet):
+
+    CHOICES = (
+        ('ascendente', 'Ascendente'),
+        ('descendente', 'Descendente')
+    )
+
+    orden = filters.ChoiceFilter(label = 'Ordenar por Precio', choices = CHOICES, method = 'filter_by_order')
+
     # Declare variables that save the columns that will be searched.
     nombre = filters.CharFilter(lookup_expr='icontains')
     precio = filters.NumberFilter()
@@ -28,3 +36,8 @@ class CatalogoFilter(filters.FilterSet):
         self.filters['nombre'].label="Nombre del Producto"
         self.filters['precio__gt'].label="Precio mayor o igual a"
         self.filters['precio__lt'].label="Precio menor o igual a"
+
+
+    def filter_by_order(self, queryset, name, value):
+        expression = 'precio' if value == 'ascendente' else '-precio'
+        return queryset.order_by(expression)

@@ -11,6 +11,14 @@ from Comunidades.models import *
 
 # Declare filter class for a model.
 class ComunidadFilter(filters.FilterSet):
+
+    CHOICES = (
+        ('ascendente', 'Alfabético'),
+        ('descendente', 'No alfabético')
+    )
+
+    orden = filters.ChoiceFilter(label = 'Orden', choices = CHOICES, method = 'filter_by_order')
+
     # Declare variables that save the columns that will be searched.
     nombre = filters.CharFilter(lookup_expr='icontains')
     descripcion = filters.CharFilter(lookup_expr='icontains')
@@ -23,3 +31,7 @@ class ComunidadFilter(filters.FilterSet):
         super(ComunidadFilter, self).__init__(*args, **kwargs)
         self.filters['nombre'].label="Nombre de la Comunidad"
         self.filters['descripcion'].label="Descripcion de la Comunidad"
+
+    def filter_by_order(self, queryset, name, value):
+        expression = 'nombre' if value == 'ascendente' else '-nombre'
+        return queryset.order_by(expression)

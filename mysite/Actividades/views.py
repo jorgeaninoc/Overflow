@@ -60,12 +60,9 @@ class SearchSubmitView(View):
     def post(self, request):
         template = loader.get_template(self.template)
         query = request.POST.get('search', '')
-
         # A simple query for Item objects whose title contain 'query'
         items = Noticia.objects.filter(titulo__icontains=query)
-
         context = {'title': self.response_message, 'query': query, 'items': items}
-
         rendered_template = template.render(context, request)
         return HttpResponse(rendered_template, content_type='text/html')
 

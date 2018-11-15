@@ -35,6 +35,7 @@ class FilterCatalogueTest(TestCase):
         im = Imagen.objects.get(nombre='Prueba O')
         c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
         c.save()
+
         c2 = Producto.objects.create(nombre="prod 1", precio=200, communidad = c, subCat="a")
         c2.save()
         d2 = Producto.objects.create(nombre="prod 2", precio=200, communidad = c, subCat="a")

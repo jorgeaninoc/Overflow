@@ -25,7 +25,7 @@ Function LogIn-logOut.
 Function description: The admin/editor can login/logout.
 Function parameters: testCase
 return none
-
+"""
 class LogInOutTest(TestCase):
     def testLogInAdmin(self):
         self.client = Client()
@@ -53,7 +53,7 @@ class LogInOutTest(TestCase):
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
-        my_group = Group.objects.get(pk=1)
+        my_group = Group.objects.get(name="Editor")
         my_group.user_set.add(self.my_editor)
         my_group.save()
         response = self.client.get('/admin/', follow=True)
@@ -122,7 +122,6 @@ class DeleteAnnouncementTest(TestCase):
         self.assertTrue(w,None)
 
 """
-"""
 Created by Framework
 This file is where the tests of Add Role are declared.
 Modified by: Abraham
@@ -184,6 +183,8 @@ This file is where the tests of Add Role are declared.
 Modified by: Abraham
 Modification date: 25/10/18
 """
+
+
  #ayuda: https://django-guardian.readthedocs.io/en/stable/userguide/assign.html
 class AssignPrivRoleTest(TestCase):
     def testAssignPrivRole(self):
@@ -257,6 +258,7 @@ This file is where the tests of Add Role are declared.
 Modified by: Abraham
 Modification date: 25/10/18
 """
+
 class RemovePrivRoleTest(TestCase):
     def testRemovePrivRole(self):
         self.client = Client()
@@ -368,7 +370,8 @@ class ViewUsersTest(TestCase):
             self.assertEqual(response.status_code, 200)
 
 
-"""
+
+
 class AddRoleTest(TestCase):
     def testCreateRole(self):
         self.client = Client()
@@ -382,11 +385,10 @@ class AddRoleTest(TestCase):
             gr = Comunidad.objects.get(nombre='Prueba A')
             return gr
 
-
     def testAddRole(self):
         w = self.testCreateRole()
         self.assertTrue(isinstance(w, Comunidad))
-"""
+
 """
 Created by Framework
 This file is where the tests of Edit Role are declared.
@@ -394,7 +396,6 @@ Modified by: Maritza
 Modification date: 25/10/18
 """
 
-"""
 class EditRoleTest(TestCase):
 
     def testCreateRole(self):
@@ -413,7 +414,7 @@ class EditRoleTest(TestCase):
         w = self.testCreateRole()
         w.nombre = 'Prueba B'
         self.assertTrue(w.nombre,'Prueba B')
-"""
+
 
 """
 Created by Framework
@@ -422,7 +423,7 @@ Modified by: Maritza
 Modification date: 25/10/18
 """
 
-"""
+
 class DeleteRoleTest(TestCase):
     def testCreateRole(self):
         self.client = Client()
@@ -440,7 +441,7 @@ class DeleteRoleTest(TestCase):
         w = self.testCreateRole()
         w.delete()
         self.assertTrue(w,None)
-"""
+
 
 
 """
@@ -449,9 +450,8 @@ This file is where the tests of Assign Role to account are declared.
 Modified by: Maritza
 Modification date: 25/10/18
 """
-"""
-class AssignRoleTest(TestCase):
 
+class AssignRoleTest(TestCase):
     def testCreateRole(self):
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
@@ -462,7 +462,6 @@ class AssignRoleTest(TestCase):
         if loginresponse:
             g = Comunidad.objects.create(nombre="Prueba A")
             gr = Comunidad.objects.get(nombre='Prueba A')
-"""
 
 
 """
@@ -474,7 +473,6 @@ Modification date: 25/10/18
 
 
 
-"""
 class AddMVHTest(TestCase):
 
     def testCreateMVH(self):
@@ -493,7 +491,7 @@ class AddMVHTest(TestCase):
     def testAddMVH(self):
         w = self.testCreateMVH()
         self.assertTrue(isinstance(w, Mision))
-"""
+
 
 
 """
@@ -504,7 +502,7 @@ Modification date: 25/10/18
 """
 
 
-""""
+
 class EditMVHTest(TestCase):
 
     def testCreateMVH(self):
@@ -525,7 +523,6 @@ class EditMVHTest(TestCase):
         w.nombre = 'Prueba B'
         self.assertTrue(w.nombre,'Prueba B')
 
-"""
 
 """
 Created by Framework
@@ -534,7 +531,7 @@ Modified by: Maritza
 <<<<<<< HEAD
 Modification date: 26/10/18
 """
-"""
+
 class DeleteMVHTest(TestCase):
 
     def testCreateMVH(self):
@@ -553,7 +550,7 @@ class DeleteMVHTest(TestCase):
         w = self.testCreateMVH()
         w.delete()
         self.assertTrue(w,None)
-"""
+
 
 
 """
@@ -563,7 +560,7 @@ Function parameters: testCase
 return MisionCreated
 """
 
-"""
+
 class ConsulReportTest(TestCase):
 
     def testReports(self):
@@ -577,4 +574,3 @@ class ConsulReportTest(TestCase):
             self.client = Client()
             response = self.client.get('/admin')
             self.assertEqual(response.status_code, 301)
-"""
