@@ -16,6 +16,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+import uuid
+
 # Create your models here.
 
 
@@ -64,14 +66,21 @@ class Producto(models.Model):
 
 class Ordenes(models.Model):
     # Falta Generar el numero al azar de la referencia
-
+    numero_referencia = models.UUIDField(default = uuid.uuid4, editable = True)
     nombre =  models.CharField(max_length=255,null=False)
     correo = models.EmailField(null=False)
     # productos = models....
-    # timestamp = models.DateTimeField(auto_now_add=True)
+    Fecha_de_Compra = models.DateTimeField(auto_now_add=True, null = False, editable = True)
+
+    # readonly_fields=('numero_referencia', 'Fecha_de_Compra',)
+
+
+    fields = ['numero_referencia', 'nombre', 'correo', 'Fecha_de_Compra']
+    readonly = ['numero_referencia', 'Fecha_de_Compra'] 
+
     # Declare function to return the name of the user sending the message
     def __str__(self):
-        return self.nombre
+        return self.correo
     
     class Meta:
         # Change verbose names to spanish language
