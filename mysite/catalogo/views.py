@@ -224,6 +224,7 @@ def removefromCart(cart, key):
 def checkout(request):
     cart = request.session.get('cart', {})
     quantity_dict = request.session.get('quantity_dict', {})
+    # total = request.session.total
 
     for product_name in cart: # y = quantity, should print 1
         print (product_name,':',cart[product_name]) # Print the current cart
@@ -235,12 +236,35 @@ def checkout(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             order_form = Ordenes()
+
+            # product_checkout = ProductosCheckout()
+
             order_form.nombre = request.POST.get('nombre')
             order_form.correo = request.POST.get('correo')
-            # order_form.productos = cart
+            order_form.monto_total = request.session.total
+            order_form.save() # You can’t associate it with a ProductosCheckout until it’s been saved:
             
-            # print(order_form.nombre,order_form.mensaje, json.dumps(cart))
+            #possible way of iterating and inserting in database the products with their respective quantities and totals
+            for product_name in cart: 
+                
+                product_checkout = ProductosCheckout()
+
+                product_checkout.nombre_producto = product_name
+                product_checkout.total = cart[product_name]
+                # product_checkout.save()
+
+                for product_name in quantity_dict: 
+                    if quantity_dict[product_name] == cart[product_name]:
+                        product_checkout.cantidad = quantity_dict[product_name]
+                        order_form.productos.add(product_checkout)
+                        # product_checkout.save() # end of product
+
+            # order_form.cantidad = request.session.
+
+            # order_form.productos = cart
             order_form.save()
+            # print(order_form.nombre,order_form.mensaje, json.dumps(cart))
+            
             # messages.success(request, 'Tu mensaje ha sido enviado.')
             return HttpResponseRedirect('')
         else:

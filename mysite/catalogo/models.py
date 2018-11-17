@@ -63,20 +63,32 @@ class Producto(models.Model):
         verbose_name_plural = "Productos"
 
 
+class ProductosCheckout(models.Model):
+    nombre_producto = models.CharField(max_length = 255, null = False)
+    cantidad = models.IntegerField(null = False)
+    total = models.FloatField(null = False)
+
 
 class Ordenes(models.Model):
     # Falta Generar el numero al azar de la referencia
     numero_referencia = models.UUIDField(default = uuid.uuid4, editable = True)
     nombre =  models.CharField(max_length=255,null=False)
     correo = models.EmailField(null=False)
+
+    productos = models.ManytoManyField(ProductosCheckout, null = False)
+
+    monto_compra = models.CharField(max_length = 255, null = False)
+
+    # productos = models.ManytoManyField(ProductosCheckout, null = False)
+
     # productos = models....
     Fecha_de_Compra = models.DateTimeField(auto_now_add=True, null = False, editable = True)
 
     # readonly_fields=('numero_referencia', 'Fecha_de_Compra',)
 
 
-    fields = ['numero_referencia', 'nombre', 'correo', 'Fecha_de_Compra']
-    readonly = ['numero_referencia', 'Fecha_de_Compra'] 
+    # fields = ['numero_referencia', 'nombre', 'correo', 'Fecha_de_Compra']
+    # readonly = ['numero_referencia', 'Fecha_de_Compra'] 
 
     # Declare function to return the name of the user sending the message
     def __str__(self):
