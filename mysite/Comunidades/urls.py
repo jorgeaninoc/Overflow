@@ -22,6 +22,7 @@ urlpatterns = [
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),
 
     path('comunidades2/', views.comunidades, name='comunidades2'),
+    path('AJAXSearch/', views.AJAXSearch, name='ajaxSearch'),
     path('comunidades/', views.comunidadesFilter.as_view(), name='comunidades'),
 ]
 
