@@ -1,8 +1,8 @@
 """
 Created by Framework
 This file is where you can set the urls to your views.
-Modified by: Jorge Nino
-Date: 19/10/18
+Modified by: Abraham Lemus
+Date: 18/11/18
 """
 
 # Import the libraries used.
@@ -17,8 +17,8 @@ app_name = 'Actividades'
 # Declare the url patterns for each view.
 urlpatterns = [
     # ex: /polls/
-    path('actividades2/', views.noticias, name='actividades2'),
-    path('actividades/', views.noticiasFilter.as_view(), name='actividades'),
+    path('actividades/', views.noticias, name='actividades'),
+    path('actividades2/', views.noticiasFilter.as_view(), name='actividades2'),
     path('AJAXSearchAct/', views.AJAXSearchAct, name='ajaxSearchAct'),
     path('search-submit/', views.SearchSubmitView.as_view(), name='search-submit'),
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),

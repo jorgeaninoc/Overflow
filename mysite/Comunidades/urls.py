@@ -21,9 +21,9 @@ urlpatterns = [
     path('search-submit/', views.SearchSubmitView.as_view(), name='search-submit'),
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),
 
-    path('comunidades2/', views.comunidades, name='comunidades2'),
+    path('comunidades/', views.comunidades, name='comunidades'),
     path('AJAXSearch/', views.AJAXSearch, name='ajaxSearch'),
-    path('comunidades/', views.comunidadesFilter.as_view(), name='comunidades'),
+    path('comunidades2/', views.comunidadesFilter.as_view(), name='comunidades2'),
 ]
 
 if settings.DEBUG:
