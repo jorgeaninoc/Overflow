@@ -19,7 +19,7 @@ urlpatterns = [
     # ex: /polls/
     path('actividades2/', views.noticias, name='actividades2'),
     path('actividades/', views.noticiasFilter.as_view(), name='actividades'),
-
+    path('AJAXSearchAct/', views.AJAXSearchAct, name='ajaxSearchAct'),
     path('search-submit/', views.SearchSubmitView.as_view(), name='search-submit'),
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),
 ]

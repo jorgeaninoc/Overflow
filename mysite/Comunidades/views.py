@@ -68,7 +68,7 @@ def AJAXSearch(request):
     else:
         desc = ''
 
-    if(request.POST.get('desc') != None):
+    if(request.POST.get('nombre') != None):
         nombre = request.POST.get('nombre')
     else:
         nombre = ''
