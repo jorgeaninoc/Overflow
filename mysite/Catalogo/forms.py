@@ -26,8 +26,8 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Ordenes
-        fields = "__all__"
+        # fields = "__all__"
 
-
+        fields = ['nombre', 'correo']
 
 

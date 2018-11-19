@@ -230,7 +230,7 @@ def checkout(request):
         print (product_name,':',cart[product_name]) # Print the current cart
 
     form = OrderForm()
-    order = Ordenes.objects.all()
+    # order = Ordenes.objects.all()
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -241,11 +241,15 @@ def checkout(request):
 
             order_form.nombre = request.POST.get('nombre')
             order_form.correo = request.POST.get('correo')
-            order_form.monto_total = request.session.total
+            print('SESSION TOTAL: '+str(request.session.get('total')))
+            order_form.monto_totalcompra = request.session.get('total')
+           
             order_form.save() # You can’t associate it with a ProductosCheckout until it’s been saved:
             
             #possible way of iterating and inserting in database the products with their respective quantities and totals
             for product_name in cart: 
+
+                print('The first for has been entered for: '+product_name)
                 
                 product_checkout = ProductosCheckout()
 
@@ -253,10 +257,22 @@ def checkout(request):
                 product_checkout.total = cart[product_name]
                 # product_checkout.save()
 
-                for product_name in quantity_dict: 
-                    if quantity_dict[product_name] == cart[product_name]:
-                        product_checkout.cantidad = quantity_dict[product_name]
+                print('Printing NAME ('+product_name+') AND PRICE: '+str(cart[product_name]))
+
+                for name_quant in quantity_dict: 
+                    print('Entering quantity for... ')
+                    print('name_quant: '+name_quant+' DICT: '+str(quantity_dict[name_quant])+' CART::::::'+product_name+'AND PRICE: '+str(cart[product_name]))
+                    print('CHECK THIS OUT... TESTSFOR THE CONDITION')
+                    print('name_quant: ('+str(name_quant)+') and product_name: ('+str(product_name)+')')
+                    print(name_quant == product_name)
+
+                    if name_quant == product_name:
+                        print('THE FINAL IF HAS BEEN ENTERED')
+                        print('Printing NAME ('+name_quant+') AND Quantity: '+str(quantity_dict[name_quant]))
+                        product_checkout.cantidad = quantity_dict[name_quant]
+                        product_checkout.save()
                         order_form.productos.add(product_checkout)
+                        print('Product has been added to ORDER')
                         # product_checkout.save() # end of product
 
             # order_form.cantidad = request.session.
@@ -269,12 +285,12 @@ def checkout(request):
             return HttpResponseRedirect('')
         else:
             form = OrderForm()
-    if len(order)>=1:
-        order = order[0]
+    # if len(order)>=1:
+    #     order = order[0]
 
     entry_dict = {
         "form":form,
-        "order":order,
+        # "order":order,
         "cart":cart,
         "quantity_dict":quantity_dict
     }

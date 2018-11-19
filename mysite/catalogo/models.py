@@ -68,6 +68,16 @@ class ProductosCheckout(models.Model):
     cantidad = models.IntegerField(null = False)
     total = models.FloatField(null = False)
 
+    # Function to return the name of the product
+    def __str__(self):
+        return self.nombre_producto
+
+    # Class to change super Class attributes
+    class Meta:
+        # Change verbose names to spanish language
+        verbose_name: "ProductoCheckout"
+        verbose_name_plural = "ProductosCheckout"
+
 
 class Ordenes(models.Model):
     # Falta Generar el numero al azar de la referencia
@@ -75,11 +85,11 @@ class Ordenes(models.Model):
     nombre =  models.CharField(max_length=255,null=False)
     correo = models.EmailField(null=False)
 
-    productos = models.ManytoManyField(ProductosCheckout, null = False)
+    productos = models.ManyToManyField(ProductosCheckout, null = False)
 
-    monto_compra = models.CharField(max_length = 255, null = False)
+    monto_totalcompra = models.CharField(max_length = 255, null = False, default = '0')
 
-    # productos = models.ManytoManyField(ProductosCheckout, null = False)
+    # productos = models.ManyToManyField(ProductosCheckout, null = False)
 
     # productos = models....
     Fecha_de_Compra = models.DateTimeField(auto_now_add=True, null = False, editable = True)
