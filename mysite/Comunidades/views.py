@@ -2,11 +2,13 @@
 Created by Framework
 This file is where the views of Comunidades are declared, and where the search/filter
 views are called.
-Modified by: Jorge Nino
-Date: 19/10/18
+Modified by: Abraham Lemus
+Date: 16/11/18
 """
 # Import libraries needed
 from django.shortcuts import render
+
+
 from django.views.generic import View
 from django.template import loader
 from django.views.generic import ListView, DetailView
@@ -17,6 +19,7 @@ from Comunidades.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Comunidades.filters import *
+from django.template.loader import render_to_string
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -51,6 +54,33 @@ class SearchSubmitView(View):
 class SearchAjaxSubmitView(SearchSubmitView):
     template = 'search_results.html'
     response_message = 'This is the AJAX response'
+
+
+"""
+View that handles all ajax requests.
+When variables are non existent (inputs are empty)
+variables are made empty strings so it gets all objects from filters
+"""
+def AJAXSearch(request):
+
+    if(request.POST.get('desc')!= None):
+        desc = request.POST.get('desc')
+    else:
+        desc = ''
+
+    if(request.POST.get('nombre') != None):
+        nombre = request.POST.get('nombre')
+    else:
+        nombre = ''
+
+    result = Comunidad.objects.filter(descripcion__icontains=desc)
+    result = result.filter(nombre__icontains=nombre)
+
+    return render(request,"Comunidades/com_results.html", {'result':result})
+#    html = render_to_string("/Comunidades/com_results.html", {'result':result})
+#    return HttpResponse(html)
+
+
 
 # Declare function for showing communities sitel
 def comunidades(request):

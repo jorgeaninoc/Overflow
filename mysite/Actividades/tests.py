@@ -5,7 +5,7 @@ Modified by: Jorge Nino
 Date: 19/10/18
 """
 # Import libraries that will be used.
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.test import TestCase, Client
 from Actividades.models import Noticia, Imagen
 from Comunidades.models import Comunidad
@@ -38,15 +38,47 @@ class ConsultNewsTest(TestCase):
 # Test for UC: Add News
 class AddNewsTest(TestCase):
 
-    # This function calls the function testCreateNews to create a Notice object
-    # And checks if the object is an instance from Notice
+
     def testAddNewsAdmin(self):
+        """
+        This function calls the function testCreateNews to create a Notice object
+        And checks if the object is an instance from Notice
+        """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
         self.my_admin.set_password('passphrase') # can't set above because of hashing
         self.my_admin.save() # needed to save to temporary test db
         loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba O')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            co = Comunidad.objects.get(nombre='Prueba C')
+            n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
+            fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now()
+            + django.utils.timezone.timedelta(30),comunidad=co)
+            n.imagenes.add(im)
+            n.save()
+            c = Noticia.objects.get(titulo='Prueba')
+        self.assertEqual(n,c)
+
+    def testAddNewsEditor(self):
+        """
+        This function calls the function testCreateNews to create a Notice object
+        And checks if the object is an instance from Notice
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
         if loginresponse:
             i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
             im = Imagen.objects.get(nombre='Prueba O')
@@ -111,9 +143,12 @@ class AddNewsTest(TestCase):
 # Test for UC: Edit News
 class EditNewsTest(TestCase):
 
-    # This function changes a parameter of the Notice object and checks if the
-    # changes are saved.
+
     def testEditNewsAdmin(self):
+        """
+         This function changes a parameter of the Notice object and checks if the
+         changes are saved.
+        """
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -135,13 +170,37 @@ class EditNewsTest(TestCase):
             c = Noticia.objects.get(titulo='Prueba N')
         self.assertEqual(n,c)
 
-    def testEditNewsFalse(self):
+    def testEditNewsEditor(self):
         """
-        This test tries to edit an activity without being an admin. If it doesnt edits it it returns true.
+         This function changes a parameter of the Notice object and checks if the
+         changes are saved.
         """
         self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
         response = self.client.get('/admin/', follow=True)
-        self.assertTrue(n,c)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba O',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba O')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            co = Comunidad.objects.get(nombre='Prueba C')
+            n = Noticia.objects.create(titulo='Prueba', texto='Lorem Ipsum',
+            fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now() + django.utils.timezone.timedelta(30)
+            ,comunidad=co)
+            n.imagenes.add(im)
+            n.save()
+            n.titulo = 'Prueba N'
+            n.save()
+            c = Noticia.objects.get(titulo='Prueba N')
+        self.assertEqual(n,c)
+
 
 
 
@@ -170,9 +229,9 @@ class FilterActivitiesTest(TestCase):
             n.titulo = 'Prueba N'
             n.save()
             c = Noticia.objects.get(titulo='Prueba N')
-            self.assertTrue(False)
-        else:
             self.assertTrue(True)
+        else:
+            self.assertTrue(False)
             n = Noticia.objects.create(titulo='Prueba 1', texto='Lorem Ipsum',
             fechaInicio=django.utils.timezone.now(), fechaFin=django.utils.timezone.now()
             + django.utils.timezone.timedelta(30),comunidad=co)

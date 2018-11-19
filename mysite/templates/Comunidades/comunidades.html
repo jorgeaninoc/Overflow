@@ -12,8 +12,106 @@
     </div>
   </div>
   <hr>
-  {% if communities %}
- {% for c in communities %}
+
+  <h2>Filtros</h2>
+
+  <form autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-sm-4 col-md-3">
+          <label for="nombre">Nombre de la Comunidad:</label>
+          <input class="form-control" type="text" name="nombre" id="nombre">
+      </div>
+      <div class="form-group col-sm-4 col-md-3">
+          <label for="desc">Descripción de la Comunidad:</label>
+          <input class="form-control" type="text" name="desc" id="desc">
+      </div>
+      <!--<input type="submit" name="" value="Submit">-->
+    </div>
+  </form>
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  /**
+    When the doc is ready
+    load original form fields (serialize)
+    to compare and detect changes
+  */
+  var $form = $('form'),
+  origForm = $form.serialize();
+
+
+/**
+  Preload all results of communities,
+  to be filtered when form changes
+*/
+  $.ajax({
+        type: "POST",
+        url: "/AJAXSearch/",
+        data: {
+          'desc': $('#desc').val(),
+          'nombre': $('#nombre').val(),
+          'csrfmiddlewaretoken':"{{ csrf_token }}"
+        },
+        success : function(data) {
+            $('#getResults').html(data);
+        }
+    })
+
+
+    /*
+      Detect changes on form
+      and fire ajax search when that happens
+      Warning: starts detecting (even when all is erased)
+      only after the first change.
+      Preload of options is needed
+    */
+  $('form :input').on('change input', function() {
+    //$('.change-message').toggle($form.serialize() !== origForm);
+    //ajax function
+    //$('#getResults').html("aaaa");
+      var search_nombre, search_desc;
+      search_nombre=$('#nombre').val();
+      search_desc=$('#desc').val();
+      //$("#prueba").text("nombre: "+search_nombre+" desc: "+search_desc);
+      //$('#getResults').html("aaaa");  // debugging
+
+      $.ajax({
+            type: "POST",
+            url: "/AJAXSearch/",
+            data: {
+              'desc': $('#desc').val(),
+              'nombre': $('#nombre').val(),
+              'csrfmiddlewaretoken':"{{ csrf_token }}"
+            },
+            success : function(data) {
+                $('#getResults').html(data);
+            }
+        })
+
+
+    });
+
+  });
+
+</script>
+
+
+<div id="getResults"></div>
+
+
+
+
+
+
+
+<!--
+ {# if communities %}
+ {# for c in communities %}
  <div class="row panel">
     <div class="col-md-12">
       <h3 class="title">{{ c.nombre }}</h3>
@@ -21,35 +119,22 @@
     </div>
   </div>
   <div class="row">
-    {% for i in c.imagenes.all %}
+    {# for i in c.imagenes.all %}
     <div class="col-md-4">
       <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
     </div>
-    {% endfor %}
+    {# endfor %}
   </div>
   <hr>
-  {% endfor %}
-  <div class="pagination">
-    <span class="step-links">
-      <h5 class="title" align="center">
-      {% if communities.has_previous %}
-            <a href="?page=1">&laquo; primera</a>
-            <a href="?page={{ news.previous_page_number }}">anterior</a>
-        {% endif %}
+  {# endfor %}
 
-        <span class="current">
-            Page {{ communities.number }} of {{ communities.paginator.num_pages }}.
-        </span>
 
-        {% if communities.has_next %}
-            <a href="?page={{ news.next_page_number }}">siguiente</a>
-            <a href="?page={{ news.paginator.num_pages }}">ultima &raquo;</a>
-        {% endif %}
-      </h5>
-    </span>
-  </div>
-  {% endif %}
+
+  {# endif %}
+-->
 </div>
+
+
 
 <div class="basic">
 {% include "partials/bottom.html" %}

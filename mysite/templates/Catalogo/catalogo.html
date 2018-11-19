@@ -10,47 +10,167 @@
                 Catálogo
             </h1>
         </div>
-        <div class="col-sm-4">
-        </div>
-        <div class="col-sm-4">
-            <input type="text" placeholder="Search..">
-        </div>
     </div>
     <hr>
+
+
+    <h2>Filtros</h2>
+
+    <form autocomplete="off" action="/AJAXSearchCat">
+      {% csrf_token %}
+      <div class="row">
+        <div class="form-group col-sm-3 col-md-3">
+            <label for="nombre">Nombre del Producto:</label>
+            <input class="form-control" type="text" name="nombre" id="nombre">
+        </div>
+
+
+        <div class="form-group col-sm-4 col-md-3">
+          <label for="comunidad">Select list:</label>
+          <select class="form-control" id="comunidad" name="comunidad">
+              <option value="">Todas las comunidades</option>
+            {% for com in communities %}
+              <option value="{{ com.nombre }}">{{ com.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+
+        <div class="form-group col-sm-3 col-md-3">
+            <label for="precio__gt">Precio mayor o igual a:</label>
+            <input class="form-control" type="number" min="0" name="precio__gt" id="precio__gt">
+        </div>
+
+
+        <div class="form-group col-sm-3 col-md-3">
+            <label for="precio__lt">Precio menor o igual a:</label>
+            <input class="form-control" type="number" min="0" name="precio__lt" id="precio__lt">
+        </div>
+        <!--<input type="submit" name="" value="Submit">-->
+      </div>
+      <!--<input type="submit" name="" value="Enviar">-->
+    </form>
+
+    <p id="prueba"></p>
+
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+
+    /**
+      When the doc is ready
+      load original form fields (serialize)
+      to compare and detect changes
+    */
+
+    var $form = $('form'),
+    origForm = $form.serialize();
+
+
+    /**
+    Preload all results of communities,
+    to be filtered when form changes
+    */
+    $.ajax({
+          type: "POST",
+          url: "/AJAXSearchCat/",
+          data: {
+            'comunidad': $('#comunidad').val(),
+            'nombre': $('#nombre').val(),
+            'precio__gt': $('#precio__gt').val(),
+            'precio__lt': $('#precio__lt').val(),
+            'csrfmiddlewaretoken':"{{ csrf_token }}"
+          },
+          success : function(data) {
+              $('#getResultsCat').html(data);
+          }
+      })
+
+
+      /*
+        Detect changes on form
+        and fire ajax search when that happens
+        Warning: starts detecting (even when all is erased)
+        only after the first change.
+        Preload of options is needed
+      */
+    $('form :input').on('change input', function() {
+      //$('.change-message').toggle($form.serialize() !== origForm);
+      //ajax function
+      //$('#getResults').html("aaaa");
+        var search_nombre, search_desc;
+        search_nombre=$('#nombre').val();
+        search_desc=$('#desc').val();
+        //$("#prueba").text("nombre: "+$('#nombre').val()+" comunidad: "+$('#comunidad').val()+" precio__gt: "+$('#precio__gt').val() +" precio__lt: "+$('#precio__lt').val());
+        //$('#getResults').html("aaaa");  // debugging
+
+        $.ajax({
+              type: "POST",
+              url: "/AJAXSearchCat/",
+              data: {
+                'comunidad': $('#comunidad').val(),
+                'nombre': $('#nombre').val(),
+                'precio__gt': $('#precio__gt').val(),
+                'precio__lt': $('#precio__lt').val(),
+                'csrfmiddlewaretoken':"{{ csrf_token }}"
+              },
+              success : function(data) {
+                  $('#getResultsCat').html(data);
+              }
+          })
+
+      });
+
+    });
+
+    </script>
+
+
+    <div id="getResultsCat"></div>
+
+
+<!--
     <div class="row panel">
-      {% for p in products %}
+      {# for p in products %}
         <div class="col-md-4">
-          {% for i in p.imagenes.all|slice:":1" %}
-          <a href="{% url 'Catalogo:producto' p.id %}"><img src="../media/{{ i.path }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada." /></a>
-          {% endfor %}
+          {# for i in p.imagenes.all|slice:":1" %}
+          <a href="{# url 'Catalogo:producto' p.id %}"><img src="../media/{{ i.path }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada." /></a>
+          {# endfor %}
           <h3 class="title" align="" style="padding-left: 60px;">Nombre: {{ p.nombre }}</h3>
           <h3 class="title" align="" style="padding-left: 60px;">Precio: {{ p.precio }}$</h3>
         </div>
-      {% endfor %}
+      {# endfor %}
     </div>
+-->
 
+
+<!--
     <div class="row">
       <div class="pagination">
         <span class="step-links">
           <h5 class="title" align="center">
-          {% if products.has_previous %}
+          {# if products.has_previous %}
                 <a href="?page=1">&laquo; primera</a>
-                <a href="?page={{ products.previous_page_number }}">anterior</a>
-            {% endif %}
+                <a href="?page={#{ products.previous_page_number }}">anterior</a>
+            {# endif %}
 
             <span class="current">
-                Page {{ products.number }} of {{ products.paginator.num_pages }}.
+                Page {#{ products.number }} of {#{ products.paginator.num_pages }}.
             </span>
 
-            {% if products.has_next %}
-                <a href="?page={{ products.next_page_number }}">siguiente</a>
-                <a href="?page={{ products.paginator.num_pages }}">ultima &raquo;</a>
-            {% endif %}
+            {# if products.has_next %}
+                <a href="?page={#{ products.next_page_number }}">siguiente</a>
+                <a href="?page={#{ products.paginator.num_pages }}">ultima &raquo;</a>
+            {# endif %}
           </h5>
         </span>
       </div>
     </div>
+-->
+
+
 </div class="container">
+
 <div class="basic">
 {% include "partials/bottom.html" %}
 </div>

@@ -12,8 +12,117 @@
     </div>
   </div>
   <hr>
-  {% if news %}
- {% for n in news %}
+
+  <h2>Filtros</h2>
+
+  <form autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-sm-4 col-md-3">
+          <label for="titulo">Título del Artículo:</label>
+          <input class="form-control" type="text" name="titulo" id="titulo">
+      </div>
+      <div class="form-group col-sm-4 col-md-3">
+          <label for="texto">Texto del Artículo:</label>
+          <input class="form-control" type="text" name="texto" id="texto">
+      </div>
+      <div class="form-group col-sm-4 col-md-3">
+        <label for="comunidad">Select list:</label>
+        <select class="form-control" id="comunidad" name="comunidad">
+            <option value="">Todas las comunidades</option>
+          {% for com in communities %}
+            <option value="{{ com.nombre }}">{{ com.nombre }}</option>
+          {% endfor %}
+
+        </select>
+      </div>
+
+
+      <!--<input type="submit" name="" value="Submit">-->
+    </div>
+  </form>
+
+<p id="prueba"></p>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  /**
+    When the doc is ready
+    load original form fields (serialize)
+    to compare and detect changes
+  */
+  var $form = $('form'),
+  origForm = $form.serialize();
+
+
+/**
+  Preload all results of communities,
+  to be filtered when form changes
+*/
+  $.ajax({
+        type: "POST",
+        url: "/AJAXSearchAct/",
+        data: {
+          'titulo': $('#titulo').val(),
+          'texto': $('#texto').val(),
+          'comunidad': $('#comunidad').val(),
+          'csrfmiddlewaretoken':"{{ csrf_token }}"
+        },
+        success : function(data) {
+            $('#getResultsNews').html(data);
+        }
+    })
+
+
+    /*
+      Detect changes on form
+      and fire ajax search when that happens
+      Warning: starts detecting (even when all is erased)
+      only after the first change.
+      Preload of options is needed
+    */
+  $('form :input').on('change input', function() {
+    //$('.change-message').toggle($form.serialize() !== origForm);
+    //ajax function
+    //$('#getResults').html("aaaa");
+      /*
+      var search_nombre, search_desc;
+      search_nombre=$('#nombre').val();
+      search_desc=$('#desc').val*/
+      //$("#prueba").text("titulo: "+$('#titulo').val()+" texto: "+$('#texto').val()+" comunidad: "+$('#comunidad').val());
+      //$('#getResults').html("aaaa");  // debugging
+
+      $.ajax({
+            type: "POST",
+            url: "/AJAXSearchAct/",
+            data: {
+              'titulo': $('#titulo').val(),
+              'texto': $('#texto').val(),
+              'comunidad': $('#comunidad').val(),
+              'csrfmiddlewaretoken':"{{ csrf_token }}"
+            },
+            success : function(data) {
+                $('#getResultsNews').html(data);
+            }
+        })
+
+
+    });
+
+  });
+
+</script>
+
+
+<div id="getResultsNews"></div>
+
+
+
+<!--
+  {# if news %}
+ {# for n in news %}
  <div class="row panel">
    <div class="col-md-3">
      <h3 class="title" align="left">{{ n.titulo }}</h3>
@@ -30,34 +139,19 @@
       </div>
   </div>
   <div class="row ">
-    {% for i in n.imagenes.all %}
+    {# for i in n.imagenes.all %}
     <div class="col-md-4">
       <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
     </div>
-    {% endfor %}
+    {# endfor %}
   </div>
   <hr>
-  {% endfor %}
-  <div class="pagination">
-    <span class="step-links">
-      <h5 class="title" align="center">
-      {% if news.has_previous %}
-            <a href="?page=1">&laquo; primera</a>
-            <a href="?page={{ news.previous_page_number }}">anterior</a>
-        {% endif %}
+  {# endfor %}
 
-        <span class="current">
-            Page {{ news.number }} of {{ news.paginator.num_pages }}.
-        </span>
 
-        {% if news.has_next %}
-            <a href="?page={{ news.next_page_number }}">siguiente</a>
-            <a href="?page={{ news.paginator.num_pages }}">ultima &raquo;</a>
-        {% endif %}
-      </h5>
-    </span>
-  </div>
-  {% endif %}
+  {# endif %}
+-->
+
 </div>
 
 <div class="basic">

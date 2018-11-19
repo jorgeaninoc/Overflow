@@ -59,6 +59,32 @@ class AddCommunitiesTest(TestCase):
             c = Comunidad.objects.get(nombre='Prueba C')
         self.assertEqual(co,c)
 
+    def testAddCommunitiesEditor(self):
+        """
+        This function calls the function to create the object Comunidad and checks if it is an instance of Comunidad.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba I')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            c.imagenes.add(im)
+            co = Comunidad.objects.get(nombre='Prueba C')
+            co.save()
+            # Check if the community exists in the DB
+            c = Comunidad.objects.get(nombre='Prueba C')
+        self.assertEqual(co,c)
+
     def testAddCommunitiesAdminFalse2(self):
         """
         This function calls the function to create the object Comunidad and checks if it is an instance of Comunidad.
@@ -116,6 +142,33 @@ class EditCommunitiesTest(TestCase):
         self.my_admin.set_password('passphrase') # can't set above because of hashing
         self.my_admin.save() # needed to save to temporary test db
         loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba I')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            c.imagenes.add(im)
+            c.save()
+            c.nombre = 'Prueba C2'
+            c.save()
+            co = Comunidad.objects.get(nombre='Prueba C2')
+        self.assertTrue(co,c)
+
+    def testEditCommunitiesEditor(self):
+        """
+        This function calls the function to create the object Comunidad and changes a value from it, then checks if the object is saved in the DB.
+        Returns nothing.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
         if loginresponse:
             i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
             im = Imagen.objects.get(nombre='Prueba I')
@@ -197,6 +250,33 @@ class DeleteCommunitiesTest(TestCase):
         # Check if it was deleted from the BD.
         self.assertEqual(c,co)
 
+    def testDeleteCommunitiesEditor(self):
+        """
+        This function calls the function to create the object Comunidad and deletes it, then checks if it was deleted.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
+            im = Imagen.objects.get(nombre='Prueba I')
+            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
+            c.imagenes.add(im)
+            c.save()
+            c.delete()
+            c.save()
+            co = Comunidad.objects.get(nombre='Prueba C')
+        # Check if it was deleted from the BD.
+        self.assertEqual(c,co)
+
     def testDeleteCommunitiesAdminFalse2(self):
         """
         This function calls the function to create 2 objects Comunidad and deletes one, then checks if it was deleted.
@@ -220,27 +300,6 @@ class DeleteCommunitiesTest(TestCase):
             co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
         self.assertNotEqual(c2,co)
-
-    def testDeleteCommunitiesFalse(self):
-        """
-        This function tries to create and edit an object from comunidad without logging in.
-        """
-        self.client = Client()
-        response = self.client.get('/admin/', follow=True)
-        loginresponse = self.client.login(username='user',password='passphrase')
-        if loginresponse:
-            i= Imagen.objects.create(nombre='Prueba I',path='media/images/agua.jpg')
-            im = Imagen.objects.get(nombre='Prueba I')
-            c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
-            c.imagenes.add(im)
-            c.save()
-            c.delete()
-            c.save()
-            co = Comunidad.objects.get(nombre='Prueba C')
-            self.assertTrue(False)
-        else:
-            self.assertTrue(True)
-        self.assertEquals(c,co)
 
 
 

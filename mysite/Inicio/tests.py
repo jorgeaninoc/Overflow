@@ -86,7 +86,7 @@ class LogInOutTest(TestCase):
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
-        my_group = Group.objects.get(pk=1)
+        my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
         response = self.client.get('/admin/', follow=True)
@@ -167,6 +167,29 @@ class EditAnnouncementTest(TestCase):
             c = Anuncio.objects.get(titulo='Prueba B')
         self.assertTrue(an,c)
 
+    def testEditAnnouncementEditor(self):
+        """
+        This test edits an announcement and checks if it saves.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            an.titulo='Prueba B'
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba B')
+        self.assertTrue(an,c)
+
     def testEditAnnouncementFalse(self):
         """
         This test tries to edit an anonuncement without having an account
@@ -181,28 +204,57 @@ class EditAnnouncementTest(TestCase):
             self.assertTrue(False)
         else:
             self.assertTrue(True)
-
+# Test for the CU: Delete Announcement
 class DeleteAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
+
+    def testDeleteAnnouncementAdmin(self):
+        """
+        This function calls the function to create the object Announcement and deletes it, then checks if it was deleted.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=False)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            c = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            c.save()
+            c.delete()
+            c.save()
+            co = Anuncio.objects.get(titulo='Prueba A')
+        # Check if it was deleted from the BD.
+        self.assertEqual(c,co)
+
+    def testDeleteAnnouncementEditor(self):
+        """
+        This function calls the function to create the object Announcement and deletes it, then checks if it was deleted.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            c = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            c.save()
+            c.delete()
+            c.save()
+            co = Anuncio.objects.get(titulo='Prueba A')
+        # Check if it was deleted from the BD.
+        self.assertEqual(c,co)
 
 
-    def testDeleteAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        w.delete()
-        self.assertTrue(w,None)
 
 
 
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> abraham_removeRole
 """
 Created by Framework
 This file is where the tests of Add Role are declared.
@@ -210,18 +262,11 @@ Modified by: Abraham
 Modification date: 25/10/18
 """
 
-<<<<<<< HEAD
-
 #ayuda: https://django-guardian.readthedocs.io/en/stable/userguide/assign.html
 
-class AssignPrivRoleTest(TestCase):
-
-    def testAssignPrivRole(self):
-=======
 class RemoveRoleFromAccount(TestCase):
 
     def RemoveRole(self):
->>>>>>> abraham_removeRole
         self.client = Client()
         response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
@@ -229,10 +274,7 @@ class RemoveRoleFromAccount(TestCase):
         self.my_admin.save() # needed to save to temporary test db
         loginresponse = self.client.login(username='user',password='passphrase')
         if loginresponse:
-<<<<<<< HEAD
             #Create the Editor, user and assign
-=======
->>>>>>> abraham_removeRole
             self.client = Client()
             self.my_editor = User(username='editor')
             self.my_editor.set_password('pass') # can't set above because of hashing
@@ -240,14 +282,13 @@ class RemoveRoleFromAccount(TestCase):
             self.geditor = Group(name='Editor')
             self.geditor.save()
             my_group = Group.objects.get(pk=1)
-<<<<<<< HEAD
 
             #Create the task object
             an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
             an.save()
             assign_perm('change_anuncio', my_group, an)
             #User doesn't have privilege
-            self.assertTrue(!self.my_editor.has_perm('change_anuncio', an))
+            self.assertTrue(not self.my_editor.has_perm('change_anuncio', an))
 
             #add user to Group with privilege
             my_group.user_set.add(self.my_editor)
@@ -285,7 +326,7 @@ class RemovePrivRoleTest(TestCase):
             self.geditor = Group(name='Editor')
             self.geditor.save()
             editor = User.objects.get(username="editor")
-            my_group = Group.objects.get(pk=1)
+            my_group = Group.objects.get(name='Editor')
 
             #Create the task object
             an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
@@ -293,7 +334,7 @@ class RemovePrivRoleTest(TestCase):
 
             assign_perm('change_anuncio', my_group, an)
             #User doesn't have privilege
-            self.assertTrue(!editor.has_perm('change_anuncio', an))
+            self.assertTrue(not editor.has_perm('change_anuncio', an))
 
             #add user to Group with privilege
             my_group.user_set.add(editor)
@@ -305,19 +346,16 @@ class RemovePrivRoleTest(TestCase):
 
             remove_perm('change_anuncio', my_group, an)
             #now he hasn't
-            self.assertTrue(!editor.has_perm('change_anuncio', an))
+            self.assertTrue(not editor.has_perm('change_anuncio', an))
 
 
 
-<<<<<<< HEAD
-=======
             my_group.user_set.add(self.my_editor)
             my_group.save()
             my_group.user_set.remove(self.my_editor) # now user doesn't belong to group
             my_group.save()
-        self.assertTrue(!self.my_editor.groups.filter(name="Editor").exists())
->>>>>>> abraham_removeRole
-=======
+        self.assertTrue(not self.my_editor.groups.filter(name="Editor").exists())
+
 """
 Created by Framework
 This file is where the tests of Add Role are declared.
@@ -325,7 +363,6 @@ Modified by: Abraham
 Modification date: 25/10/18
 """
 class ViewUsersTest(TestCase):
->>>>>>> abraham_viewUsers
 
 
     def testViewUsers(self):
@@ -337,7 +374,7 @@ class ViewUsersTest(TestCase):
         loginresponse = self.client.login(username='user',password='passphrase')
         if loginresponse:
             response = self.client.get('/admin/auth/user/')
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 403)
 
 
 
@@ -492,7 +529,6 @@ class EditMVHTest(TestCase):
 Created by Framework
 This file is where the tests of Delete Mission and Vission are declared.
 Modified by: Maritza
-<<<<<<< HEAD
 Modification date: 26/10/18
 """
 class DeleteMVHTest(TestCase):
