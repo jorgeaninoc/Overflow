@@ -22,6 +22,7 @@ urlpatterns = [
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),
 
     path('catalogo2/',views.catalogo,name='catalogo2'),
+    path('AJAXSearchCat/', views.AJAXSearchCat, name='ajaxSearchCat'),
 
     path('catalogo/', views.catalogoFilter.as_view(),name='catalogo'),
     path('catalogo/<int:productoid>/', views.getProducto, name='producto'),
