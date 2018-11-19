@@ -18,7 +18,7 @@ class Imagen(models.Model):
     nombre = models.CharField(max_length=255,unique=True,default=str(dt.now()))
     #Checking the vulnerability:
     #path = models.ImageField(upload_to="images")
-    path = models.ImageField(upload_to="images")
+    path = models.FileField(upload_to="images")
 
     # Function to return the name of the Image
     def __str__(self):
