@@ -389,122 +389,45 @@ class AssignRoleTest(TestCase):
 
     def testCreateRole(self):
         self.client = Client()
-        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
-        permission = Permission.objects.create(codename='can_add',
-                                       name='Can Add Role',
-                                       content_type=content_type)
-        permission.save()
-        self.my_editor = User(username='editor')
-        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor = User(username='Maritza')
+        self.my_editor.set_password('maritza1234') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
         response = self.client.get('/admin/', follow=True)
-        loginresponse = self.client.login(username='editor',password='pass')
+        loginresponse = self.client.login(username='Maritza',password='maritza1234')
         if loginresponse:
-            return permission
+            #Create the task object
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            assign_perm('change_anuncio', my_group, an)
 
+            #add user to Group with privilege
+            my_group.user_set.add(self.my_editor)
+            my_group.save()
 
-"""
-Created by Framework
-This file is where the tests of Add Role are declared.
-Modified by: Maritza
-Modification date: 25/10/18
-"""
-
-class AddRoleTest(TestCase):
-
-    def testAddRole(self):
-        self.client = Client()
-        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
-
-        self.my_editor = User(username='editor')
-        self.my_editor.set_password('pass') # can't set above because of hashing
-        self.my_editor.save() # needed to save to temporary test db
-        self.geditor = Group(name='Editor')
-        self.geditor.save()
-
-        my_group = Group.objects.get(name='Editor')
-        my_group.user_set.add(self.my_editor)
-        my_group.save()
-        response = self.client.get('/admin/', follow=True)
-        loginresponse = self.client.login(username='editor',password='pass')
-        if loginresponse:
+            #now he has privilege
+            self.assertTrue(self.my_editor.has_perm('change_anuncio', an))
+            #add Role
             an = Permission.objects.create(codename='can_add',
                                            name='Can Add Announcements',
                                            content_type=content_type)
             an.save()
             c = Permission.objects.get(name='Can Add Announcements')
             #add
+
+            return an
         self.assertEqual(an,c)
-
-
-"""
-Created by Framework
-This file is where the tests of Edit Role are declared.
-Modified by: Maritza
-Modification date: 25/10/18
-"""
-
-class EditRoleTest(TestCase):
-
-    def testCreateRole(self):
-        self.client = Client()
-        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
-        permission = Permission.objects.create(codename='can_add',
-                                       name='Can Add Role',
-                                       content_type=content_type)
-        permission.save()
-        self.my_editor = User(username='editor')
-        self.my_editor.set_password('pass') # can't set above because of hashing
-        self.my_editor.save() # needed to save to temporary test db
-        self.geditor = Group(name='Editor')
-        self.geditor.save()
-        my_group = Group.objects.get(name='Editor')
-        my_group.user_set.add(self.my_editor)
-        my_group.save()
-        response = self.client.get('/admin/', follow=True)
-        loginresponse = self.client.login(username='editor',password='pass')
-        if loginresponse:
-            return permission
-
+        #edit role
     def testEditRole(self):
         w = self.testCreateRole()
         w.name = 'Can Edit Role'
         self.assertTrue(w.name,'Can Edit Role')
         #false
-
-
-"""
-Created by Framework
-This file is where the tests of Delete Role are declared.
-Modified by: Maritza
-Modification date: 25/10/18
-"""
-
-class DeleteRoleTest(TestCase):
-    def testCreateRole(self):
-        self.client = Client()
-        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
-        permission = Permission.objects.create(codename='can_add',
-                                       name='Can Add Role',
-                                       content_type=content_type)
-        permission.save()
-        self.my_editor = User(username='editor')
-        self.my_editor.set_password('pass') # can't set above because of hashing
-        self.my_editor.save() # needed to save to temporary test db
-        self.geditor = Group(name='Editor')
-        self.geditor.save()
-        my_group = Group.objects.get(name='Editor')
-        my_group.user_set.add(self.my_editor)
-        my_group.save()
-        response = self.client.get('/admin/', follow=True)
-        loginresponse = self.client.login(username='editor',password='pass')
-        if loginresponse:
-            return permission
 
     def testDeleteRole(self):
         w = self.testCreateRole()
