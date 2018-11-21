@@ -279,7 +279,7 @@ def checkout(request):
                         # product_checkout.save() # end of product
 
             # order_form.cantidad = request.session.
-            messages.success(request, 'Su orden ha sido puesta y alguien se pondra en contacto con el correo dado.')
+            messages.success(request, 'Su orden ha sido puesta con el numero de referencia: "'+str(order_form.numero_referencia)+'"y alguien pronto se pondra en contacto con el correo: "'+str(order_form.correo)+'".')
             # order_form.productos = cart
             order_form.save()
             entry_dict2 = {
