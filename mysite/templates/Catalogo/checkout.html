@@ -4,6 +4,17 @@
 </div>
 <div class="container">
 
+
+{% if messages %}
+      {% for message in messages %}
+      <div {% if message.tags %}  class="alert alert-success {{ message.tags }}"{% endif %}>
+        <strong>¡Muchas Gracias por hacer su pedido!</strong> {{ message }}
+      </div>
+      {% endfor %}
+  {% endif %}
+
+
+
     <div class="row">
         <div class="col-sm-4">
             <h1 class="title">

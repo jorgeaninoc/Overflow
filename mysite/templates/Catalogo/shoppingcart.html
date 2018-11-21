@@ -4,6 +4,15 @@
 </div>
 <div class="container">
 
+
+{% if messages %}
+      {% for message in messages %}
+      <div {% if message.tags %}  class="alert alert-danger {{ message.tags }}"{% endif %}>
+        <strong>¡Hola!</strong> {{ message }}
+      </div>
+      {% endfor %}
+  {% endif %}
+
     <div class="row">
         <div class="col-sm-4">
             <h1 class="title">
@@ -26,15 +35,20 @@
 
 <table align="center" class = "panel">
   <tr>
+    {% if request.session.total > 0 %}
     <td width="10"><h2>Producto</h2></td>
     <td colspan="5"></td>
     <td colspan="5" width="100"></td>
     <td colspan="5" width="10"><h2>Costo Total por Producto</h1></td>
     <td colspan="5" width="10"><h2>Cantidad</h2></td>
 <!--     <form method='POST'> -->
-
+    
       <td align="center"><a href="{% url 'Catalogo:checkout' %}"><input type="submit" name="checkout" value="Continuar con la Compra" class="btn btn-success active btn-green green-bg" id="checkout"></a></td>
       <td><h1>Total: <b>${{ request.session.total }} </b></h1></td>
+
+    {% else %}
+      <td><i>Tu carrito de Compras esta actualmente vacio. Agrega un producto para poder proceder.</i></td>
+    {% endif %}
 
   </tr>
 

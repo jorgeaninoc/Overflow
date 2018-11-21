@@ -2,7 +2,7 @@
 Created by Framework
 This file is where you can create tests for the App
 Modified by: Enrique Posada
-Date: 03/11/18
+Date: 21/11/18
 """
 # Import libraries used.
 from django.test import TestCase
@@ -18,6 +18,12 @@ from django.test import TestCase, Client
 
 # Create your tests here.
 
+
+class ConsultCartTest(TestCase):
+	def testConsultCart(self):
+		self.client = Client()
+		response = self.client.get('/carrito')
+		self.assertEqual(response.status_code, 301)
 
 
 # class CartTest(TestCase):

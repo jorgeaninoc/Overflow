@@ -108,6 +108,7 @@ def getProducto(request, productoid):
         # print(cart[productoid])
 
         print('Item has been added to the cart')
+        messages.success(request, 'El producto se ha agregado a tu carrito de compras. Puedes revisarlo seleccionando el icono de tu carrito de compras')
         # for key, value in cart.items():
 
         # total_cart += value
@@ -175,6 +176,8 @@ def viewCart(request):
 
                 # cart = new_cart # Equivalent line is below
                 request.session['cart'] = new_cart
+
+                messages.success(request, 'El producto "'+str(item)+'" se ha removido de tu carrito de compras.')
 
                 # Uses same function in order to remove from both dictionaries
                 new_quantity_dict = removefromCart(quantity_dict, item)
@@ -276,13 +279,20 @@ def checkout(request):
                         # product_checkout.save() # end of product
 
             # order_form.cantidad = request.session.
-
+            messages.success(request, 'Su orden ha sido puesta y alguien se pondra en contacto con el correo dado.')
             # order_form.productos = cart
             order_form.save()
+            entry_dict2 = {
+                "form":form,
+                # "order":order,
+                "cart":cart,
+                "quantity_dict":quantity_dict
+            }
             # print(order_form.nombre,order_form.mensaje, json.dumps(cart))
             
             # messages.success(request, 'Tu mensaje ha sido enviado.')
-            return HttpResponseRedirect('')
+            # return HttpResponseRedirect('')
+            return render(request, 'Catalogo/checkout.html', context = entry_dict2 )
         else:
             form = OrderForm()
     # if len(order)>=1:
