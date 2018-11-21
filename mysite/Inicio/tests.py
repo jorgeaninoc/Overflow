@@ -19,7 +19,7 @@ import django
 from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
 from django.contrib.auth.models import Permission
-
+from django.contrib.auth.models import ContentType
 
 """
 Function LogIn-logOut.
@@ -380,6 +380,36 @@ class ViewUsersTest(TestCase):
 
 """
 Created by Framework
+This file is where the tests of Assign Role to account are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class AssignRoleTest(TestCase):
+
+    def testCreateRole(self):
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Role',
+                                       content_type=content_type)
+        permission.save()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            return permission
+
+
+"""
+Created by Framework
 This file is where the tests of Add Role are declared.
 Modified by: Maritza
 Modification date: 25/10/18
@@ -387,21 +417,30 @@ Modification date: 25/10/18
 
 class AddRoleTest(TestCase):
 
-    def testCreateRole(self):
-        self.client = Client()
-        response = self.client.get('/admin/', follow=True)
-        self.my_admin = User(username='user', is_staff=True)
-        self.my_admin.set_password('passphrase') # can't set above because of hashing
-        self.my_admin.save() # needed to save to temporary test db
-        loginresponse = self.client.login(username='user',password='passphrase')
-        if loginresponse:
-            g = Comunidad.objects.create(nombre="Prueba A")
-            gr = Comunidad.objects.get(nombre='Prueba A')
-            return gr
-
     def testAddRole(self):
-        w = self.testCreateRole()
-        self.assertTrue(isinstance(w, Comunidad))
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            an = Permission.objects.create(codename='can_add',
+                                           name='Can Add Announcements',
+                                           content_type=content_type)
+            an.save()
+            c = Permission.objects.get(name='Can Add Announcements')
+            #add
+        self.assertEqual(an,c)
+
 
 """
 Created by Framework
@@ -414,20 +453,30 @@ class EditRoleTest(TestCase):
 
     def testCreateRole(self):
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Role',
+                                       content_type=content_type)
+        permission.save()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
         response = self.client.get('/admin/', follow=True)
-        self.my_admin = User(username='user', is_staff=True)
-        self.my_admin.set_password('passphrase') # can't set above because of hashing
-        self.my_admin.save() # needed to save to temporary test db
-        loginresponse = self.client.login(username='user',password='passphrase')
+        loginresponse = self.client.login(username='editor',password='pass')
         if loginresponse:
-            g = Comunidad.objects.create(nombre="Prueba A")
-            gr = Comunidad.objects.get(nombre='Prueba A')
-            return gr
+            return permission
 
     def testEditRole(self):
         w = self.testCreateRole()
-        w.nombre = 'Prueba B'
-        self.assertTrue(w.nombre,'Prueba B')
+        w.name = 'Can Edit Role'
+        self.assertTrue(w.name,'Can Edit Role')
+        #false
+
 
 """
 Created by Framework
@@ -439,40 +488,30 @@ Modification date: 25/10/18
 class DeleteRoleTest(TestCase):
     def testCreateRole(self):
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Role',
+                                       content_type=content_type)
+        permission.save()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
         response = self.client.get('/admin/', follow=True)
-        self.my_admin = User(username='user', is_staff=True)
-        self.my_admin.set_password('passphrase') # can't set above because of hashing
-        self.my_admin.save() # needed to save to temporary test db
-        loginresponse = self.client.login(username='user',password='passphrase')
+        loginresponse = self.client.login(username='editor',password='pass')
         if loginresponse:
-            g = Comunidad.objects.create(nombre="Prueba A")
-            gr = Comunidad.objects.get(nombre='Prueba A')
-            return gr
+            return permission
 
     def testDeleteRole(self):
         w = self.testCreateRole()
         w.delete()
         self.assertTrue(w,None)
+        #false
 
-"""
-Created by Framework
-This file is where the tests of Assign Role to account are declared.
-Modified by: Maritza
-Modification date: 25/10/18
-"""
-
-class AssignRoleTest(TestCase):
-
-    def testCreateRole(self):
-        self.client = Client()
-        response = self.client.get('/admin/', follow=True)
-        self.my_admin = User(username='user', is_staff=True)
-        self.my_admin.set_password('passphrase') # can't set above because of hashing
-        self.my_admin.save() # needed to save to temporary test db
-        loginresponse = self.client.login(username='user',password='passphrase')
-        if loginresponse:
-            g = Comunidad.objects.create(nombre="Prueba A")
-            gr = Comunidad.objects.get(nombre='Prueba A')
 
 """
 Created by Framework
