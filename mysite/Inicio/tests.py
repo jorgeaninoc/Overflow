@@ -5,7 +5,8 @@ Modified by: Jorge Nino
 Date: 19/10/18
 """
 # Import libraries needed
-from django.contrib.auth.models import User
+# from guardian.shortcuts import assign_perm, remove_perm
+# from guardian.models import UserObjectPermission
 from Inicio.models import Anuncio, Imagen
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad
@@ -15,8 +16,10 @@ from Comunidades.models import Comunidad
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from Actividades.models import Noticia, Imagen
+from django.contrib.auth.models import Permission
+from django.contrib.auth.models import ContentType
 
 """
 Function LogIn-logOut.
@@ -24,168 +27,510 @@ Function description: The admin/editor can login/logout.
 Function parameters: testCase
 return none
 """
+
+# Test for UC: log in and Log out
 class LogInOutTest(TestCase):
-    def setUp(self):
+
+    def testLogInFalse(self):
+        """
+        This test tries to log in without having an account.
+        """
         self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        self.assertFalse(loginresponse) # should now return "false"
+
+    def testLogOutFalse(self):
+        """
+        This test tries to log out without having an account.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        response = self.client.logout()
+        self.assertFalse(response) # should now return "false"
+
+    def testLogInAdmin(self):
+        """
+        This test tries to log in as an admin by creating one.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
         self.my_admin = User(username='user', is_staff=True)
         self.my_admin.set_password('passphrase') # can't set above because of hashing
         self.my_admin.save() # needed to save to temporary test db
-
-    def testLogIn(self):
-        response = self.client.get('/admin/', follow=True)
         loginresponse = self.client.login(username='user',password='passphrase')
         self.assertTrue(loginresponse) # should now return "true"
 
-    def testLogOut(self):
+    def testLogOutAdmin(self):
+        """
+        This test tries to log out as an admin.
+        """
         self.client = Client()
-        self.client.login(username='fred', password='secret')
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        response = self.client.get('/admin/logout/')
+        self.assertEqual(response.status_code, 200)
+
+
+    def testLogInEditor(self):
+        """
+        This test tries to log in as an editor.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        self.assertTrue(loginresponse) # should now return "true"
+
+    def testLogOutEditor(self):
+        """
+        This test tries to log out as an editor.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        loginresponse = self.client.login(username='editor',password='pass')
         response = self.client.get('/admin/logout/')
         self.assertEqual(response.status_code, 302)
 
-
-"""
-Function Add announcement.
-Function description: The admin/editor can Add announcement.
-Function parameters: testCase
-return announcementCreated
-"""
+# Test for UC: Add Announcement
 class AddAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
+
+    def testAddAnnouncementAdmin(self):
+        """
+        This test adds an announcement and checks if it exist.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+        self.assertEqual(an,c)
+
+    def testAddAnnouncementFalse(self):
+        """
+        This test tries to add an a Announcement without having an account.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+            self.assertTrue(False)
+        else:
+            self.assertTrue(True)
 
 
-    def testAddAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        self.assertTrue(isinstance(w,Anuncio))
-
-"""
-Function Edit announcement.
-Function description: The admin/editor can Edit announcement.
-Function parameters: testCase
-return announcementCreated
-"""
+# Test for UC: Edit Announcement
 class EditAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
+    def testEditAnnouncementAdmin(self):
+        """
+        This test edits an announcement and checks if it saves.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            an.titulo='Prueba B'
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba B')
+        self.assertTrue(an,c)
 
+    def testEditAnnouncementEditor(self):
+        """
+        This test edits an announcement and checks if it saves.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            an.titulo='Prueba B'
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba B')
+        self.assertTrue(an,c)
 
-    def testEditAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        w.titulo='Prueba B'
-        self.assertTrue(w.titulo,'Prueba B')
-
-
-"""
-Function Delete announcement.
-Function description: The admin/editor can Delete announcement.
-Function parameters: testCase
-return announcementCreated
-"""
-
+    def testEditAnnouncementFalse(self):
+        """
+        This test tries to edit an anonuncement without having an account
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+            self.assertTrue(False)
+        else:
+            self.assertTrue(True)
+# Test for the CU: Delete Announcement
 class DeleteAnnouncementTest(TestCase):
 
-    def testCreateAnnouncement(self):
-        a = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
-        an = Anuncio.objects.get(titulo='Prueba A')
-        return an
+
+    def testDeleteAnnouncementAdmin(self):
+        """
+        This function calls the function to create the object Announcement and deletes it, then checks if it was deleted.
+        """
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=False)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            c = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            c.save()
+            c.delete()
+            c.save()
+            co = Anuncio.objects.get(titulo='Prueba A')
+        # Check if it was deleted from the BD.
+        self.assertEqual(c,co)
+
+    def testDeleteAnnouncementEditor(self):
+        """
+        This function calls the function to create the object Announcement and deletes it, then checks if it was deleted.
+        """
+        self.client = Client()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            c = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            c.save()
+            c.delete()
+            c.save()
+            co = Anuncio.objects.get(titulo='Prueba A')
+        # Check if it was deleted from the BD.
+        self.assertEqual(c,co)
 
 
-    def testDeleteAnnouncement(self):
-        w = self.testCreateAnnouncement()
-        w.delete()
-        self.assertTrue(w,None)
-
-
-"""
-Function Add Role.
-Function description: The admin/editor can Add Role.
-Function parameters: testCase
-return roleCreated
-"""
-
-class AddRoleTest(TestCase):
-
-    def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-        return gr
-
-    def testAddRole(self):
-        w = self.testCreateRole()
-        self.assertTrue(isinstance(w, Comunidad))
-
-"""
-Function Edit Role.
-Function description: The admin/editor can edit role.
-Function parameters: testCase
-return roleCreated
-"""
-
-class EditRoleTest(TestCase):
-
-    def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-        return gr
-
-    def testEditRole(self):
-        w = self.testCreateRole()
-        w.nombre = 'Prueba B'
-        self.assertTrue(w.nombre,'Prueba B')
-
-"""
-Function Delete Role.
-Function description: The admin/editor can Delete role.
-Function parameters: testCase
-return roleCreated
-"""
-
-class DeleteRoleTest(TestCase):
-    def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-        return gr
-
-    def testDeleteRole(self):
-        w = self.testCreateRole()
-        w.delete()
-        self.assertTrue(w,None)
 
 
 
 """
-Function Assign Role to account.
-Function description: The admin/editor can Assign Role to account.
-Function parameters: testCase
-return roleCreated
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Abraham
+Modification date: 25/10/18
+"""
+
+#ayuda: https://django-guardian.readthedocs.io/en/stable/userguide/assign.html
+
+class RemoveRoleFromAccount(TestCase):
+
+    def RemoveRole(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            #Create the Editor, user and assign
+            self.client = Client()
+            self.my_editor = User(username='editor')
+            self.my_editor.set_password('pass') # can't set above because of hashing
+            self.my_editor.save() # needed to save to temporary test db
+            self.geditor = Group(name='Editor')
+            self.geditor.save()
+            my_group = Group.objects.get(pk=1)
+
+            #Create the task object
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            assign_perm('change_anuncio', my_group, an)
+            #User doesn't have privilege
+            self.assertTrue(not self.my_editor.has_perm('change_anuncio', an))
+
+            #add user to Group with privilege
+            my_group.user_set.add(self.my_editor)
+            my_group.save()
+
+            #now he has privilege
+            self.assertTrue(self.my_editor.has_perm('change_anuncio', an))
+
+
+
+
+
+
+"""
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Abraham
+Modification date: 25/10/18
+"""
+# class RemovePrivRoleTest(TestCase):
+
+
+#     def testRemovePrivRole(self):
+#         self.client = Client()
+#         response = self.client.get('/admin/', follow=True)
+#         self.my_admin = User(username='user', is_staff=True)
+#         self.my_admin.set_password('passphrase') # can't set above because of hashing
+#         self.my_admin.save() # needed to save to temporary test db
+#         loginresponse = self.client.login(username='user',password='passphrase')
+#         if loginresponse:
+#             self.client = Client()
+#             self.my_editor = User(username='editor')
+#             self.my_editor.set_password('pass') # can't set above because of hashing
+#             self.my_editor.save() # needed to save to temporary test db
+#             self.geditor = Group(name='Editor')
+#             self.geditor.save()
+#             editor = User.objects.get(username="editor")
+#             my_group = Group.objects.get(name='Editor')
+
+#             #Create the task object
+#             an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+#             an.save()
+
+#             assign_perm('change_anuncio', my_group, an)
+#             #User doesn't have privilege
+#             self.assertTrue(not editor.has_perm('change_anuncio', an))
+
+#             #add user to Group with privilege
+#             my_group.user_set.add(editor)
+#             my_group.save()
+
+#             #now he has privilege
+#             self.assertTrue(editor.has_perm('change_anuncio', an))
+
+
+#             remove_perm('change_anuncio', my_group, an)
+#             #now he hasn't
+#             self.assertTrue(not editor.has_perm('change_anuncio', an))
+
+
+
+#             my_group.user_set.add(self.my_editor)
+#             my_group.save()
+#             my_group.user_set.remove(self.my_editor) # now user doesn't belong to group
+#             my_group.save()
+#         self.assertTrue(not self.my_editor.groups.filter(name="Editor").exists())
+
+"""
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Abraham
+Modification date: 25/10/18
+"""
+class ViewUsersTest(TestCase):
+
+
+    def testViewUsers(self):
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            response = self.client.get('/admin/auth/user/')
+            self.assertEqual(response.status_code, 403)
+
+
+
+"""
+Created by Framework
+This file is where the tests of Assign Role to account are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 
 class AssignRoleTest(TestCase):
 
     def testCreateRole(self):
-        g = Comunidad.objects.create(nombre="Prueba A")
-        gr = Comunidad.objects.get(nombre='Prueba A')
-
-        return gr
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Role',
+                                       content_type=content_type)
+        permission.save()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            return permission
 
 
 """
-Function Add Mission and Vission.
-Function description: The admin/editor can Add Mission and Vission.
-Function parameters: testCase
-return MisionCreated
+Created by Framework
+This file is where the tests of Add Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class AddRoleTest(TestCase):
+
+    def testAddRole(self):
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            an = Permission.objects.create(codename='can_add',
+                                           name='Can Add Announcements',
+                                           content_type=content_type)
+            an.save()
+            c = Permission.objects.get(name='Can Add Announcements')
+            #add
+        self.assertEqual(an,c)
+
+
+"""
+Created by Framework
+This file is where the tests of Edit Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class EditRoleTest(TestCase):
+
+    def testCreateRole(self):
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Role',
+                                       content_type=content_type)
+        permission.save()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            return permission
+
+    def testEditRole(self):
+        w = self.testCreateRole()
+        w.name = 'Can Edit Role'
+        self.assertTrue(w.name,'Can Edit Role')
+        #false
+
+
+"""
+Created by Framework
+This file is where the tests of Delete Role are declared.
+Modified by: Maritza
+Modification date: 25/10/18
+"""
+
+class DeleteRoleTest(TestCase):
+    def testCreateRole(self):
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Role',
+                                       content_type=content_type)
+        permission.save()
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            return permission
+
+    def testDeleteRole(self):
+        w = self.testCreateRole()
+        w.delete()
+        self.assertTrue(w,None)
+        #false
+
+
+"""
+Created by Framework
+This file is where the tests of Add Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 class AddMVHTest(TestCase):
 
     def testCreateMVH(self):
-        n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
-        nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            n = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+            nv = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
 
         return nv
 
@@ -194,16 +539,23 @@ class AddMVHTest(TestCase):
         self.assertTrue(isinstance(w, Mision))
 
 """
-Function Edit Mission and Vission.
-Function description: The admin/editor can Edit Mission and Vission.
-Function parameters: testCase
-return MisionCreated
+Created by Framework
+This file is where the tests of Edit Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 25/10/18
 """
 class EditMVHTest(TestCase):
 
     def testCreateMVH(self):
-        g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
-        gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Mision.objects.create(nombre='Prueba A', mision='Lorem ipsum')
+            gr = Mision.objects.get(nombre='Prueba A', mision='Lorem ipsum')
 
         return gr
 
@@ -212,22 +564,149 @@ class EditMVHTest(TestCase):
         w.nombre = 'Prueba B'
         self.assertTrue(w.nombre,'Prueba B')
 
-
-
 """
-Function Delete Mission and Vission.
-Function description: The admin/editor can Delete Mission and Vission.
-Function parameters: testCase
-return MisionCreated
+Created by Framework
+This file is where the tests of Delete Mission and Vission are declared.
+Modified by: Maritza
+Modification date: 26/10/18
 """
 class DeleteMVHTest(TestCase):
 
     def testCreateMVH(self):
-        g = Mision.objects.create(nombre="Prueba A")
-        gr = Mision.objects.get(nombre='Prueba A')
-        return gr
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='user', is_staff=True)
+        self.my_admin.set_password('passphrase') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='user',password='passphrase')
+        if loginresponse:
+            g = Mision.objects.create(nombre="Prueba A")
+            gr = Mision.objects.get(nombre='Prueba A')
+            return gr
 
     def testDeleteRole(self):
         w = self.testCreateMVH()
         w.delete()
         self.assertTrue(w,None)
+
+"""
+Function Consult visits graphics.
+Function description: The admin/editor can view visits report.
+Function parameters: testCase
+return MisionCreated
+"""
+# class ConsulReportTest(TestCase):
+
+#     def testReports(self):
+#         self.client = Client()
+#         response = self.client.get('/admin/', follow=True)
+#         self.my_admin = User(username='user', is_staff=True)
+#         self.my_admin.set_password('passphrase') # can't set above because of hashing
+#         self.my_admin.save() # needed to save to temporary test db
+#         loginresponse = self.client.login(username='user',password='passphrase')
+#         if loginresponse:
+#             self.client = Client()
+#             response = self.client.get('/admin')
+#             self.assertEqual(response.status_code, 301)
+
+
+
+
+"""
+Created by Framework
+This file is where the tests of Edit Mission and Vission are declared.
+Modified by: Enrique
+Modification date: 21/11/18
+"""
+
+# class AddAccountTest(TestCase):
+
+#     def testCreateUser(self):
+#         self.client = Client()
+#         content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+#         permission = Permission.objects.create(codename='can_add',
+#                                        name='Can Add Role',
+#                                        content_type=content_type)
+#         permission.save()
+#         self.my_editor = User(username='editor')
+#         self.my_editor.set_password('pass') # can't set above because of hashing
+#         self.my_editor.save() # needed to save to temporary test db
+#         self.geditor = Group(name='Editor')
+#         self.geditor.save()
+#         my_group = Group.objects.get(name='Editor')
+#         my_group.user_set.add(self.my_editor)
+#         my_group.save()
+#         response = self.client.get('/admin/', follow=True)
+#         loginresponse = self.client.login(username='editor',password='pass')
+#         if loginresponse:
+#             return permission
+
+
+
+
+
+class AddAccountTest(TestCase):
+
+
+    def testAddAccount(self): # Done
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='admin', is_staff=True)
+        self.my_admin.set_password('password') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='admin',password='password')
+        if loginresponse:
+            response = self.client.get('/admin/auth/user/')
+            user_created = User(username = 'user', is_staff = True)
+            user_created.set_password('pasuser')
+            user_created.save()
+            # self.assertTrue(isinstance(user_created, User))
+            users = User.objects.get(username = 'user')
+            self.assertEqual(user_created,users)
+
+
+class EditAccountTest(TestCase):
+
+
+    def testEditAccount(self): # Done
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='admin', is_staff=True)
+        self.my_admin.set_password('password') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='admin',password='password')
+        if loginresponse:
+            response = self.client.get('/admin/auth/user/')
+            user_created = User(username = 'user', is_staff = True)
+            user_created.set_password('pasuser')
+            user_created.save()
+            # self.assertTrue(isinstance(user_created, User))
+            user_created.username = 'userchanged'
+            user_created.save()
+            users = User.objects.get(username = 'userchanged')
+            self.assertEqual(user_created,users)
+
+
+class DeleteAccountTest(TestCase):
+
+    def testDeleteAccount(self): # Done
+        self.client = Client()
+        response = self.client.get('/admin/', follow=True)
+        self.my_admin = User(username='admin', is_staff=True)
+        self.my_admin.set_password('password') # can't set above because of hashing
+        self.my_admin.save() # needed to save to temporary test db
+        loginresponse = self.client.login(username='admin',password='password')
+        if loginresponse:
+            response = self.client.get('/admin/auth/user/')
+            user_created = User(username = 'user', is_staff = True)
+            user_created.set_password('pasuser')
+            user_created.save()
+            # self.assertTrue(isinstance(user_created, User))
+            # user_created.username = 'userchanged'
+            user_created.delete()
+            # user_created.save()
+
+            # users = User.objects.get(username = 'user')
+            # self.assertEqual(user_created,users)
+            self.assertTrue(user_created,None)
+
