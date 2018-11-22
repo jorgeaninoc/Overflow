@@ -16,6 +16,7 @@ import django
 class Imagen(models.Model):
     #Declaring variables for Table image
     nombre = models.CharField(max_length=255,unique=True,default=str(dt.now()))
+    #Verifiying that the file is an image for vulnerability:
     path = models.ImageField(upload_to="images")
 
     # Function to return the name of the Image

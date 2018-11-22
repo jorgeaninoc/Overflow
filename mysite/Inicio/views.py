@@ -83,7 +83,8 @@ def get_data(self, **kwargs):
 class ChartData(APIView):
 
     def post(self, request, format=None):
-        default_items = [ {"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":False,"borderColor":"rgb(75, 192, 192)","lineTension":0.1}   ]
+
+        default_items = [{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":False,"borderColor":"rgb(192, 192, 192)","lineTension":100}]
         labels = []
         data = {
             "labels": labels,

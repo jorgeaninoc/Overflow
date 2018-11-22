@@ -16,6 +16,7 @@ from Catalogo.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Catalogo.filters import *
+from Comunidades.models import *
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -50,18 +51,51 @@ class SearchAjaxSubmitView(SearchSubmitView):
 
 
 
+def AJAXSearchCat(request):
+    if(request.POST.get('precio__gt')!= None and request.POST.get('precio__gt')!=''):
+        pgt = int(request.POST.get('precio__gt'))
+    else:
+        pgt = 0
+
+    if(request.POST.get('precio__lt')!= None and request.POST.get('precio__lt')!=''):
+        plt = int(request.POST.get('precio__lt'))
+    else:
+        plt = 999999
+
+    if(request.POST.get('nombre') != None):
+        nombre = request.POST.get('nombre')
+    else:
+        nombre = ''
+
+    if(request.POST.get('comunidad') != None):
+        com = request.POST.get('comunidad')
+    else:
+        com = ''
+
+    coms = Comunidad.objects.filter(nombre__icontains=com)
+    result = Producto.objects.filter(nombre__icontains=nombre)
+    result = result.filter(communidad__in=coms)
+    result = result.filter(precio__gte=pgt)
+    result = result.filter(precio__lte=plt)
+
+    return render(request,"Catalogo/cat_results.html", {'result':result})
+#    html = render_to_string("/Comunidades/com_results.html", {'result':result})
+#    return HttpResponse(html)
+
+
 # Declare the view for accesing the Catalogo site.
 def catalogo(request):
     # Get all the objects of Product from the DB.
     product_list = Producto.objects.all()
     # Set a paginator of 9 objects.
     paginator = Paginator(product_list,9)
+    communities = Comunidad.objects.all()
     # Get the site of the view.
     page = request.GET.get('page')
     # Set the paginator to the site.
     products = paginator.get_page(page)
     # Declare a dict with the data passed to the view.
-    entry_dict = {"products":products}
+    entry_dict = {"products":products, "communities": communities}
     # Render the view.
     return render(request,'Catalogo/catalogo.html',context=entry_dict)
 
