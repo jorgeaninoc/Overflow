@@ -7,7 +7,8 @@ Date: 19/10/18
 #Import libraries used.
 from django.test import TestCase, Client
 from Comunidades.models import Comunidad,Imagen
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
 
 # Create your tests here.
 
@@ -64,11 +65,16 @@ class AddCommunitiesTest(TestCase):
         This function calls the function to create the object Comunidad and checks if it is an instance of Comunidad.
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Comunidades', model='Comunidad')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Communities',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
@@ -159,11 +165,16 @@ class EditCommunitiesTest(TestCase):
         Returns nothing.
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Comunidades', model='Comunidad')
+        permission = Permission.objects.create(codename='can_edit',
+                                       name='Can Edit Communities',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
@@ -255,11 +266,16 @@ class DeleteCommunitiesTest(TestCase):
         This function calls the function to create the object Comunidad and deletes it, then checks if it was deleted.
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Comunidades', model='Comunidad')
+        permission = Permission.objects.create(codename='can_delete',
+                                       name='Can Delete Communities',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
@@ -271,9 +287,11 @@ class DeleteCommunitiesTest(TestCase):
             c = Comunidad.objects.create(nombre="Prueba C", descripcion="Lorem Ipsum")
             c.imagenes.add(im)
             c.save()
-            c.delete()
-            c.save()
-            co = Comunidad.objects.get(nombre='Prueba C')
+            c = Comunidades.objects.get(nombre="Prueba C")
+            if c:
+                c.delete()
+                c.save()
+                co = Comunidad.objects.get(nombre='Prueba C')
         # Check if it was deleted from the BD.
         self.assertEqual(c,co)
 

@@ -16,9 +16,9 @@ from Comunidades.models import Comunidad
 from datetime import datetime as dt
 from datetime import timedelta as td
 import django
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
 from Actividades.models import Noticia, Imagen
-from django.contrib.auth.models import Permission
 
 
 """
@@ -130,6 +130,32 @@ class AddAnnouncementTest(TestCase):
             c = Anuncio.objects.get(titulo='Prueba A')
         self.assertEqual(an,c)
 
+    def testAddAnnouncementEditor(self):
+        """
+        This test adds an announcement and checks if it exist.
+        """
+        self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add Announcements',
+                                       content_type=content_type)
+        self.my_editor = User(username='editor')
+        self.my_editor.set_password('pass') # can't set above because of hashing
+        self.my_editor.save() # needed to save to temporary test db
+        self.geditor = Group(name='Editor')
+        self.geditor.save()
+        self.geditor.permissions.add(permission)
+        my_group = Group.objects.get(name='Editor')
+        my_group.user_set.add(self.my_editor)
+        my_group.save()
+        response = self.client.get('/admin/', follow=True)
+        loginresponse = self.client.login(username='editor',password='pass')
+        if loginresponse:
+            an = Anuncio.objects.create(titulo="Prueba A", texto="Lorem Ipsum")
+            an.save()
+            c = Anuncio.objects.get(titulo='Prueba A')
+        self.assertEqual(an,c)
+
     def testAddAnnouncementFalse(self):
         """
         This test tries to add an a Announcement without having an account.
@@ -172,11 +198,16 @@ class EditAnnouncementTest(TestCase):
         This test edits an announcement and checks if it saves.
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_edit',
+                                       name='Can Edit Announcements',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
@@ -232,11 +263,16 @@ class DeleteAnnouncementTest(TestCase):
         This function calls the function to create the object Announcement and deletes it, then checks if it was deleted.
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Inicio', model='Anuncio')
+        permission = Permission.objects.create(codename='can_delete',
+                                       name='Can Delete Announcements',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()

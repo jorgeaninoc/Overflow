@@ -5,7 +5,9 @@ Modified by: Jorge Nino
 Date: 19/10/18
 """
 # Import libraries that will be used.
-from django.contrib.auth.models import User, Group
+
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase, Client
 from Actividades.models import Noticia, Imagen
 from Comunidades.models import Comunidad
@@ -69,11 +71,16 @@ class AddNewsTest(TestCase):
         And checks if the object is an instance from Notice
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Actividades', model='Noticia')
+        permission = Permission.objects.create(codename='can_add',
+                                       name='Can Add News',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()
@@ -176,11 +183,16 @@ class EditNewsTest(TestCase):
          changes are saved.
         """
         self.client = Client()
+        content_type = ContentType.objects.get(app_label='Actividades', model='Noticia')
+        permission = Permission.objects.create(codename='can_edit',
+                                       name='Can Edit News',
+                                       content_type=content_type)
         self.my_editor = User(username='editor')
         self.my_editor.set_password('pass') # can't set above because of hashing
         self.my_editor.save() # needed to save to temporary test db
         self.geditor = Group(name='Editor')
         self.geditor.save()
+        self.geditor.permissions.add(permission)
         my_group = Group.objects.get(name='Editor')
         my_group.user_set.add(self.my_editor)
         my_group.save()

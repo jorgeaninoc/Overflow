@@ -11,19 +11,19 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 # Import libraries needed
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 STATIC_DIR = os.path.join(BASE_DIR,"static")
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
-
+file = open(os.path.join(BASE_DIR,"mysite/secret.txt"),"r")
+f = file.readlines()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5#t#@(x^9t0fr(&2)un@h+*9@*f*&a0w6srtl77injj#hx^p_)'
+SECRET_KEY = f[0].replace('\n','')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -96,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tsci',
         'USER': 'root',
-        'PASSWORD':'Overflow953687',
+        'PASSWORD': f[1].replace('\n',''),
         'HOST': '127.0.0.1',
         'PORT':'3306'
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
