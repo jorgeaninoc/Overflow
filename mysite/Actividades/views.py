@@ -17,6 +17,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from Actividades.filters import *
 from Comunidades.models import *
+from Contacto.models import Contacto
 
 
 
@@ -36,8 +37,13 @@ def noticias(request):
     page = request.GET.get('page')
     # Set the paginator to the site.
     news = paginator.get_page(page)
+    contacto_list = Contacto.objects.all()
+
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+
     # Declare the dict with the data that will be used in the view.
-    entry_dict = {"news": news, "communities": communities}
+    entry_dict = {"news": news, "communities": communities,"contacto":contacto_list}
     # Render the site.
     return render(request,'Actividades/noticias.html',context=entry_dict)
 

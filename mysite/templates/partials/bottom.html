@@ -1,5 +1,30 @@
 </body>
 <br>
+{% load static %}
+{% if contacto %}
+<footer class="footer">
+  <div class="row">
+  <div class="col-md-2">
+      <img src="{% static "index/images/logo.png" %}" style="width: 62%;height: 23%;" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada"/>
+  </div>
+  <div class="col-md-10">
+  {% for con in contacto %}
+    <div class="row">
+      <div class="col-md-4">
+        <h3>{{ con.telefono }}</h3>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ con.mail }}</h3>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ con.horario }}</h3>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+</div>
+</footer>
+{% else %}
 <footer class="footer">
     <div class="row">
 			<div class="col-md-4">
@@ -35,4 +60,5 @@
 			</div>
 		</div>
 </footer>
+{% endif %}
 </html>

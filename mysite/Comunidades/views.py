@@ -20,6 +20,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from Comunidades.filters import *
 from django.template.loader import render_to_string
+from Contacto.models import Contacto
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -84,6 +85,7 @@ def AJAXSearch(request):
 
 # Declare function for showing communities sitel
 def comunidades(request):
+    contacto_list = Contacto.objects.all()
     # Get all the objects from the communities model
     communities_list = Comunidad.objects.all()
     # Create a paginator that accepts 3 communities for each page
@@ -93,8 +95,13 @@ def comunidades(request):
     # Get the paginator applied to the page
     communities = paginator.get_page(page)
     # Declare the dictionary that is going to be passed to the html
+
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+
     entry_dict = {
-    "communities":communities
+    "communities":communities,
+    "contacto":contacto_list
     }
     # Render the site with the elements in the dictionary
     return render(request,'Comunidades/comunidades.html',context=entry_dict)

@@ -18,7 +18,7 @@ from rest_framework.response import Response
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-
+from Contacto.models import Contacto
 
 
 
@@ -34,6 +34,7 @@ def quiensomos(request):
     mision_list = Mision.objects.all()
     historia_list = Historia.objects.all()
     valor_list = Valor.objects.all()
+    contacto_list = Contacto.objects.all()
 
     # Conditionals to grab the last object uploaded to the DB.
     if len(somos_list) >= 1:
@@ -44,13 +45,16 @@ def quiensomos(request):
         historia_list = historia_list[0]
     if len(valor_list) >=1:
         valor_list = valor_list[0]
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
 
     # Declare the context dict with the information used by the site
     entry_dict = {
     "titles":somos_list,
     "misions":mision_list,
     "valores":valor_list,
-    "historias":historia_list
+    "historias":historia_list,
+    "contacto":contacto_list
     }
 
     # Render the site of Somos.

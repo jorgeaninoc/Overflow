@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from Comunidades.models import Imagen
 from Colabora.models import Colaborador
 from Catalogo.models import Producto
+from Contacto.models import Contacto
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -25,6 +26,8 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def index(request):
+    contacto_list = Contacto.objects.all()
+
     vid_list = Video.objects.all()
     indeximg = InicioImagen.objects.all()
     products_list = Producto.objects.all()
@@ -58,6 +61,9 @@ def index(request):
     if len(announces_list) >= 1:
         announces_list = announces_list[0]
 
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+
 
     entry_dict = {
     "videos": vid_list,
@@ -65,7 +71,9 @@ def index(request):
     "products_images":images_list,
     "indeximages" : indeximg,
     "galeryimages": galery_list,
-    "announces":announces_list}
+    "announces":announces_list,
+    "contacto":contacto_list
+    }
     return render(request,'Inicio/index.html',context=entry_dict)
 
 

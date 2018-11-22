@@ -17,7 +17,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from Catalogo.filters import *
 from Comunidades.models import *
-
+from Contacto.models import Contacto
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -85,6 +85,7 @@ def AJAXSearchCat(request):
 
 # Declare the view for accesing the Catalogo site.
 def catalogo(request):
+    contacto_list = Contacto.objects.all()
     # Get all the objects of Product from the DB.
     product_list = Producto.objects.all()
     # Set a paginator of 9 objects.
@@ -95,7 +96,9 @@ def catalogo(request):
     # Set the paginator to the site.
     products = paginator.get_page(page)
     # Declare a dict with the data passed to the view.
-    entry_dict = {"products":products, "communities": communities}
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+    entry_dict = {"products":products, "communities": communities,"contacto":contacto_list}
     # Render the view.
     return render(request,'Catalogo/catalogo.html',context=entry_dict)
 
