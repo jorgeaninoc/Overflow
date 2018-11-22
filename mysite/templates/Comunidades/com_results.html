@@ -1,0 +1,23 @@
+
+<div id="prueba2">
+<p id="prueba"></p>
+  {% for c in result %}
+
+     <div class="row panel">
+       <div class="col-md-12">
+         <h3 class="title">{{ c.nombre }}</h3>
+         <p class="lead text-justify">{{ c.descripcion }}</p>
+       </div>
+     </div>
+
+     <div class="row">
+       {% for i in c.imagenes.all %}
+       <div class="col-md-4">
+         <img src="../media/{{ i.path }}" class="img-responsive" alt="Imagen no encontrada." />
+       </div>
+       {% endfor %}
+     </div>
+
+     <hr>
+   {% endfor %}
+</div>

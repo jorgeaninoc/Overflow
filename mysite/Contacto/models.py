@@ -17,7 +17,7 @@ class Contacto(models.Model):
     # Declare variables for table Contacto
     telefono = models.CharField(max_length=255,null=False)
     horario = models.CharField(max_length=255,null=False)
-    mail = models.EmailField(null=False)
+    mail = models.EmailField(null=False,unique=True)
 
     # Class to change super Class attributes
     class Meta:
@@ -29,7 +29,7 @@ class Contacto(models.Model):
 class Mensaje(models.Model):
     # Declare variables for table Mensaje
     nombre =  models.CharField(max_length=255,null=False)
-    correo = models.EmailField(null=False)
+    correo = models.EmailField(null=False,unique=True)
     mensaje = models.TextField(max_length=255,null=False)
 
     # Declare function to return the name of the user sending the message

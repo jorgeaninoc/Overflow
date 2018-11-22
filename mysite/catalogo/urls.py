@@ -21,9 +21,10 @@ urlpatterns = [
     path('search-submit/', views.SearchSubmitView.as_view(), name='search-submit'),
     path('search-ajax-submit/', views.SearchAjaxSubmitView.as_view(), name='search-ajax-submit'),
 
-    path('catalogo2/',views.catalogo,name='catalogo2'),
+    path('catalogo/',views.catalogo,name='catalogo'),
+    path('AJAXSearchCat/', views.AJAXSearchCat, name='ajaxSearchCat'),
 
-    path('catalogo/', views.catalogoFilter.as_view(),name='catalogo'),
+    path('catalogo2/', views.catalogoFilter.as_view(),name='catalogo2'),
     path('catalogo/<int:productoid>/', views.getProducto, name='producto'),
     path('carrito/', views.viewCart, name='carrito'),
     path('checkout/', views.checkout, name = 'checkout'),

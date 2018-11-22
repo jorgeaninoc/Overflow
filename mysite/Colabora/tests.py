@@ -17,6 +17,13 @@ Modification date: 19/10/18
 from django.test import TestCase, Client
 from Colabora.forms import ColaboradorForm
 
+
+"""
+Function Delete Consult Colabora
+Function description: Anyone can view colabora page.
+Function parameters: testCase
+return none
+"""
 # Test for the UC: Consult Colabora
 class ConsultColaboraTest(TestCase):
     # This function gets the site /colabora and returns if it is possible to access it.
@@ -26,6 +33,13 @@ class ConsultColaboraTest(TestCase):
         self.assertEqual(response.status_code, 301)
 
 
+
+"""
+Function Offer Colaboration
+Function description: Anyone can view signup to collaborate.
+Function parameters: testCase
+return none
+"""
 # Test for UC: Offer Collaboration.
 class OfferCollaborationTest(TestCase):
     # This function creates a dict for the ColaboradorForm, passes it to it

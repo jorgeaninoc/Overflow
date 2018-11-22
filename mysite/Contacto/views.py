@@ -38,8 +38,8 @@ def contactanos(request):
             return HttpResponseRedirect('')
         else:
             form = MensajeForm()
-    if len(contacto)>=1:
-        contacto = contacto[0]
+    if len(contacto)>=3:
+        contacto = contacto[:3]
 
     entry_dict = {
         "form":form,

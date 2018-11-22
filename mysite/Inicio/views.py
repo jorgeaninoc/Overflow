@@ -16,7 +16,9 @@ from Inicio.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Comunidades.models import Imagen
+from Colabora.models import Colaborador
 from Catalogo.models import Producto
+from Contacto.models import Contacto
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -24,6 +26,8 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def index(request):
+    contacto_list = Contacto.objects.all()
+
     vid_list = Video.objects.all()
     indeximg = InicioImagen.objects.all()
     products_list = Producto.objects.all()
@@ -57,7 +61,9 @@ def index(request):
     if len(announces_list) >= 1:
         announces_list = announces_list[0]
 
-    
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+
 
     entry_dict = {
     "videos": vid_list,
@@ -65,33 +71,31 @@ def index(request):
     "products_images":images_list,
     "indeximages" : indeximg,
     "galeryimages": galery_list,
-    "announces":announces_list}
+    "announces":announces_list,
+    "contacto":contacto_list
+    }
     return render(request,'Inicio/index.html',context=entry_dict)
 
 
+class ChartView(View): template_name = 'charts.html'
 
-class ChartView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'charts.html', {})
-
-def get_data(request, *args, **kwargs):
-    queryset = Foo.objects.all()
-    dates = [obj.created for obj in queryset]
-    counts = [obj.amount for obj in queryset]
-    context = {
-        'dates': json.dumps(dates),
-        'counts': json.dumps(counts),
-    }
-
-    return render(request, template, context)#Jsonn Response
-
+def get_data(self, **kwargs):
+    context = super(ChartView, self).get_data(**kwargs)
+    col = Colaborador.objects.all()
+    cols_count = [ Colaborador.objects.filter(nombre=cls).count() for cls in col ]
+    context['col'] = col
+    context['col_count'] = cols_count
+    context['arreglo'] = {}
+    return context
 
 class ChartData(APIView):
-    authentication_classes = []
-    permission_classes = []
-    def get(self, request, format=None):
-         data = {
-            "sales": 100,
-            "customers":10,
+
+    def post(self, request, format=None):
+
+        default_items = [{"label":"My First Dataset","data":[65,59,80,81,56,55,40],"fill":False,"borderColor":"rgb(192, 192, 192)","lineTension":100}]
+        labels = []
+        data = {
+            "labels": labels,
+            "default": default_items,
         }
-         return Response(data)
+        return Response(data)

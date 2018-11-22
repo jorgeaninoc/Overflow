@@ -11,13 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 # Import libraries needed
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 STATIC_DIR = os.path.join(BASE_DIR,"static")
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
-
+file = open(os.path.join(BASE_DIR,"mysite/secret.txt"),"r")
+f = file.readlines()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -33,7 +33,7 @@ with open(key) as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
 
 
 # Application definition
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_filters',
     'bootstrapform',
     'widget_tweaks',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
+
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -99,16 +101,30 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tsci',
         'USER': 'root',
-        'PASSWORD':'Overflow953687',
+        'PASSWORD': 'Overflow953687',
         'HOST': '127.0.0.1',
         'PORT':'3306'
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
+
+#PASSWORD_HASHERS
+PASSWORD_HASHERS=[
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -122,8 +138,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    }
 ]
+
+
 
 
 # Internationalization

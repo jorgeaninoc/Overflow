@@ -12,42 +12,46 @@
       </div>
       {% endfor %}
   {% endif %}
-  
+
     <div class="row">
         <div class="col-sm-1">
         <h1 class="title">Contactanos</h1>
         </div>
     </div>
     <hr>
-  <div class="row ">
-    <div class="col-xs-6">
-        <h3>Envianos un mensaje o marcanos por telefono</h3>
-    </div>
-  </div>
-    <br>
-  <div class="container row panel">
-      <div class="col-xs-6">
-        <form method='POST'>
-            <div class="form-group row">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" name="Enviar" value="Enviar" class="btn btn-success active btn-green green-bg">
-            </div>
-        </form>
-    </div>
-    <div class="col-xs-2">
+    <div class="container row panel">
+      <h3>Envianos un mensaje o marcanos por telefono</h3>
+      <div class="row">
 
+
+        <div class="col-xs-6">
+          <form method='POST'>
+              <div class="form-group row">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" name="Enviar" value="Enviar" class="btn btn-success active btn-green green-bg">
+              </div>
+          </form>
+        </div>
+        <div class="col-xs-1">
+
+        </div>
+        <div class='col-xs-5'>
+          {% if contacto %}
+          {%for con in contacto%}
+          <div class="row">
+            <h3><strong>Telefono:</strong> {{ con.telefono }}</h3>
+            <h3><strong>Horario:</strong> {{ con.horario }}</h3>
+            <h3><strong>Correo:</strong> {{ con.mail }}</h3>
+          </div>
+          <br>
+          {% endfor %}
+          {% endif %}
+        </div>
+        </div>
     </div>
-    <div class='col-xs-4'>
-      {% if contacto %}
-        <h3><strong>Telefono:</strong> {{ contacto.telefono }}</h3>
-        <br><br>
-        <h3><strong>Horario:</strong> {{ contacto.horario }}</h3>
-        <br><br>
-        <h3><strong>Correo:</strong> {{ contacto.mail }}</h3>
-      {% endif %}
-    </div>
-  </div>
+    <br>
+
 </div>
 <br><br>
 <div class="basic">

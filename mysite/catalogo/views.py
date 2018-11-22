@@ -17,9 +17,9 @@ from Catalogo.models import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from Catalogo.filters import *
-
 from django.contrib import messages
-
+from Comunidades.models import *
+from Contacto.models import Contacto
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -59,18 +59,54 @@ class SearchAjaxSubmitView(SearchSubmitView):
 
 
 
+def AJAXSearchCat(request):
+    if(request.POST.get('precio__gt')!= None and request.POST.get('precio__gt')!=''):
+        pgt = int(request.POST.get('precio__gt'))
+    else:
+        pgt = 0
+
+    if(request.POST.get('precio__lt')!= None and request.POST.get('precio__lt')!=''):
+        plt = int(request.POST.get('precio__lt'))
+    else:
+        plt = 999999
+
+    if(request.POST.get('nombre') != None):
+        nombre = request.POST.get('nombre')
+    else:
+        nombre = ''
+
+    if(request.POST.get('comunidad') != None):
+        com = request.POST.get('comunidad')
+    else:
+        com = ''
+
+    coms = Comunidad.objects.filter(nombre__icontains=com)
+    result = Producto.objects.filter(nombre__icontains=nombre)
+    result = result.filter(communidad__in=coms)
+    result = result.filter(precio__gte=pgt)
+    result = result.filter(precio__lte=plt)
+
+    return render(request,"Catalogo/cat_results.html", {'result':result})
+#    html = render_to_string("/Comunidades/com_results.html", {'result':result})
+#    return HttpResponse(html)
+
+
 # Declare the view for accesing the Catalogo site.
 def catalogo(request):
+    contacto_list = Contacto.objects.all()
     # Get all the objects of Product from the DB.
     product_list = Producto.objects.all()
     # Set a paginator of 9 objects.
     paginator = Paginator(product_list,9)
+    communities = Comunidad.objects.all()
     # Get the site of the view.
     page = request.GET.get('page')
     # Set the paginator to the site.
     products = paginator.get_page(page)
     # Declare a dict with the data passed to the view.
-    entry_dict = {"products":products}
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+    entry_dict = {"products":products, "communities": communities,"contacto":contacto_list}
     # Render the view.
     return render(request,'Catalogo/catalogo.html',context=entry_dict)
 
@@ -153,8 +189,8 @@ def viewCart(request):
         for item, price in cart.items():
             # print(item)
             if request.POST.get('boton'+item):
-                
-                
+
+
 
                 boton = request.POST.get('boton'+item)
                 print(item+' button has been pressed')
@@ -246,14 +282,14 @@ def checkout(request):
             order_form.correo = request.POST.get('correo')
             print('SESSION TOTAL: '+str(request.session.get('total')))
             order_form.monto_totalcompra = request.session.get('total')
-           
+
             order_form.save() # You can’t associate it with a ProductosCheckout until it’s been saved:
-            
+
             #possible way of iterating and inserting in database the products with their respective quantities and totals
-            for product_name in cart: 
+            for product_name in cart:
 
                 print('The first for has been entered for: '+product_name)
-                
+
                 product_checkout = ProductosCheckout()
 
                 product_checkout.nombre_producto = product_name
@@ -262,7 +298,7 @@ def checkout(request):
 
                 print('Printing NAME ('+product_name+') AND PRICE: '+str(cart[product_name]))
 
-                for name_quant in quantity_dict: 
+                for name_quant in quantity_dict:
                     print('Entering quantity for... ')
                     print('name_quant: '+name_quant+' DICT: '+str(quantity_dict[name_quant])+' CART::::::'+product_name+'AND PRICE: '+str(cart[product_name]))
                     print('CHECK THIS OUT... TESTSFOR THE CONDITION')
@@ -289,7 +325,7 @@ def checkout(request):
                 "quantity_dict":quantity_dict
             }
             # print(order_form.nombre,order_form.mensaje, json.dumps(cart))
-            
+
             # messages.success(request, 'Tu mensaje ha sido enviado.')
             # return HttpResponseRedirect('')
             return render(request, 'Catalogo/checkout.html', context = entry_dict2 )
@@ -309,7 +345,7 @@ def checkout(request):
 
 # # This function makes all of the checkout process
 # def checkout():
-    
+
 #     if request.method == 'POST'
 #         form = OrderForm() # Client Information
 #         if form.is_valid():
@@ -362,7 +398,7 @@ def checkout(request):
 
 
 # def getCarrito(request):
-    
+
 #     if not request.session.session_key:
 #         request.session.create()
 

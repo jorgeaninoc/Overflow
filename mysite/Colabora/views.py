@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 from Colabora.forms import *
 from rest_framework.response import Response
 from django.contrib import messages
+from Contacto.models import *
 
 # from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -30,6 +31,7 @@ def colabora(request):
     form = ColaboradorForm()
     # Get all the ColaboraImagen objects from the db
     icolab = ColaboraImagen.objects.all()
+    contacto_list = Contacto.objects.all()
 
     # If the form is submitted
     if request.method == 'POST':
@@ -57,10 +59,14 @@ def colabora(request):
     if len(icolab) >= 1:
         icolab = icolab[0]
 
+    if len(contacto_list)>=3:
+        contacto_list = contacto_list[:3]
+
     # Declare the dict that will be sent to the Colabora site
     entry_dict = {
     "form":form,
-    "icolab":icolab
+    "icolab":icolab,
+    "contacto":contacto_list
     }
     # Render Colabora site
     return render(request, 'Colabora/colabora.html',context=entry_dict)
