@@ -49,6 +49,7 @@ class Producto(models.Model):
     precio=models.IntegerField(null=False)
     communidad = models.ForeignKey(Comunidad,on_delete=models.CASCADE)
     imagenes = models.ManyToManyField(Imagen,null=False)
+    descripcion = models.CharField(max_length=255)
     subCat = models.CharField(max_length=255,null=False)
 
 
@@ -98,12 +99,12 @@ class Ordenes(models.Model):
 
 
     # fields = ['numero_referencia', 'nombre', 'correo', 'Fecha_de_Compra']
-    # readonly = ['numero_referencia', 'Fecha_de_Compra'] 
+    # readonly = ['numero_referencia', 'Fecha_de_Compra']
 
     # Declare function to return the name of the user sending the message
     def __str__(self):
         return self.correo
-    
+
     class Meta:
         # Change verbose names to spanish language
         verbose_name: "Orden Pendiente"
@@ -144,7 +145,3 @@ class Ordenes(models.Model):
 #     instance.cart.total += line_cost
 #     instance.cart.count += instance.quantity
 #     instance.cart.updated = datetime.now()
-
-
-
-

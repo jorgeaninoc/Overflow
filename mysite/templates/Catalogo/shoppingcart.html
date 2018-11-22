@@ -42,7 +42,7 @@
     <td colspan="5" width="10"><h2>Costo Total por Producto</h1></td>
     <td colspan="5" width="10"><h2>Cantidad</h2></td>
 <!--     <form method='POST'> -->
-    
+
       <td align="center"><a href="{% url 'Catalogo:checkout' %}"><input type="submit" name="checkout" value="Continuar con la Compra" class="btn btn-success active btn-green green-bg" id="checkout"></a></td>
       <td><h1>Total: <b>${{ request.session.total }} </b></h1></td>
 
@@ -52,14 +52,14 @@
 
   </tr>
 
-<!-- 
-Para ciclar e insertar la cantidad correcta, pon otro for pero que imprima cuando el nombre del producto de la cantidad coincida con el nombre del producto en el carrito 
+<!--
+Para ciclar e insertar la cantidad correcta, pon otro for pero que imprima cuando el nombre del producto de la cantidad coincida con el nombre del producto en el carrito
 -->
 
 {% for key,value in cart.items %}
 
 
-  
+
   <form method='POST'>
   <tr align="center">
   <td colspan="8" width="10"><h2><i>{{ key }}</i></h2></td><td><td></td></td>
@@ -72,7 +72,7 @@ Para ciclar e insertar la cantidad correcta, pon otro for pero que imprima cuand
   {% csrf_token %}
   <td><input type="submit" name="boton{{ key }}" value="Quitar Producto del Carrito de Compras" class="btn btn-danger active btn-red red-bg" id="boton{{ key }}"></td>
   </form>
-  </tr> 
+  </tr>
   {% endfor %}
 </table>
 
@@ -81,8 +81,7 @@ Para ciclar e insertar la cantidad correcta, pon otro for pero que imprima cuand
 <!-- </td> -->
 <!-- </tr> -->
 <!-- </table> -->
-
+</div>
 
 
 {% include "partials/bottom.html" %}
-
