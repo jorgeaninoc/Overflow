@@ -57,6 +57,15 @@
 <div id="content-related">
     <div class="module" id="recent-actions-module">
         <h2>{% trans 'Recent actions' %}</h2>
+
+
+        <div class="row">
+            <div class="actionlist">
+              <form action="https://login.live.com/login.srf">
+                <input type="submit" value="Ir a correo" />
+              </form>
+            </div><!-- /.col-lg-4 -->
+        </div>
         <h3>{% trans 'My actions' %}</h3>
             {% load log %}
             {% get_admin_log 10 as admin_log for_user user %}
@@ -81,9 +90,6 @@
             {% endfor %}
             </ul>
             {% endif %}
-
-
-
 
         <h2>{% trans 'Reporte colaboradores' %}</h2>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -187,9 +193,6 @@
             </script>
 
 
-
-
-
-
-
+</div>
+</div>
 {% endblock %}
