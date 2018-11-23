@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-sm-4">
             <h1 class="title">
-                Checkout
+                Checkout 
             </h1>
         </div>
         <div class="col-sm-4">
@@ -35,27 +35,80 @@
 <!-- <td><p><strong>$ {{ producto.precio }}</strong></p></td> -->
 
 
-<table align="center" class = "panel">
+<!-- <table align="center" class = "panel">
   <tr>
     <td width="10"><h1>Producto</h1></td>
     <td colspan="5"></td>
     <td colspan="5" width="100"></td>
     <td colspan="5" width="10"><h1>Costo por Producto</h1></td>
   </tr>
+ -->
 
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    /*border: 1px solid #dddddd;*/
+    text-align: center;
+    padding: 10px;
+}
+
+
+.position{
+  margin-top: 40px;
+}
+
+</style>
+
+<table align="center" class = "panel">
+  <tr>
+    {% if request.session.total > 0 %}
+
+    <td><h2>Producto</h2></td>
+    <td></td>
+    <td></td>
+    <td ><h2>Cantidad</h2></td>
+    <td><h2>Costo Total por Producto</h2></td>
+
+      
+
+    {% else %}
+      <td><i>Tu carrito de Compras esta actualmente vacio. Agrega un producto para poder proceder.</i></td>
+    {% endif %}
+
+  </tr>
+
+<!--
+Para ciclar e insertar la cantidad correcta, pon otro for pero que imprima cuando el nombre del producto de la cantidad coincida con el nombre del producto en el carrito
+-->
 
 {% for key,value in cart.items %}
-  
 
-  
+
+
   <form method='POST'>
   <tr align="center">
-  <td colspan="8" width="10"><h2>{{ key }}</h2></td><td><td></td></td>
-  <td colspan="6"><h2>${{ value }}</h2></td>
+
+    
+
+  <td><h3><i>{{ key }}</i></h3></td><td><td></td></td>
+  
+  {% for producto,quantity in quantity_dict.items %}
+  {% if key == producto  %}
+  <td><h3><i>{{ quantity }}</i></h3></td>
+  {% endif %}
+  {% endfor %}
+  <td><h3>$<i>{{ value }}</i></h3></td>
+  {% csrf_token %}
+  
   </form>
   </tr>
-  
   {% endfor %}
+
 </table>
 
     <div class="container row panel">
@@ -64,7 +117,7 @@
             <div class="form-group row">
             {% csrf_token %}
             {{ form.as_p }}
-            <p><b>Monto TOTAL: $<i>{{ request.session.total }}</i></b></p><input type="submit" name="comprar" value="Desea Confirmar la Compra?" class="btn btn-success active btn-green green-bg" id="comprar" align="right">
+            <h3><b>Monto TOTAL: $<i><u>{{ request.session.total }}</u></i></b></h3><input type="submit" name="comprar" value="Desea Confirmar la Compra?" class="btn btn-success active btn-green green-bg" id="comprar" align="right">
             </div>
         </form>
     </div>

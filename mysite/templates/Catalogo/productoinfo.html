@@ -54,15 +54,16 @@
           {% endfor %}
       </div>
         <div class="col-sm-5" align="right">
-          <h2>Precio: $ {{producto.precio}}.00</h2>
+          <h2>Precio: $ {{producto.precio}}.00</h2><br>
           <div class="row">
             <div class= "col-sm-12" align="right">
             
             <form method='POST'>
               <div class="form-group row">
                 {% csrf_token %}
-                Cantidad<br>
-                <input type="number" name="quantity" id="quantity" value="Inserte la cantidad" > <br>
+                <i>Cantidad</i><br><br>
+                <input type="number" name="quantity" id="quantity" value="Inserte la cantidad" > <br><br><br>
+
                 <input type="submit" name="AddItem" value="Agregar a Carrito de Compras" class="btn btn-success active btn-green green-bg">
               </div>
             </form>
@@ -70,8 +71,12 @@
           </div>
           </div>
         </div>
-    </div>    
-    <h3>FALTA PONER EN MODELS UNA DESCRIPCION PARA LOS PRODUCTOS</h3>
+    </div>
+
+    <div class="panel">    
+    <h2 align="left" style="padding-left: 300px;"><u><i>Descripcion</i></u></h2>
+    <h4 align="center">{{ producto.descripcion }}</h4>
+    </div>
 
 </div class="container">
 <div class="basic">
