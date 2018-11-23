@@ -31,23 +31,45 @@
 <!-- <tr>    -->
 <!-- <td><h5>{{ producto.nombre }}</h5> -->
 <!-- <td><p><strong>$ {{ producto.precio }}</strong></p></td> -->
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
 
+td, th {
+    /*border: 1px solid #dddddd;*/
+    text-align: center;
+    padding: 10px;
+}
+
+#checkout{
+  position: relative;
+  bottom: 30%;
+
+}
+.position{
+  margin-top: 40px;
+}
+
+</style>
 
 <table align="center" class = "panel">
   <tr>
     {% if request.session.total > 0 %}
-    <td width="10"><h2>Producto</h2></td>
-    <td colspan="5"></td>
-    <td colspan="5" width="100"></td>
-    <td colspan="5" width="10"><h2>Costo Total por Producto</h1></td>
-    <td colspan="5" width="10"><h2>Cantidad</h2></td>
-<!--     <form method='POST'> -->
+    <td> </td>
+    <td> </td>
+    <td><h2>Producto</h2></td>
+    <td></td>
+    <td></td>
+    <td ><h2>Cantidad</h2></td>
+    <td><h2>Costo Total por Producto</h2></td>
 
-      <td align="center"><a href="{% url 'Catalogo:checkout' %}"><input type="submit" name="checkout" value="Continuar con la Compra" class="btn btn-success active btn-green green-bg" id="checkout"></a></td>
-      <td><h1>Total: <b>${{ request.session.total }} </b></h1></td>
+      
 
     {% else %}
-      <td><i>Tu carrito de Compras esta actualmente vacio. Agrega un producto para poder proceder.</i></td>
+      <td><h3><i>Tu carrito de Compras esta actualmente vacio. Agrega un producto para poder proceder.</i></h3></td>
     {% endif %}
 
   </tr>
@@ -62,26 +84,58 @@ Para ciclar e insertar la cantidad correcta, pon otro for pero que imprima cuand
 
   <form method='POST'>
   <tr align="center">
-  <td colspan="8" width="10"><h2><i>{{ key }}</i></h2></td><td><td></td></td>
-  <td colspan="6"><h2>$<i>{{ value }}</i></h2></td>
+    <td>
+      <button type="submit" name="boton{{ key }}" value="Quitar Producto del Carrito de Compras" class="close" id="boton{{ key }}" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </td>
+    
+
+
+     {% for p in products %}
+     {% for i in p.imagenes.all|slice:":1" %}
+      {% if key == p.nombre %}
+        
+          <td><a href="{% url 'Catalogo:producto' p.id %}"><img width="150px" src="../media/{{ i.path }}" class="img-thumbnail img-fluid text-center" alt="Imagen no encontrada." /></a></td>
+        
+      {% endif %}
+    {% endfor %}
+    {% endfor %}
+  <td><h3><i>{{ key }}</i></h3></td><td><td></td></td>
+  
   {% for producto,quantity in quantity_dict.items %}
   {% if key == producto  %}
-  <td colspan="5" width="10"><h1><i>{{ quantity }}</i></h1></td>
+  <td><h3><i>{{ quantity }}</i></h3></td>
   {% endif %}
   {% endfor %}
+  <td><h3>$<i>{{ value }}</i></h3></td>
   {% csrf_token %}
-  <td><input type="submit" name="boton{{ key }}" value="Quitar Producto del Carrito de Compras" class="btn btn-danger active btn-red red-bg" id="boton{{ key }}"></td>
+  
   </form>
   </tr>
   {% endfor %}
+
 </table>
+
+<hr>
+
+<div class="row panel" align="center">
+  <div class="col-md-2"></div>
+  <div class="col-md-2"></div>
+  
+  <div class="col-md-2">
+    <h1><i>Total:</i> <b>${{ request.session.total }} </b></h1>
+  </div>
+  <div class="col-md-2 position"> 
+    <a href="{% url 'Catalogo:checkout' %}"><input type="submit" name="checkout" value="Continuar con la Compra" class="btn btn-success active btn-green green-bg" id="checkout"></a>
+  </div>
 
 
 
 <!-- </td> -->
 <!-- </tr> -->
 <!-- </table> -->
-</div>
+  </div>
 
 
 {% include "partials/bottom.html" %}

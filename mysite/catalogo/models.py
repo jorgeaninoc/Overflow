@@ -49,7 +49,7 @@ class Producto(models.Model):
     precio=models.IntegerField(null=False)
     communidad = models.ForeignKey(Comunidad,on_delete=models.CASCADE)
     imagenes = models.ManyToManyField(Imagen,null=False)
-    descripcion = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255, default = '')
     subCat = models.CharField(max_length=255,null=False)
 
 

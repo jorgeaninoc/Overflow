@@ -175,9 +175,20 @@ def viewCart(request):
     quantity_dict = request.session.get('quantity_dict', {})
     request.session['total'] = sum(cart.values())
 
+    # products_list = Producto.objects.all()
+    # for item, price in cart.items():
+    #     producto = get_object_or_404(Producto, nombre = item)
+    images_list = []
+    products_list = Producto.objects.all()
+    for i in products_list:
+        if len(i.imagenes.all())>0:
+            images_list.append(i.imagenes.all()[0])
+
     entry_dict = {
         "cart":cart,
-        "quantity_dict":quantity_dict
+        "quantity_dict":quantity_dict,
+        "products":products_list,
+        "products_images":images_list
     }
 
     #just declare another dictionary inside the if
@@ -232,7 +243,9 @@ def viewCart(request):
 
                 new_entry_dict = {
                     "cart":new_cart,
-                    "quantity_dict":quantity_dict
+                    "quantity_dict":quantity_dict,
+                    "products":products_list,
+                    "products_images":images_list
                 }
 
                 cart = new_cart
