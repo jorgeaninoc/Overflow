@@ -64,7 +64,6 @@ def index(request):
     if len(contacto_list)>=3:
         contacto_list = contacto_list[:3]
 
-
     entry_dict = {
     "videos": vid_list,
     "products":products_list,

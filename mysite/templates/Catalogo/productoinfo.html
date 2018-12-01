@@ -37,7 +37,7 @@
     </div>
 
     <br>
-  
+
     <div class="row panel">
       <div class="col-sm-4">
         {% for i in producto.imagenes.all|slice:":1" %}
@@ -57,7 +57,7 @@
           <h2>Precio: $ {{producto.precio}}.00</h2><br>
           <div class="row">
             <div class= "col-sm-12" align="right">
-            
+
             <form method='POST'>
               <div class="form-group row">
                 {% csrf_token %}
@@ -73,10 +73,6 @@
         </div>
     </div>
 
-    <div class="panel">    
-    <h2 align="left" style="padding-left: 300px;"><u><i>Descripcion</i></u></h2>
-    <h4 align="center">{{ producto.descripcion }}</h4>
-    </div>
 
 </div class="container">
 <div class="basic">
